@@ -64,8 +64,8 @@ void AltItemElement::searchDescription()
 		
 		connect(procdesc, SIGNAL(receivedStdout(KProcess *, char *, int)), this,
 				SLOT(slotGetDescription(KProcess *, char *, int)));
-		connect(procdesc, SIGNAL( receivedStderr(KProcess *, char *, int) ), this,
-				SLOT(slotGetDescription(KProcess *, char *, int)));
+		//connect(procdesc, SIGNAL( receivedStderr(KProcess *, char *, int) ), this,
+			//	SLOT(slotGetDescription(KProcess *, char *, int)));
 		connect(procdesc, SIGNAL( processExited(KProcess *)), this,
 				SLOT(slotDescriptionTermined(KProcess *)));
 		procdesc->start(KProcess::NotifyOnExit,/*KProcess::Block,*/ KProcess::AllOutput);
@@ -73,12 +73,11 @@ void AltItemElement::searchDescription()
 }
 
 
-void AltItemElement::slotDescriptionTermined(KProcess *)
+void AltItemElement::slotDescriptionTermined(KProcess *proc)
 {
-	int pos = m_desc.findRev(i18n("nothing appropriate"));
-	if (pos == -1)
+	if (!proc->exitStatus()) 
 	{
-		pos = m_desc.find("\n");
+		int pos = m_desc.find("\n");
 		if (pos != -1)
 		{
 			m_desc.truncate(pos);
