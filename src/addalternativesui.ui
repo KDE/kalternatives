@@ -1,6 +1,6 @@
 <!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>AddAlternativesUi</class>
-<widget class="QWidget">
+<widget class="QDialog">
     <property name="name">
         <cstring>AddAlternatives</cstring>
     </property>
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>453</width>
-            <height>245</height>
+            <width>440</width>
+            <height>200</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -21,7 +21,7 @@
         </sizepolicy>
     </property>
     <property name="caption">
-        <string>Add a Alternative</string>
+        <string>Add an Alternative</string>
     </property>
     <grid>
         <property name="name">
@@ -60,17 +60,9 @@
                                 <string>Path:</string>
                             </property>
                         </widget>
-                        <widget class="KLineEdit">
+                        <widget class="KURLRequester">
                             <property name="name">
                                 <cstring>m_Path</cstring>
-                            </property>
-                        </widget>
-                        <widget class="KPushButton">
-                            <property name="name">
-                                <cstring>m_bBrowse</cstring>
-                            </property>
-                            <property name="text">
-                                <string></string>
                             </property>
                         </widget>
                     </hbox>
@@ -215,7 +207,7 @@
                                 </sizepolicy>
                             </property>
                             <property name="text">
-                                <string>&amp;Ok</string>
+                                <string>&amp;OK</string>
                             </property>
                             <property name="accel">
                                 <string>Alt+O</string>
@@ -247,11 +239,26 @@
         <receiver>AddAlternatives</receiver>
         <slot>close()</slot>
     </connection>
+    <connection>
+        <sender>m_bAddSlave</sender>
+        <signal>clicked()</signal>
+        <receiver>AddAlternatives</receiver>
+        <slot>slotAddSlaveClicked()</slot>
+    </connection>
+    <connection>
+        <sender>m_bOk</sender>
+        <signal>clicked()</signal>
+        <receiver>AddAlternatives</receiver>
+        <slot>slotOkClicked()</slot>
+    </connection>
 </connections>
+<slots>
+    <slot access="protected">slotOkClicked()</slot>
+    <slot access="protected">slotAddSlaveClicked()</slot>
+</slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>klineedit.h</includehint>
-    <includehint>kpushbutton.h</includehint>
+    <includehint>kurlrequester.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>ktextedit.h</includehint>
     <includehint>kpushbutton.h</includehint>

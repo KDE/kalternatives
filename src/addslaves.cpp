@@ -19,64 +19,35 @@
  ***************************************************************************/
  
 #include "addslaves.h"
-#include "addslavesui.h"
 #include "addalternatives.h"
 
-#include <kpushbutton.h>
-#include <qlayout.h>
-#include <kurl.h>
+#include <klocale.h>
+#include <kstdguiitem.h>
+#include <kurlrequester.h>
 
 #include <iostream>
 using namespace std;
 
 AddSlaves::AddSlaves(AddAlternatives *addAlternatives):
-QWidget(addAlternatives, 0, WDestructiveClose | WType_Modal), m_addAlternatives(addAlternatives)
+AddSlavesUi(addAlternatives), m_addAlternatives(addAlternatives)
 {
-	AddSlavesUi *addSlavesUi = new AddSlavesUi(this);
-	QBoxLayout *layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
-	layout->setResizeMode( QLayout::Fixed );
+	m_bOk->setGuiItem(KStdGuiItem::ok());
+	m_bCancel->setGuiItem(KStdGuiItem::cancel());
 	
-	layout->addWidget(addSlavesUi,0,0);
-	
-	connect(addSlavesUi->m_bOk, SIGNAL(clicked()), this,
-			 SLOT(slotOkClicked()));
-	connect(addSlavesUi->m_bBrowse, SIGNAL(clicked()), this,
-			SLOT(slotBrowseClicked()));
-	connect(addSlavesUi->m_bCancel, SIGNAL( clicked() ), this,
-			SLOT( close() ) );
-	
-	m_fileDialog = new KFileDialog ("", "", this, "Choose ALternative", TRUE);
-	connect(m_fileDialog->okButton (), SIGNAL(clicked()), this,
-			SLOT(slotOkFileClicked()));
-	
-	m_Path = addSlavesUi->m_Path;
-	
-	addSlavesUi->m_bBrowse->setGuiItem(KGuiItem( "" , "fileopen" ));
-	addSlavesUi->m_bOk->setGuiItem(KGuiItem( "&Ok" , "ok" ));
-	addSlavesUi->m_bCancel->setGuiItem(KGuiItem( "&Cancel" , "cancel" ));
+	m_Path->setCaption( i18n( "Choose Slave" ) );
+	m_Path->setFilter( i18n( "*|All Files" ) );
+	m_Path->setMode( KFile::File | KFile::LocalOnly );
 }
 
 AddSlaves::~AddSlaves()
 {
-	if(m_fileDialog) delete m_fileDialog;
-	if(m_Path) delete m_Path;
-}
-
-void AddSlaves::slotBrowseClicked()
-{
-	m_fileDialog->show();
-}
-void AddSlaves::slotOkFileClicked()
-{
-	KURL url = m_fileDialog->selectedURL();
-	m_Path->setText(url.path());
 }
 
 void AddSlaves::slotOkClicked()
 {
-	if(m_Path->text() != "")
+	if(!m_Path->url().isEmpty())
 	{
-		m_addAlternatives->addSlave(m_Path->text());
+		m_addAlternatives->addSlave(m_Path->url());
 		close();
 	}
 }

@@ -48,7 +48,7 @@ void TreeItemElement::paintCell( QPainter * p, const QColorGroup & cg, int colum
 	
 	if (m_changed || m_nbrAltChanged)
 	{
-		color=QColor(QColor("red"));
+		color=QColor("red");
 		QFont f = p->font();
 		f.setBold(true);
 		p->setFont(f);

@@ -56,7 +56,7 @@ void AltItemElement::searchDescription()
 		exec.remove(0, posSlash+1);
 	}
 	
-	if (exec != "")
+	if (!exec.isEmpty())
 	{
 		KProcess *procdesc = new KProcess();
 		*procdesc << "whatis";
@@ -103,7 +103,7 @@ void AltItemElement::slotDescriptionTermined(KProcess *proc)
 	}
 	else
 	{
-		m_desc = "no description";
+		m_desc = i18n( "no description" );
 	}
 	setText( 3, m_desc);
 }

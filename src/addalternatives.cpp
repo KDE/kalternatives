@@ -17,97 +17,60 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
- 
+
 #include "addalternatives.h"
 #include "addslaves.h"
 #include "treeitemelement.h"
 #include "kalternatives.h"
-#include "addalternativesui.h"
 #include "altcontroller.h"
 #include "altitemelement.h"
 #include "altparser.h"
- 
-#include <qlayout.h>
-#include <kurl.h>
-#include <qstringlist.h> 
-#include <qstring.h> 
-#include <qregexp.h> 
+
+#include <qregexp.h>
+#include <qstringlist.h>
+
 #include <klocale.h>
 #include <kmessagebox.h>
- 
+#include <knuminput.h>
+#include <kstdguiitem.h>
+#include <kurlrequester.h>
 
 AddAlternatives::AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt, int countSlaves):
-QWidget(kalt,0, WDestructiveClose | WType_Modal),m_treeItem(treeItem), m_kalt(kalt), m_countSlave(countSlaves)
+AddAlternativesUi(kalt),m_treeItem(treeItem), m_kalt(kalt), m_countSlave(countSlaves)
 {
-	AddAlternativesUi *addAlternativesUi = new AddAlternativesUi(this);
-	QBoxLayout *layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
-	layout->setResizeMode( QLayout::Fixed );
+	m_bOk->setGuiItem(KStdGuiItem::ok());
+	m_bCancel->setGuiItem(KStdGuiItem::cancel());
+	m_bAddSlave->setGuiItem(KGuiItem(i18n("&Add Slave"), "edit_add"));
 	
-	layout->addWidget(addAlternativesUi,0,0);
-	
-	connect(addAlternativesUi->m_bOk, SIGNAL(clicked()), this,
-			SLOT(slotOkClicked()));
-	connect(addAlternativesUi->m_bBrowse, SIGNAL(clicked()), this,
-			SLOT(slotBrowseClicked()));
-	connect(addAlternativesUi->m_bCancel, SIGNAL( clicked() ), this,
-			SLOT( close() ) );
-	connect(addAlternativesUi->m_bAddSlave, SIGNAL( clicked() ), this,
-			SLOT( slotAddSlaveClicked() ) );
-			
-	m_fileDialog = new KFileDialog ("", "", this, "Choose ALternative", TRUE);
-	connect(m_fileDialog->okButton (), SIGNAL(clicked()), this,
-			SLOT(slotOkFileClicked()));
-	
-	m_Path = addAlternativesUi->m_Path;
-	m_Priority = addAlternativesUi->m_Priority;
-	m_textSlave = addAlternativesUi->m_textSlave;
-	
-	addAlternativesUi->m_bBrowse->setGuiItem(KGuiItem( "" , "fileopen" ));
-	addAlternativesUi->m_bOk->setGuiItem(KGuiItem( "&Ok" , "ok" ));
-	addAlternativesUi->m_bCancel->setGuiItem(KGuiItem( "&Cancel" , "cancel" ));
-	addAlternativesUi->m_bAddSlave->setGuiItem(KGuiItem(i18n("&Add Slave"), "edit_add"));
-	
-	resize( 435, 185 );
+	m_Path->setCaption( i18n( "Choose Alternative" ) );
+	m_Path->setFilter( i18n( "*|All Files" ) );
+	m_Path->setMode( KFile::File | KFile::LocalOnly );
 }
 
 AddAlternatives::~AddAlternatives()
 {
-	if(m_fileDialog) delete m_fileDialog;
-	if(m_Path) delete m_Path;
-	if(m_Priority) delete m_Priority;
-	if(m_textSlave) delete m_textSlave;
-}
-
-void AddAlternatives::slotBrowseClicked()
-{
-	m_fileDialog->show();
-}
-void AddAlternatives::slotOkFileClicked()
-{
-	KURL url = m_fileDialog->selectedURL();
-	m_Path->setText(url.path());
 }
 
 void AddAlternatives::slotAddSlaveClicked()
 {
 	AddSlaves *addSlaves = new AddSlaves(this);
-	addSlaves->show();
+	addSlaves->exec();
 }
 
 void AddAlternatives::slotOkClicked()
 {
-	if(m_Path->text() != "")
+	if(!m_Path->url().isEmpty())
 	{
 		
 		Item *item = m_treeItem->getItem();
 		Alternative *a = new Alternative(item);
 		
-		a->setPath(m_Path->text());
+		a->setPath(m_Path->url());
 		a->setPriority(m_Priority->value());
 		
 		int countSlave = 0;
 		
-		if (m_textSlave->text() != "")
+		if (!m_textSlave->text().isEmpty())
 		{
 			QRegExp reg("\n");
 			QStringList slaveList = QStringList::split(reg, m_textSlave->text());
@@ -136,7 +99,7 @@ void AddAlternatives::slotOkClicked()
 			altItem->setText( 2, a->getPath());
 			QString m_small_desc = altItem->getDescription();
 		
-			if (!(m_small_desc == ""))
+			if (!m_small_desc.isEmpty())
 			{
 				altItem->setText( 3, m_small_desc);
 			}
@@ -150,7 +113,7 @@ void AddAlternatives::slotOkClicked()
 		}
 		else
 		{
-			KMessageBox::sorry(this, i18n("the number of slaves is not good"), i18n("number of slaves"));
+			KMessageBox::sorry(this, i18n("The number of slaves is not good."), i18n("Number Of Slaves"));
 		}
 	}
 }

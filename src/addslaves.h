@@ -21,30 +21,22 @@
 #ifndef _ADDSLAVES_H_
 #define _ADDSLAVES_H_
 
-#include <kfiledialog.h>
-#include <klineedit.h> 
-#include <knuminput.h> 
-#include <qwidget.h>
-#include <ktextedit.h>
+#include "addslavesui.h"
 
 class AddAlternatives;
 
-class AddSlaves : public QWidget
+class AddSlaves : public AddSlavesUi
 {
 	Q_OBJECT
 	
-	KFileDialog *m_fileDialog;
 	AddAlternatives *m_addAlternatives;
-	KLineEdit* m_Path;
 	
 public:
 	AddSlaves(AddAlternatives *addAlternatives);
 	virtual ~AddSlaves();
 	
-private slots:
-	void slotOkFileClicked();
+protected slots:
 	void slotOkClicked();
-	void slotBrowseClicked();
 	
 };
 

@@ -29,7 +29,6 @@
 #include "treeitemelement.h"
 #include "addalternatives.h"
 #include "mainwindow.h"
-#include "altparser.h"
 
 #include <qtimer.h>
 
@@ -39,13 +38,14 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <qlayout.h>
-#include <qfile.h> 
-#include <qtextstream.h> 
+#include <qfile.h>
+#include <qtextstream.h>
 #include <kgenericfactory.h>
-#include <kstdguiitem.h> 
+#include <kstdguiitem.h>
+#include <kdeversion.h>
 
 typedef KGenericFactory<Kalternatives, QWidget> KalternativesFactory;
-K_EXPORT_COMPONENT_FACTORY( kcm_Kalternatives, KalternativesFactory("kcmkalternatives"))
+K_EXPORT_COMPONENT_FACTORY( kcm_kalternatives, KalternativesFactory("kcmkalternatives"))
 
 extern "C"
 {
@@ -112,8 +112,6 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	m_statusCombo = mainwindow->m_statusCombo;
 	m_hideAlt = mainwindow->m_hideAlt;
 	
-	//KGuiItem *guiitem = KGuiItem(KStdGuiItem::StdItem::Delete);
-	//KStdGuiItem guiItem(KStdGuiItem::Delete);
 	mainwindow->m_bDelete->setGuiItem(KStdGuiItem::del());
 	mainwindow->m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "edit_add"));
 	mainwindow->m_bProperties->setGuiItem(KGuiItem( i18n( "&Properties" ), "configure"));
@@ -126,24 +124,26 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 		m_statusCombo->setEnabled(false);
 	}
 	
-	myAboutData = new KAboutData("KalternativesKCM", "Kalternatives", KALT_VERSION, i18n("KDE Mandrake/Debian alternatives-system manager"),
-        KAboutData::License_GPL, "(c) 2004 Juanjo Alvarez Martinez and Mario Bensi", 0, 0 );
-		
-		
-	myAboutData->addAuthor("Juanjo Alvarez Martinez", "\n\nKalternatives -- Mandrake/Debian alternatives-system manager", "juanjo@juanjoalvarez.net",
+	myAboutData = new KAboutData("kcmkalternatives", I18N_NOOP("Kalternatives"),
+	KALT_VERSION, I18N_NOOP("KDE Mandrake/Debian alternatives-system manager"),
+	KAboutData::License_GPL, I18N_NOOP("(c) 2004 Juanjo Alvarez Martinez\n"
+	                                   "(c) 2004 Mario Bensi"));
+
+	myAboutData->addAuthor("Juanjo Alvarez Martinez", 0, "juanjo@juanjoalvarez.net",
 		"http://juanjoalvarez.net");
-	myAboutData->addAuthor("Mario Bensi", "\n\nKalternatives -- Mandrake/Debian alternatives-system manager", "nef@ipsquad.net", "http://ipsquad.net");
+	myAboutData->addAuthor("Mario Bensi", 0, "nef@ipsquad.net", "http://ipsquad.net");
 	
+#if KDE_IS_VERSION(3,2,90)
 	setAboutData( myAboutData );
+#endif
 	
 	load();
 	m_hideAlt->setChecked(true);
 	slotHideAlternativesClicked();
-	resize(615, 490);
 }
 
 Kalternatives::~Kalternatives()
-{  
+{
 	if(m_mgr) delete m_mgr;
 	if(m_altList) delete m_altList;
 	if(m_optionsList) delete m_optionsList;
@@ -223,7 +223,7 @@ void Kalternatives::slotSelectAlternativesClicked(QListViewItem *alternative)
 			altItem->setText( 2, a->getPath());
 			QString m_small_desc = altItem->getDescription();
 			
-			if (!(m_small_desc == ""))
+			if (!m_small_desc.isEmpty())
 			{
 				altItem->setText( 3, m_small_desc);
 			}
@@ -325,33 +325,23 @@ void Kalternatives::slotDeleteClicked()
 
 void Kalternatives::slotPropertiesClicked()
 {
-	QString text ="";
-	PropertiesWindow *prop = new PropertiesWindow(this);
 	AltItemElement *altItem;
 	
 	if((altItem = dynamic_cast<AltItemElement *>(m_optionsList->selectedItem())))
 	{
+		QString text;
+		PropertiesWindow *prop = new PropertiesWindow(this);
+		prop->bClose->setGuiItem(KStdGuiItem::close());
+		
 		Alternative *a = altItem->getAlternative();
 		
 
-		text += "Description : \n";
-		text += altItem->getDescription();	
-		text +="\n Path : ";
-		text += a->getPath();
-		text +="\n Priority : ";
-		QString priority;
-		priority.setNum(a->getPriority());
-		text += priority;
-				
+		text += i18n( "Description :\n%1\n" ).arg( altItem->getDescription() );
+		text += i18n( "Path : %1\n" ).arg( a->getPath() );
+		text += i18n( "Priority : %1\n" ).arg( a->getPriority() );
+		
 		QStringList* slavesList = a->getSlaves();
-		if(slavesList->count() > 1)
-		{
-			text +="\n Slaves : ";	
-		}
-		else
-		{
-			text +="\n Slave : ";
-		}
+		text += i18n( "Slave :", "Slaves :", slavesList->count() );
 		
 		for ( QStringList::Iterator it = slavesList->begin(); it != slavesList->end(); ++it ) 
 		{
@@ -359,7 +349,6 @@ void Kalternatives::slotPropertiesClicked()
 			text += *it;
 		}
 		prop->m_text->setText(text);
-		prop->bClose->setGuiItem(KGuiItem( "&Close" , "fileclose" ));
 		prop->show();
 	}
 }
@@ -458,7 +447,8 @@ void Kalternatives::configChanged()
 
 QString Kalternatives::quickHelp() const
 {
-	return i18n("\n\nKalternatives -- Mandrake/Debian alternatives-system manager");
+	return i18n("<h1>Kalternatives</h1>\n"
+	            "A Mandrake/Debian alternatives-system manager.");
 }
 
 
