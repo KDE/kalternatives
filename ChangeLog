@@ -1,3 +1,9 @@
+0.11
+[Mario]
+
+* Bugfix, modification of interface, add/remove alternatives, search the
+description on rpm/deb package, show alternative's properties 
+
 0.10
 [Juanjo]
 
