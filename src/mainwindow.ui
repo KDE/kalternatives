@@ -35,14 +35,14 @@
         </property>
         <widget class="QSplitter" row="0" column="0">
             <property name="name">
-                <cstring>splitter3</cstring>
+                <cstring>splitter5</cstring>
             </property>
             <property name="orientation">
                 <enum>Horizontal</enum>
             </property>
             <widget class="QLayoutWidget">
                 <property name="name">
-                    <cstring>layout6</cstring>
+                    <cstring>layout21</cstring>
                 </property>
                 <vbox>
                     <property name="name">
@@ -54,35 +54,54 @@
                         </property>
                         <property name="sizePolicy">
                             <sizepolicy>
-                                <hsizetype>7</hsizetype>
+                                <hsizetype>1</hsizetype>
                                 <vsizetype>1</vsizetype>
                                 <horstretch>0</horstretch>
                                 <verstretch>0</verstretch>
                             </sizepolicy>
                         </property>
+                        <property name="frameShape">
+                            <enum>GroupBoxPanel</enum>
+                        </property>
+                        <property name="frameShadow">
+                            <enum>Sunken</enum>
+                        </property>
+                        <property name="lineWidth">
+                            <number>1</number>
+                        </property>
                         <property name="title">
                             <string></string>
                         </property>
-                        <widget class="QCheckBox">
+                        <property name="alignment">
+                            <set>AlignAuto</set>
+                        </property>
+                        <grid>
                             <property name="name">
-                                <cstring>m_hideAlt</cstring>
+                                <cstring>unnamed</cstring>
                             </property>
-                            <property name="geometry">
-                                <rect>
-                                    <x>10</x>
-                                    <y>10</y>
-                                    <width>110</width>
-                                    <height>30</height>
-                                </rect>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Hide useless 
-alternatives</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+H</string>
-                            </property>
-                        </widget>
+                            <widget class="QCheckBox" row="0" column="0">
+                                <property name="name">
+                                    <cstring>m_hideAlt</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>1</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="acceptDrops">
+                                    <bool>false</bool>
+                                </property>
+                                <property name="text">
+                                    <string>&amp;Hide useless alternatives</string>
+                                </property>
+                                <property name="accel">
+                                    <string>Alt+H</string>
+                                </property>
+                            </widget>
+                        </grid>
                     </widget>
                     <widget class="KListView">
                         <column>
@@ -173,7 +192,7 @@ alternatives</string>
             </widget>
             <widget class="QLayoutWidget">
                 <property name="name">
-                    <cstring>layout12</cstring>
+                    <cstring>layout24</cstring>
                 </property>
                 <vbox>
                     <property name="name">
@@ -181,7 +200,7 @@ alternatives</string>
                     </property>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout8</cstring>
+                            <cstring>layout22</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -241,6 +260,23 @@ alternatives</string>
                                     </widget>
                                 </vbox>
                             </widget>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer6</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>88</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
                             <widget class="QLabel">
                                 <property name="name">
                                     <cstring>m_altTilte</cstring>
@@ -266,6 +302,23 @@ alternatives</string>
                                     <set>AlignCenter</set>
                                 </property>
                             </widget>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer5</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>88</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
                         </hbox>
                     </widget>
                     <widget class="KListView">
