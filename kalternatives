@@ -356,7 +356,10 @@ class AltItemElement(QCheckListItem):
 class TreeItemElement(QCheckListItem):
     def __init__(self, parent, item):
         self.name = item.getName()
-        QCheckListItem.__init__(self, parent, self.name, QCheckListItem.RadioButtonController)
+        try:
+            QCheckListItem.__init__(self, parent, self.name, QCheckListItem.RadioButtonController)
+        except AttributeError:
+            QCheckListItem.__init__(self, parent, self.name, QCheckListItem.Controller)
 
         self.item = item
         self.isNode = 1
