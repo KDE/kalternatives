@@ -116,8 +116,8 @@ QString FindDescriptionThread::getDescriptionProcess()
 	*proc << "dpkg";
 	*proc << "-S" << m_altItem->getPath();
 #else
-    *proc << "rpm";
-    *proc << "-qf" << m_altItem->getPath();
+	*proc << "rpm";
+	*proc << "-qf" << m_altItem->getPath();
 #endif
 	
 	connect(proc, SIGNAL(receivedStdout(KProcess *, char *, int)), this,
@@ -152,8 +152,8 @@ QString FindDescriptionThread::getDescriptionProcess()
 		*procdesc << "dpkg";
 		*procdesc << "-p" << m_exec;
 #else
-        *procdesc << "rpm";
-        *procdesc << "-qi" << m_exec;
+		*procdesc << "rpm";
+		*procdesc << "-qi" << m_exec;
 #endif
 	
 		connect(procdesc, SIGNAL(receivedStdout(KProcess *, char *, int)), this,
@@ -165,16 +165,16 @@ QString FindDescriptionThread::getDescriptionProcess()
         
 #ifdef DEBIAN
 		int posDesc = m_descTmp.findRev("Description:");
-        if (posDesc != -1)
-        {
-            m_descTmp.remove(0, posDesc+12);
-        }
+		if (posDesc != -1)
+		{
+			m_descTmp.remove(0, posDesc+12);
+		}
 #else
-        int posDesc = m_descTmp.findRev("Description :");
-        if (posDesc != -1)
-        {
-            m_descTmp.remove(0, posDesc+13);
-        }
+		int posDesc = m_descTmp.findRev("Description :");
+		if (posDesc != -1)
+		{
+			m_descTmp.remove(0, posDesc+13);
+		}
 #endif
 	}
 	
