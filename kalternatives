@@ -396,8 +396,8 @@ class ItemsWidget(QListView):
             self.itemWidgetsList[-1].setOpen(0)
         self.setMinimumSize(QSize(200,280))
 
-    def slotItemClicked(self,item):
-        if item.isNode or not item.isOn() or item.alreadyEnabled: return
+    def slotItemClicked(self,item):    
+        if item == None or item.isNode or not item.isOn() or item.alreadyEnabled: return
         else:
             self.changed = 1
             #item.setOn(1)
