@@ -4,7 +4,7 @@ AM_INIT_AUTOMAKE(kalternatives, 0.10)
 AC_C_BIGENDIAN
 AC_CHECK_KDEMAXPATHLEN
 
-AC_CHECK_FILE(/etc/debian-release, [AC_DEFINE([DEBIAN], [], [debian])  AC_MSG_NOTICE(it is a debian)], 
+AC_CHECK_FILE(/etc/debian_version, [AC_DEFINE([DEBIAN], [], [debian])  AC_MSG_NOTICE(it is a debian)], 
 [AC_CHECK_FILE(/etc/mandrakelinux-release, 
 [AC_DEFINE([MANDRAKE], [], [mandrake])  AC_MSG_NOTICE(it is a mandrake)], 
 [AC_MSG_NOTICE(it is an other distribution)])])
