@@ -1,4 +1,4 @@
-SUBDIRS = $(TOPSUBDIRS)
+SUBDIRS = src doc
 
 $(top_srcdir)/configure.in: configure.in.in $(top_srcdir)/subdirs
 	cd $(top_srcdir) && $(MAKE) -f admin/Makefile.common configure.in ;
