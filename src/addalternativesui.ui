@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>453</width>
-            <height>253</height>
+            <height>245</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -32,7 +32,7 @@
         </property>
         <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>layout8</cstring>
+                <cstring>layout6</cstring>
             </property>
             <vbox>
                 <property name="name">
@@ -91,23 +91,6 @@
                                 <string>Priority:</string>
                             </property>
                         </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer4</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>190</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
                         <widget class="KIntSpinBox">
                             <property name="name">
                                 <cstring>m_Priority</cstring>
@@ -141,6 +124,23 @@
                         </spacer>
                     </hbox>
                 </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer5</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>16</height>
+                        </size>
+                    </property>
+                </spacer>
                 <widget class="KTextEdit">
                     <property name="name">
                         <cstring>m_textSlave</cstring>
