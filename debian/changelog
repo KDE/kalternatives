@@ -1,4 +1,10 @@
-kalternatives (0.8-1) unstable; urgency=low
+kalternatives (0.12-1) unstable; urgency=low
+
+  * Initial release.
+
+ --  <Mario Bensi <nef@ipsquad.net>>  Tue, 14 Oct 2004 13:07:14 +0100
+
+kalternatives (0.10-1) unstable; urgency=low
 
   * Initial release.
 
