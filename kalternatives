@@ -1,0 +1,553 @@
+#!/usr/bin/python2.3
+# -*- coding: UTF-8 -*-
+#
+#   This file is part of the KAlternatives distribution
+#   Copyright (C) 2003 Juanjo Alvarez Martinez <juanjux@yahoo.es>
+#
+#   This program is FREE software. You can redistribute it and/or
+#   modify it under the terms of the GNU General Public License
+#   as published by the Free Software Foundation; either version 2
+#   of the License, or (at your opinion) any later version.
+#
+#   This program is distributed in the HOPE that it will be USEFUL,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#   See the GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program. If not, write to the Free Software Foundation,
+#   Inc. ,59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+__version__ =  "0.6"
+
+import sys
+sys.path.append("/usr/lib/python/site-packages")
+
+from qt import *
+import copy, os, pwd
+
+app = None
+
+# This is coded in a very C++'iss style (using setters and getters, etc). This is
+# intentional, so an eventual C++ migration would be easier.
+
+# TODO:
+# Handle the Auto/Manual field
+# A method to update the information without destroying/recreating the object
+
+class Alternative:
+    """ This class represents one alternative """
+    def __init__(self, parent):
+        self.path = ""
+        self.priority = 1
+        self.slaves = []
+        self.parent = parent
+    def getParent(self): return self.parent
+    def getPath(self): return self.path
+    """ returns the real path to the alternative """
+    def setPath(self,path): self.path = path
+    """ dangerous, do not use (only for debugging) """
+    def getPriority(self): return self.priority
+    def setPriority(self, priority): self.priority = priority
+    def getSlaves(self): return self.slaves
+    """ returns a list of strings containing the slave links (usually manpages)
+        of the alternative
+    """
+    def setSlaves(self,slaves): self.slaves = slave
+    def addSlave(self,slave): self.slaves.append(slave)
+    def countSlaves(self): return len(self.slaves)
+    #FIXME: Catch index errors
+    def getSlave(number): return self.slaves[number]
+    """ return a slave by his index position """
+    def isSelected(self):
+        """ return 1 if this alternative is the one the link is pointing to """
+        if self.parent.isBroken(): return 0
+        if self.path == os.readlink("/etc/alternatives/"+self.parent.getName()):
+            return 1
+        else:
+            return 0
+    def isBroken(self):
+        """ check if the link to the real path is broken (sometimes this happens) """
+        return not os.path.exists(self.getPath())
+
+    def select(self):
+        """ Make this alternative the selected one for the parent node """
+        if self.isSelected(): return ("ok", "")
+        # First the main link
+        if not os.path.exists(self.path): return ("nopath", self.path)
+        try:
+            os.unlink("/etc/alternatives/"+self.parent.getName());
+            os.symlink(self.path, "/etc/alternatives/"+self.parent.getName());
+        except OSError, x: return "oserror", x
+
+        # Now the slaves
+        parslaves = self.parent.getSlaves()
+        if (len(parslaves) == 0) or (len(self.slaves) == 0): return ("ok", "")
+        else:
+            count = 0
+            for sl in self.slaves:
+                try:
+                    parsl = parslaves[count]
+                    os.unlink("/etc/alternatives/"+parsl['name'])
+                    os.symlink(sl,"/etc/alternatives/"+parsl['name'])
+                    count +=1
+                except IndexError, x: return "indexerror", x
+        return ("ok", "")
+
+class Item:
+    def __init__(self):
+        self.name = ""
+        self.mode = "auto"
+        self.path = ""
+        self.slaves = []
+        self.alternatives = []
+    def getSelected(self):
+        for alt in self.alternatives:
+            if alt.isSelected():
+                return alt
+                break
+        return None
+    def getName(self): return self.name
+    def setName(self,name): self.name = name
+    def getMode(self): return self.mode
+    #FIXME: Check the input
+    def setMode(self,mode): self.mode = mode
+    def getPath(self): return self.path
+    def setPath(self,path): self.path = path
+    def getSlaves(self): return self.slaves
+    def setSlaves(self,slaves): self.slaves = slaves
+    def addSlave(self,name,path):
+        slave = {}
+        slave['name'] = name
+        slave['path'] = path
+        self.slaves.append(slave)
+    def delSlave(self,name):
+        for slave in self.slaves[:]:
+            if slave['name'] == name:
+                self.slaves.remove(slave)
+                break
+    def delSlaveByPath(self,path):
+        for slave in self.slaves[:]:
+            if slave['path'] == path:
+                self.slaves.remove(slave)
+                break
+    def getAlternatives(self):
+        return self.alternatives
+
+    def getAlternative(self,path):
+        for alt in self.alternatives:
+            if alt.getPath() == path:
+                return alt
+    # This sorts the alternatives by priority before inserting them
+    # FIXME: TOTALLY UNTESTED! (read: it will fail)
+    def setAlternatives(self, alts):
+        unordered = alts
+        position = 0
+        for ele in alts:
+            try:
+                if ele.getPriority() > self.alternatives[position].getPriority():
+                    self.alternatives.insert(position, ele)
+                else:
+                    position +=1
+            except IndexError:
+                self.alternatives.append(ele)
+
+    def countAlternatives(self): return len(self.alternatives)
+    def delAlternativeByPath(self, path):
+        for alt in self.alternatives[:]:
+            if alt.getPath() == path:
+                self.remove(alt)
+                break
+    def delAlternativeByPriority(self,priority):
+        for alt in self.alternatives[:]:
+            if alt.getPriority() == priority:
+                self.remove(alt)
+    # This inserts the alternative ordered by priority:
+    def addAlternative(self,alternative):
+        pos = 0
+        try:
+            while alternative.getPriority() < self.alternatives[pos].getPriority():
+                pos += 1
+        except IndexError:
+            self.alternatives.append(alternative)
+            return
+        self.alternatives.insert(pos,alternative)
+
+    def isBroken(self):
+        return not os.path.exists(self.getPath())
+
+        
+class AltFilesManager:
+    def __init__(self, altdir="/var/lib/dpkg/alternatives"):
+        self.altlist = []
+        self.altdir = altdir
+        self.__parse_altfiles()
+        #self.XXXdebug_printAlts()
+
+    def getGlobalAlternativeList(self):
+        retlist = []
+        for item in self.altlist:
+            retlist.append(item.getName())
+        return retlist
+
+    def getItem(self,name):
+        for item in self.altlist:
+            if item.getName() == name:
+                return item
+
+    def XXXdebug_printAlts(self):
+        print "-"*30
+        for item in self.altlist:
+            print "Item: ", item.getName()
+            print "\tMode: ", item.getMode()
+            print "\tPath: ", item.getPath()
+            if item.getSlaves() == []:
+                print "\tNo slaves"
+            else:
+                for slave in item.getSlaves():
+                    print "\tSlave name:",slave['name']
+                    print "\tSlave path:",slave['path']
+            print "\tAlternatives:"
+            if item.getAlternatives() == []:
+                print "\t\tNO ALTERNATIVES"
+            else:
+                for alt in item.getAlternatives():
+                    print "\t\tPath: ",alt.getPath()
+                    print "\t\tPriority: ",alt.getPriority()
+                    print "\t\tSlaves: "
+                    if alt.getSlaves() == []:
+                        print "\t\t\tNo slaves"
+                    else:
+                        for sl in alt.getSlaves():
+                            print "\t\t\t%s" % sl
+
+    def __parse_altfiles(self):
+        """ Loads the member list altlist containing a dictionary for every alternative file in
+            /var/lib/dpkg/alternatives which holds:
+            Mode: auto or manual
+            Path
+            List of slave links, each of which is a dictionary with 'name' and 'path'
+
+            List of alternatives, each of which is a dictionary with 'name', 'priority' and
+            a list of provided slaves (as strings)
+        """
+
+
+        altfiles = os.listdir(self.altdir)
+        for f in altfiles:
+            #altfiledict = {}
+            item = Item()
+            item.setName(f)
+            #print ""
+            #print "----Analizing alternative file %s----" % f
+            altfile = open("/var/lib/dpkg/alternatives/%s" % f, "r")
+            lines = altfile.readlines()
+
+            item.setMode(lines[0][:-1])
+            #print "Mode =", item.getMode()
+
+            item.setPath(lines[1][:-1])
+            #print "Path =", item.getPath()
+
+            index = 2
+            line = lines[index]
+
+            slaves = []
+            nslaves = 0
+
+            # File header part
+            while line != "\n":
+                slave = {}
+                #print ""
+                #print "Slave found"
+                nslaves += 1
+                slave['name'] = line[:-1]
+                #print "\tSlave name=",slave['name']
+                index +=1
+                line = lines[index]
+                slave['path'] = line[:-1]
+                #print "\tSlave path=",slave['path']
+                slaves.append(slave)
+                index+=1
+                line = lines[index]
+            #print "XXXSLAVES:   ", slaves
+            item.setSlaves(slaves)
+
+            index+=1
+            line = lines[index]
+
+            #altItem = Alternative()
+
+            # File Alternatives part
+            while line != "":
+                altItem = Alternative(item)
+                altItem.setPath(line[:-1])
+                if line=="\n":
+                    # File ends (with a \n)
+                    #print "EOF"
+                    break
+                #print ""
+                #print "Alternative found"
+                #print "\tPath=",altItem.getPath()
+                index += 1
+                try:
+                    line = lines[index]
+                except IndexError:
+                    item.addAlternative(altItem)
+                    # EOF
+                    break
+
+                altItem.setPriority(line[:-1])
+                #print "\tPriority=",altItem.getPriority()
+
+                index += 1
+
+                try:
+                    line = lines[index]
+                except IndexError:
+                    item.addAlternative(altItem)
+                    #print "EOF"
+                    break
+
+                if line != "\n" and nslaves > 0:
+                    slaveslist = lines[index:index+nslaves]
+
+                    for i in slaveslist:
+                        altItem.addSlave(i[:-1])
+                    #print "\tAlternative slaves:"
+                    #for i in altItem.getSlaves():
+                        #print "\t\t",i
+
+                    index += nslaves
+
+                try:
+                    line = lines[index]
+                except IndexError:
+                        item.addAlternative(altItem)
+
+                        #print "EOF"
+                        break
+                item.addAlternative(altItem)
+
+            self.altlist.append(item)
+
+
+#-------------------------------------------GUI--------------------------------------------
+
+class AltItemElement(QCheckListItem):
+    def __init__(self, parent, item):
+        self.path = item.getPath()
+        self.isBroken = item.isBroken()
+        QCheckListItem.__init__(self, parent, self.path, QCheckListItem.RadioButton)
+
+        self.item = item
+        self.isNode = 0
+        self.parent = parent
+        self.alreadyEnabled = self.item.isSelected()
+        self.setOn(self.item.isSelected())
+        self.setEnabled(not self.isBroken)
+
+    def stateChange(self,b):
+        if self.alreadyEnabled and not self.isOn():
+            self.alreadyEnabled = 0
+        QCheckListItem.stateChange(self,b)
+
+
+class TreeItemElement(QCheckListItem):
+    def __init__(self, parent, item):
+        self.name = item.getName()
+        QCheckListItem.__init__(self, parent, self.name, QCheckListItem.RadioButtonController)
+
+        self.item = item
+        self.isNode = 1
+        self.altList = []
+    
+    def setData(self):
+        if self.item.isBroken():
+            self.setEnabled(0)
+        for alt in self.item.getAlternatives(): 
+            altItem = AltItemElement(self,alt)
+            self.altList.append(altItem)
+                
+    def setup(self):
+        self.setExpandable(1)
+        QCheckListItem.setup(self)
+
+class ItemsWidget(QListView):
+    def __init__(self, *args):
+        apply(QListView.__init__, (self,) + args)
+        self.addColumn("")
+        self.header().hide()
+        self.setRootIsDecorated(1)
+        self.setShowToolTips(1)
+
+        QObject.connect(self,SIGNAL("clicked (QListViewItem *)"), self.slotItemClicked)
+        self.itemWidgetsList = []
+        self.changed = 0
+
+    def updatedata(self,mgr):
+        # We make a copy here so we don't accidentally modify the original altsparser object data
+        itemslist = copy.deepcopy(mgr.getGlobalAlternativeList())
+        itemslist.sort()
+        for i in itemslist:
+            item = mgr.getItem(i)
+            self.itemWidgetsList.append(TreeItemElement(self,item))
+            self.itemWidgetsList[-1].setData()
+            self.itemWidgetsList[-1].setOpen(1)
+        self.setMinimumSize(QSize(200,280))
+
+    def slotItemClicked(self,item):
+        if item.isNode or not item.isOn() or item.alreadyEnabled: return
+        else:
+            self.changed = 1
+            #item.setOn(1)
+            item.alreadyEnabled = 1
+            self.emit(PYSIGNAL("selectionChanged(QCheckListItem)"), (item,))
+            
+class kalternatives(QMainWindow):
+    def __init__(self, *args):    
+        global app
+        try:
+            self.isRoot = 1
+            apply(QMainWindow.__init__, (self,) + args)
+            self.start()
+            QWidget.setCaption(self,"Debian Alternatives Manager")
+        except SystemExit:
+            sys.exit(0)
+        except: 
+            import traceback, cStringIO
+            tb = cStringIO.StringIO()
+            traceback.print_exc(file=tb)
+            
+            if QMessageBox.warning(self, "Program Error",
+            "An unhandled exception with the program (read: a problem) was catched.\n"
+            "This usually means that there is a bug in the software, so please report\n"
+            "the following message to juanjux@yahoo.es:\n\n" + tb.getvalue() + "\n\n", "&Ok"):
+                sys.exit(0)
+                #app.quit()
+                
+            
+            
+
+    def start(self):
+        global app
+        self.setCentralWidget(QWidget(self, "pok"))
+        self.mgr = AltFilesManager()
+
+        self.iw = ItemsWidget(self.centralWidget())
+        self.iw.updatedata(self.mgr)
+
+        self.apply = QPushButton("&Apply", self.centralWidget())
+        self.apply.setEnabled(0)
+
+        about = QPushButton("A&bout", self.centralWidget())
+        help  = QPushButton("&Help", self.centralWidget())
+        close = QPushButton("&Close", self.centralWidget())
+
+        QObject.connect(self.iw, PYSIGNAL("selectionChanged(QCheckListItem)"),self.slotSelectionChanged)
+        QObject.connect(self.apply, SIGNAL("clicked()"), self.slotApplyClicked)
+        QObject.connect(close,SIGNAL("clicked()"),self.slotCloseClicked)
+
+        l = QHBoxLayout(self.centralWidget(),10)
+        l.addWidget(self.iw,10)
+        buttonBox = QVBoxLayout()
+        l.addLayout(buttonBox)
+
+        buttonBox.addWidget(self.apply)
+        buttonBox.addStretch(1)
+        buttonBox.addWidget(about)
+        buttonBox.addWidget(help)
+        buttonBox.addWidget(close)
+
+        self.setMinimumSize(QSize(300,300))
+        self.resize(QSize(420,360))
+
+        # Non-Root warning
+        pwddata = pwd.getpwuid( os.getuid() )
+        if pwddata[2] != 0:
+            self.isRoot = 0
+            if QMessageBox.warning(self, "Non privileged user",\
+            "You are running this program from a non-privileged user account which\n"
+            "usually means that you will be unable to apply any selected changes using\n"
+            "the Apply button. If you want to commit your changes to the Debian alternatives\n"
+            "system please run the program as the root user.\n\n", "&Continue", "&Exit", QString.null, 1, 1):
+                sys.exit(0)
+                #app.quit()
+        
+        
+    def getChangedList(self):
+        forChangeList = []
+        for node in self.iw.itemWidgetsList:
+            for alt in node.altList:
+                if alt.isOn() and not alt.item.isSelected():
+                    forChangeList.append(alt)
+        return forChangeList
+
+    def slotApplyClicked(self):
+        if not self.isRoot:
+            QMessageBox.warning(self, "Non root user",\
+            "You are not the root user. If you want your changed to be applied you\n"
+            "have to run this program as root\n\n", "&Ok");
+            return
+        forChangeList = self.getChangedList()
+
+        if len(forChangeList) == 0:
+            QMessageBox.warning(self, "No change selected",\
+            "You didn't change any alternative", "&Ok")
+            return
+            
+        confstr = ""
+        for alt in forChangeList:
+            confstr += alt.item.getParent().getName()
+            confstr += " will point to "
+            confstr += alt.item.getPath() 
+            confstr += "\n"
+
+        if (QMessageBox.question(self,"Commit Changes?",\
+            "Do you want to change the following alternatives?\n\n" + confstr,\
+            "&Yes", "&No", QString.null, 1, 1)):
+            return
+        else:
+            for alt in forChangeList:
+                retstr = alt.item.select()
+                if retstr[0] != "ok":
+                    for itemalt in alt.parent.altList:
+                        if itemalt.item.isSelected():
+                            itemalt.setOn(1)
+                    if QMessageBox.critical(self,"Error", \
+                    "There was a problem changing to the %s alternative:\n %s\n\n" % (alt.item.getPath(),retstr[1])\
+                    ,"&Continue", "&Abort", QString.null,1, 1):
+                        break
+            if self.getChangedList() == 0:        
+                self.apply.setEnabled(0)
+
+    def slotCloseClicked(self):
+        global app
+        if len(self.getChangedList()) != 0:
+            if (QMessageBox.warning(self,"Unapplied changes",\
+            "Some changes you did were not applied. Do you want to apply them now?\n\n",\
+            "&Yes", "&No", QString.null, 1, 1)):
+                pass
+            else:
+                self.slotApplyClicked()
+        app.quit()
+
+    def slotSelectionChanged(self):
+        if self.iw.changed:
+            self.apply.setEnabled(1)
+
+    def closeEvent(self, e):
+        self.slotCloseClicked()
+        QMainWindow.closeEvent(self,e)
+
+def main(args):
+    global app
+    app = QApplication(args)
+    win = kalternatives()
+    win.show()
+    app.connect(app,SIGNAL("lastWindowClosed()"),app,SLOT("quit()"))
+    app.exec_loop()
+
+if __name__ == "__main__":
+    main(sys.argv)
+        
