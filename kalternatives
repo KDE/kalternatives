@@ -522,18 +522,19 @@ class kalternatives(QMainWindow):
                 self.apply.setEnabled(0)
 
     def slotCloseClicked(self):
-        global app
-        if len(self.getChangedList()) != 0:
-            if (QMessageBox.warning(self,"Unapplied changes",\
-            "Some changes you did were not applied. Do you want to apply them now?\n\n",\
-            "&Yes", "&No", QString.null, 1, 1)):
-                pass
-            else:
-                self.slotApplyClicked()
+        if self.isRoot:
+            global app
+            if len(self.getChangedList()) != 0:
+                if (QMessageBox.warning(self,"Unapplied changes",\
+                "Some changes you did were not applied. Do you want to apply them now?\n\n",\
+                "&Yes", "&No", QString.null, 1, 1)):
+                    pass
+                else:
+                    self.slotApplyClicked()
         app.quit()
 
     def slotSelectionChanged(self):
-        if self.iw.changed:
+        if self.iw.changed and self.isRoot:
             self.apply.setEnabled(1)
 
     def closeEvent(self, e):
