@@ -18,12 +18,14 @@
 #   along with this program. If not, write to the Free Software Foundation,
 #   Inc. ,59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-__version__ =  "0.8"
+__version__ =  "0.9"
 
 import sys
 sys.path.append("/usr/lib/python/site-packages")
 
 from qt import *
+from kdeui import KMainWindow, KMessageBox, KListView, KAboutDialog, KPushButton
+from kdecore import KApplication, KCmdLineArgs, KAboutData, i18n, KUniqueApplication, KIcon, KIconLoader
 import copy, os, pwd
 
 app = None
@@ -33,7 +35,7 @@ app = None
 
 # TODO:
 # Handle the Auto/Manual field
-# A method to update the information without destroying/recreating the object
+# A method to update the 1 without destroying/recreating the object
 
 class Alternative:
     """ This class represents one alternative """
@@ -126,6 +128,7 @@ class Item:
             if slave['name'] == name:
                 self.slaves.remove(slave)
                 break
+                
     def delSlaveByPath(self,path):
         for slave in self.slaves[:]:
             if slave['path'] == path:
@@ -376,18 +379,22 @@ class TreeItemElement(QCheckListItem):
         self.setExpandable(1)
         QCheckListItem.setup(self)
 
-class ItemsWidget(QListView):
+class ItemsWidget(KListView):
     def __init__(self, *args):
-        apply(QListView.__init__, (self,) + args)
+        apply(KListView.__init__, (self,) + args)
         self.addColumn("")
         self.header().hide()
         self.setRootIsDecorated(1)
         self.setShowToolTips(1)
+        self.setItemsMovable(0)        
+        self.setAcceptDrops(0)
+        
+           
 
         QObject.connect(self,SIGNAL("clicked (QListViewItem *)"), self.slotItemClicked)
         self.itemWidgetsList = []
-        self.changed = 0
-
+        self.changed = 0     
+        
     def updatedata(self,mgr):
         # We make a copy here so we don't accidentally modify the original altsparser object data
         itemslist = copy.deepcopy(mgr.getGlobalAlternativeList())
@@ -407,31 +414,34 @@ class ItemsWidget(QListView):
             item.alreadyEnabled = 1
             self.emit(PYSIGNAL("selectionChanged(QCheckListItem)"), (item,))
             
-class kalternatives(QMainWindow):
+class kalternatives(KMainWindow):
     def __init__(self, *args):    
         global app
         try:
-            self.isRoot = 1
-            apply(QMainWindow.__init__, (self,) + args)
+            pwddata = pwd.getpwuid( os.getuid() )
+            if pwddata[2] != 0: 
+                self.isRoot = 0
+            else: 
+                self.isRoot = 1
+            self.icons = KIconLoader()
+            apply(KMainWindow.__init__, (self,) + args)
             self.start()
-            QWidget.setCaption(self,"Debian Alternatives Manager")
+            self.setCaption(i18n("Debian Alternatives Manager"))
         except SystemExit:
+            print "Exiting..."
             sys.exit(0)
         except: 
             import traceback, cStringIO
             tb = cStringIO.StringIO()
             traceback.print_exc(file=tb)
             
-            if QMessageBox.warning(self, "Program Error",
-            "An unhandled exception with the program (read: a problem) was catched.\n"
-            "This usually means that there is a bug in the software, so please report\n"
-            "the following message to juanjux@yahoo.es:\n\n" + tb.getvalue() + "\n\n", "&Ok"):
-                sys.exit(0)
-                #app.quit()
-                
+            KMessageBox.sorry(self,\
+            "An unhandled exception with the program (read: a problem) was catched."
+            "This usually means that there is a bug in the software, so please report"
+            "the following message to juanjux@yahoo.es: " + tb.getvalue(), "Program Error")
             
-            
-
+            sys.exit(0)
+        
     def start(self):
         global app
         self.setCentralWidget(QWidget(self, "pok"))
@@ -443,27 +453,33 @@ class kalternatives(QMainWindow):
             self.mgr = AltFilesManager("/var/lib/rpm/alternatives")
         else:
             # Ups?
-            QMessageBox.critical(self, "Critical Error", \
-            "Kalternatives only work on Debian based or Mandrake systems\n\n","&Exit")
+            KMessageBox.critical(self, i18n("Critical Error"), \
+            i18n("Kalternatives only work on Debian based or Mandrake systems"),i18n("&Exit"))
             sys.exit(0)
 
         self.iw = ItemsWidget(self.centralWidget())
         self.iw.updatedata(self.mgr)
 
-        self.apply = QPushButton("&Apply", self.centralWidget())
+        self.apply = KPushButton(QIconSet(self.icons.loadIcon("ok", KIcon.Small)),\
+                i18n("&Apply"), self.centralWidget())
         self.apply.setEnabled(0)
-        self.expand = QPushButton("&Expand All", self.centralWidget())
-        self.collapse = QPushButton("C&ollapse All", self.centralWidget())
+        self.expand = KPushButton(i18n("&Expand All"), self.centralWidget())
+        self.collapse = KPushButton(i18n("C&ollapse All"), self.centralWidget())
 
-        about = QPushButton("A&bout", self.centralWidget())
-        help  = QPushButton("&Help", self.centralWidget())
-        close = QPushButton("&Close", self.centralWidget())
+        about = KPushButton(QIconSet(self.icons.loadIcon("about_kde", KIcon.Small)),\
+                i18n("A&bout"), self.centralWidget())
+        help  = KPushButton(QIconSet(self.icons.loadIcon("help", KIcon.Small)),\
+                i18n("&Help"), self.centralWidget())
+        close = KPushButton(QIconSet(self.icons.loadIcon("exit", KIcon.Small)),\
+                i18n("&Close"), self.centralWidget())
+        
 
         QObject.connect(self.iw, PYSIGNAL("selectionChanged(QCheckListItem)"),self.slotSelectionChanged)
         QObject.connect(self.apply, SIGNAL("clicked()"), self.slotApplyClicked)
         QObject.connect(close,SIGNAL("clicked()"),self.slotCloseClicked)
         QObject.connect(self.expand, SIGNAL("clicked()"), self.slotExpandClicked)
         QObject.connect(self.collapse, SIGNAL("clicked()"), self.slotCollapseClicked)
+        QObject.connect(about, SIGNAL("clicked()"), self.slotAboutClicked)
 
         l = QHBoxLayout(self.centralWidget(),10)
         l.addWidget(self.iw,10)
@@ -482,14 +498,12 @@ class kalternatives(QMainWindow):
         self.resize(QSize(420,360))
 
         # Non-Root warning
-        pwddata = pwd.getpwuid( os.getuid() )
-        if pwddata[2] != 0:
-            self.isRoot = 0
-            if QMessageBox.warning(self, "Non privileged user",\
-            "You are running this program from a non-privileged user account which\n"
-            "usually means that you will be unable to apply any selected changes using\n"
-            "the Apply button. If you want to commit your changes to the Debian alternatives\n"
-            "system please run the program as the root user.\n\n", "&Continue", "&Exit", QString.null, 1, 1):
+        if not self.isRoot:
+            if KMessageBox.warningContinueCancel(self, \
+            i18n("You are running this program from a non-privileged user account which"
+            "usually means that you will be unable to apply any selected changes using"
+            "the Apply button. If you want to commit your changes to the Debian alternatives"
+            "system please run the program as the root user."), i18n("Non Privileged User")) == KMessageBox.Cancel:
                 sys.exit(0)
                 #app.quit()
         
@@ -504,15 +518,15 @@ class kalternatives(QMainWindow):
 
     def slotApplyClicked(self):
         if not self.isRoot:
-            QMessageBox.warning(self, "Non root user",\
-            "You are not the root user. If you want your changed to be applied you\n"
-            "have to run this program as root\n\n", "&Ok");
+            KMessageBox.warning(self, i18n("Non root user"),\
+            i18n("You are not the root user. If you want your changed to be applied you"
+            "have to run this program as root"), i18n("&Ok"));
             return
         forChangeList = self.getChangedList()
 
         if len(forChangeList) == 0:
-            QMessageBox.warning(self, "No change selected",\
-            "You didn't change any alternative", "&Ok")
+            KMessageBox.information(self, \
+            i18n("You didn't change any alternative"), i18n("No change selected"))
             return
             
         confstr = ""
@@ -522,9 +536,8 @@ class kalternatives(QMainWindow):
             confstr += alt.item.getPath() 
             confstr += "\n"
 
-        if (QMessageBox.information(self,"Commit Changes?",\
-            "Do you want to change the following alternatives?\n\n" + confstr,\
-            "&Yes", "&No", QString.null, 1, 1)):
+        if (KMessageBox.questionYesNo(self,\
+            str(i18n("Do you want to change the following alternatives?\n\n")) + confstr,i18n("Commit Changes?"))) == KMessageBox.No:
             return
         else:
             for alt in forChangeList:
@@ -533,9 +546,8 @@ class kalternatives(QMainWindow):
                     for itemalt in alt.parent.altList:
                         if itemalt.item.isSelected():
                             itemalt.setOn(1)
-                    if QMessageBox.critical(self,"Error", \
-                    "There was a problem changing to the %s alternative:\n %s\n\n" % (alt.item.getPath(),retstr[1])\
-                    ,"&Continue", "&Abort", QString.null,1, 1):
+                    if KMessageBox.errorContinueCancel(self,\
+                    i18n("There was a problem changing to the %s alternative:\n %s") % (alt.item.getPath(),retstr[1]),i18n("Error"))== KMessageBox.Cancel:
                         break
             if self.getChangedList() == 0:        
                 self.apply.setEnabled(0)
@@ -548,32 +560,55 @@ class kalternatives(QMainWindow):
         for i in self.iw.itemWidgetsList:
             self.iw.setOpen(i, 0)
 
-    def slotCloseClicked(self):
+    def queryClose(self):
         if self.isRoot:
             global app
             if len(self.getChangedList()) != 0:
-                if (QMessageBox.warning(self,"Unapplied changes",\
-                "Some changes you did were not applied. Do you want to apply them now?\n\n",\
-                "&Yes", "&No", QString.null, 1, 1)):
-                    pass
+                if (KMessageBox.warningYesNo(self,\
+                i18n("Some changes you did were not applied. Do you want to apply them now?"),\
+                i18n("Unapplied changes"))) == KMessageBox.No:
+                    return 1
                 else:
                     self.slotApplyClicked()
+                    return 1
+        return 1
+
+    def slotCloseClicked(self):
         app.quit()
+        
+    def slotAboutClicked(self):
+        dlg = KAboutDialog(self)
+        dlg.setTitle(i18n("KDE Debian/Mandrake alternatives system manager"))
+        dlg.setAuthor("Juanjo Alvarez Martinez", "juanjux@yahoo.es", "http://www.escomposlinux.org/fer_y_juanjo", "\n\nKalternatives -- Debian/Mandrake alternatives system manager")
+        dlg.addContributor("KDE - Debian List", "kde-debian@kde.org", QString.null, QString.null)
+        dlg.show()
 
     def slotSelectionChanged(self):
         if self.iw.changed and self.isRoot:
             self.apply.setEnabled(1)
+            
+#-------------------------------main---------------------------------------
 
-    def closeEvent(self, e):
-        self.slotCloseClicked()
-        QMainWindow.closeEvent(self,e)
+application = "Kalternatives"
+description = "Program to configure Debian/Mandrake Alternatives System"
+version = __version__
+
+
+aboutData = KAboutData (application, application, version, description, KAboutData.License_GPL,\
+        "(C) 2004 Juanjo Alvarez Martinez")
+
+aboutData.addAuthor ("Juanjo Alvarez Martinez", "Developer", "juanjux@yahoo.es")
+
+
+#KCmdLineArgs.init (sys.argv, aboutData)
 
 def main(args):
     global app
-    app = QApplication(args)
+    app = KApplication(sys.argv, "Kalternatives")
+#    This segfaults for me, why?
+#    app = KUniqueApplication()
     win = kalternatives()
     win.show()
-    app.connect(app,SIGNAL("lastWindowClosed()"),app,SLOT("quit()"))
     app.exec_loop()
 
 if __name__ == "__main__":
