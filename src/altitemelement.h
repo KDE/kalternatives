@@ -38,11 +38,9 @@ class AltItemElement :  public QCheckListItem
 	KListView *m_parent;
 	bool m_bisBroken;
 	QString m_path;
-//#ifdef DEBIAN
 	QString m_desc;
 	FindDescriptionThread *findDescriptionThread;
 	QMutex m_mutex;
-//#endif
 	
 public:
     AltItemElement(KListView *parent, Alternative *alternative );
@@ -52,15 +50,11 @@ public:
     KListView *getParent() const { return m_parent; }
     Alternative *getAlternative() { return m_alt; }
 	QString getPath() const {return m_path; }
-//ifdef DEBIAN
 	QString getDescription() const {return m_desc;}
 	void searchDescription();
 	void setDescription(QString desc);
-	
-//endif
 };
 
-//ifdef DEBIAN
 class FindDescriptionThread : public QObject, public QThread
 {
 	Q_OBJECT
@@ -78,6 +72,5 @@ private slots:
 	void slotGetDescription(KProcess *proc, char *buffer, int buflen);
 	void slotGetExecutable(KProcess *proc, char *buffer, int buflen);
 };
-//endif
 
 #endif //_ALTITEMELEMENT_H_

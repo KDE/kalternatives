@@ -128,7 +128,6 @@ void AddAlternatives::slotOkClicked()
 		
 			altItem->setText( 1, priority);
 			altItem->setText( 2, a->getPath());
-#ifdef DEBIAN
 			QString m_small_desc = altItem->getDescription();
 		
 			if (!(m_small_desc == ""))
@@ -140,7 +139,6 @@ void AddAlternatives::slotOkClicked()
 			{
 				altItem->searchDescription();
 			}
-#endif
 			m_treeItem->setNbrAltChanged(TRUE);
 			if(!m_kalt->applyIsEnabled() && m_kalt->isBisRoot())
 			{

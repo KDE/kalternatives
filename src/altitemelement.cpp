@@ -34,10 +34,8 @@ AltItemElement::AltItemElement(KListView *parent, Alternative *alternative)
 {
 	setOn(alternative->isSelected());
 	setEnabled(!m_bisBroken);
-#ifdef DEBIAN
 	findDescriptionThread = 0L;
 	m_desc = "";
-#endif
 }
 
 AltItemElement::~AltItemElement()
@@ -46,7 +44,6 @@ AltItemElement::~AltItemElement()
 	delete m_alt;
 }
 
-#ifdef DEBIAN
 
 void AltItemElement::searchDescription()
 {
@@ -70,10 +67,7 @@ void AltItemElement::setDescription(QString desc)
 	m_mutex.unlock();
 }
 
-#endif
-
 /********************************* FindDescriptionThread ******************************/
-#ifdef DEBIAN
 FindDescriptionThread::FindDescriptionThread(AltItemElement *altItem):
 m_altItem(altItem)
 {
@@ -105,8 +99,13 @@ QString FindDescriptionThread::getDescriptionProcess()
 	m_exec = "";
 	KProcess *proc = new KProcess();
 	
+#ifdef DEBIAN
 	*proc << "dpkg";
 	*proc << "-S" << m_altItem->getPath();
+#else
+    *proc << "rpm";
+    *proc << "-qf" << m_altItem->getPath();
+#endif
 	
 	connect(proc, SIGNAL(receivedStdout(KProcess *, char *, int)), this,
 			SLOT(slotGetExecutable(KProcess *, char *, int)));
@@ -114,7 +113,8 @@ QString FindDescriptionThread::getDescriptionProcess()
 			SLOT(slotGetExecutable(KProcess *, char *, int)));
 	
 	proc->start(KProcess::Block, KProcess::AllOutput);
-	
+
+#ifdef DEBIAN
 	int pos = m_exec.findRev(":");
 	if (pos != -1)
 	{
@@ -126,15 +126,22 @@ QString FindDescriptionThread::getDescriptionProcess()
 			m_exec = m_exec.simplifyWhiteSpace();
 		}
 	}
+#else
+    m_exec = m_exec.simplifyWhiteSpace();
+#endif
 	
 	m_descTmp = "";
 	
 	if (m_exec != "")
 	{
 		KProcess *procdesc = new KProcess();
-		
+#ifdef DEBIAN	
 		*procdesc << "dpkg";
-		*procdesc << "-p" << m_exec ;
+		*procdesc << "-p" << m_exec;
+#else
+        *procdesc << "rpm";
+        *procdesc << "-qi" << m_exec;
+#endif
 	
 		connect(procdesc, SIGNAL(receivedStdout(KProcess *, char *, int)), this,
 				SLOT(slotGetDescription(KProcess *, char *, int)));
@@ -142,17 +149,20 @@ QString FindDescriptionThread::getDescriptionProcess()
 				SLOT(slotGetDescription(KProcess *, char *, int)));
 	
 		procdesc->start(KProcess::Block, KProcess::AllOutput);
-
+        
+#ifdef DEBIAN
 		int posDesc = m_descTmp.findRev("Description:");
+#else
+        int posDesc = m_descTmp.findRev("Description :");
+#endif
 		if (posDesc != -1)
 		{
-			m_descTmp.remove(0, posDesc+12);
+			m_descTmp.remove(0, posDesc+13);
 		}
 	}
 	
 	return m_descTmp;
 }
 
-#endif
 
 #include "altitemelement.moc"

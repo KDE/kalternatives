@@ -173,7 +173,6 @@ void Kalternatives::slotSelectAlternativesClicked(QListViewItem *alternative)
 			
 			altItem->setText( 1, priority);
 			altItem->setText( 2, a->getPath());
-#ifdef DEBIAN
 			QString m_small_desc = altItem->getDescription();
 			
 			if (!(m_small_desc == ""))
@@ -185,7 +184,6 @@ void Kalternatives::slotSelectAlternativesClicked(QListViewItem *alternative)
 			{
 				altItem->searchDescription();
 			}
-#endif
 		}
 	}
 	m_optionsList->setSelected(m_optionsList->firstChild(), 1);
@@ -295,7 +293,6 @@ void Kalternatives::slotPropertiesClicked()
 	{
 		Alternative *a = altItem->getAlternative();
 		
-#ifdef DEBIAN
 		text += "Description : \n";
 		
 		text += altItem->getDescription();	
@@ -307,7 +304,6 @@ void Kalternatives::slotPropertiesClicked()
 			thread->wait();
 			text += altItem->getDescription();	
 		}*/
-#endif
 		text +="\n Path : ";
 		text += a->getPath();
 		text +="\n Priority : ";
