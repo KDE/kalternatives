@@ -35,6 +35,3 @@ TreeItemElement::TreeItemElement(KListView *parent, Item *itemarg, AltController
 TreeItemElement::~TreeItemElement()
 {
 }
-
-
- 

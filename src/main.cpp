@@ -29,54 +29,53 @@
 KUniqueApplication *app = 0; // Global
 
 static const char description[] =
-    I18N_NOOP("A KDE Manager for the Debian/Mandrake alternatives system");
+	I18N_NOOP("A KDE Manager for the Debian/Mandrake alternatives system");
 
 static const char version[] = "0.10";
 
 static KCmdLineOptions options[] =
 {
 //    { "+[URL]", I18N_NOOP( "Document to open." ), 0 },
-    KCmdLineLastOption
+	KCmdLineLastOption
 };
 
 int main(int argc, char **argv)
 {
-    KAboutData about("kalternatives", I18N_NOOP("kalternatives"), version, description,
-                     KAboutData::License_GPL, "(C) 2004 Juanjo Alvarez Martinez", 0, 0, "juanjux@yahoo.es");
-    about.addAuthor( "Juanjo Alvarez Martinez", 0, "juanjux@yahoo.es" );
-    KCmdLineArgs::init(argc, argv, &about);
-    KCmdLineArgs::addCmdLineOptions( options );
-    /*KUniqueApplication rapp;
-    app = &rapp;
-    kalternatives *mainWin = 0;
+	KAboutData about("kalternatives", I18N_NOOP("kalternatives"), version, description,
+					KAboutData::License_GPL, "(C) 2004 Juanjo Alvarez Martinez", 0, 0, "juanjux@yahoo.es");
+	about.addAuthor( "Juanjo Alvarez Martinez", 0, "juanjux@yahoo.es" );
+	KCmdLineArgs::init(argc, argv, &about);
+	KCmdLineArgs::addCmdLineOptions( options );
+	/*KUniqueApplication rapp;
+	app = &rapp;
+	kalternatives *mainWin = 0;
 
-    if (app->isRestored())
-    {
-        //RESTORE(kalternatives);
-    }
-    else
-    {
-        // no session.. just start up normally
-        KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+	if (app->isRestored())
+	{
+		//RESTORE(kalternatives);
+	}
+	else
+	{
+		// no session.. just start up normally
+		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-        /// @todo do something with the command line args here
+		/// @todo do something with the command line args here
 
-        mainWin = new kalternatives();
-        app->setMainWidget( mainWin->m_mainwindow );
-        mainWin->m_mainwindow->show();
+		mainWin = new kalternatives();
+		app->setMainWidget( mainWin );
+		mainWin->show();
 		
 
-        args->clear();
-    }*/
+		args->clear();
+	}*/
 	KApplication app( argc, argv );
 
-    //mainwindow mainwin;
 	Kalternatives *mainwin = new Kalternatives();
-    app.setMainWidget( mainwin/*.m_mainwindow*/ );
-    mainwin/*.m_mainwindow*/->show();
+	app.setMainWidget( mainwin );
+	mainwin->show();
 
 	// mainWin has WDestructiveClose flag by default, so it will delete itself.
-    return app.exec();
+	return app.exec();
 	
     
 }

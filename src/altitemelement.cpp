@@ -23,7 +23,8 @@
 #include "altcontroller.h"
 #include "altparser.h"
 
-
+#include <iostream>
+using namespace std;
 
 /******************************* AltItemElement ********************/
 
@@ -34,15 +35,16 @@ AltItemElement::AltItemElement(KListView *parent, Alternative *alternative)
   m_bisBroken(alternative->isBroken()),
   m_path(alternative->getPath())
 {
-    setOn(alternative->isSelected());
-    setEnabled(!m_bisBroken);
+	setOn(alternative->isSelected());
+	setEnabled(!m_bisBroken);
+#ifdef DEBIAN
 	m_desc = "";
+#endif
 }
 
 AltItemElement::~AltItemElement()
 {
-    //Don't delete the alt because it is still being used in the AltFilesManager
-    delete m_alt;
+	delete m_alt;
 }
 
 #ifdef DEBIAN
@@ -58,8 +60,36 @@ QString AltItemElement::getDescription()
 	return m_desc; 
 }
 
+void AltItemElement::setDescription(QString desc) 
+{
+	m_desc = desc; 
+	desc.truncate(desc.find("\n"));
+	setText( 3, desc);
+}
 
-void AltItemElement::slotGetDescription(KProcess *, char *buffer, int buflen)
+#endif
+
+/********************************* FindDescriptionThread ******************************/
+#ifdef DEBIAN
+FindDescriptionThread::FindDescriptionThread(AltItemElement *altItem):
+m_altItem(altItem)
+{
+}
+
+FindDescriptionThread::~FindDescriptionThread()
+{
+	if (m_altItem) delete m_altItem;
+}
+
+void FindDescriptionThread::run()
+{
+	/*QString tmp = getDescriptionProcess();
+	m_altItem->setDescription(tmp);*/
+	sleep(3);
+	m_altItem->setDescription("blub");
+}
+
+void FindDescriptionThread::slotGetDescription(KProcess *, char *buffer, int buflen)
 {
 	if (m_descTmp != "")
 	{
@@ -77,7 +107,7 @@ void AltItemElement::slotGetDescription(KProcess *, char *buffer, int buflen)
 	}
 }
 
-void AltItemElement::slotGetExecutable(KProcess *, char *buffer, int buflen)
+void FindDescriptionThread::slotGetExecutable(KProcess *, char *buffer, int buflen)
 {
 	if (m_exec != "")
 	{
@@ -101,17 +131,19 @@ void AltItemElement::slotGetExecutable(KProcess *, char *buffer, int buflen)
 	}
 }
 
-QString AltItemElement::getDescriptionProcess()
+QString FindDescriptionThread::getDescriptionProcess()
 {
 	m_mutex.lock();
 	m_exec = "";
 	KProcess *proc = new KProcess();
 	
 	*proc << "dpkg";
-	*proc << "-S" << m_path ;
+	*proc << "-S" << m_altItem->getPath();
 	
-	connect(proc, SIGNAL(receivedStdout(KProcess *, char *, int)), this , SLOT(slotGetExecutable(KProcess *, char *, int)));
-	connect(proc, SIGNAL( receivedStderr(KProcess *, char *, int) ), this , SLOT(slotGetExecutable(KProcess *, char *, int)));
+	connect(proc, SIGNAL(receivedStdout(KProcess *, char *, int)), this,
+			SLOT(slotGetExecutable(KProcess *, char *, int)));
+	connect(proc, SIGNAL( receivedStderr(KProcess *, char *, int) ), this,
+			SLOT(slotGetExecutable(KProcess *, char *, int)));
 	
     proc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
 	
@@ -126,38 +158,17 @@ QString AltItemElement::getDescriptionProcess()
 		*procdesc << "dpkg";
 		*procdesc << "-p" << m_exec ;
 	
-		connect(procdesc, SIGNAL(receivedStdout(KProcess *, char *, int)), this , SLOT(slotGetDescription(KProcess *, char *, int)));
-		connect(procdesc, SIGNAL( receivedStderr(KProcess *, char *, int) ), this , SLOT(slotGetDescription(KProcess *, char *, int)));
+		connect(procdesc, SIGNAL(receivedStdout(KProcess *, char *, int)), this,
+				SLOT(slotGetDescription(KProcess *, char *, int)));
+		connect(procdesc, SIGNAL( receivedStderr(KProcess *, char *, int) ), this,
+				SLOT(slotGetDescription(KProcess *, char *, int)));
 	
-	    procdesc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+		procdesc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
 	
 		procdesc->wait();
 	}
 	m_mutex.unlock();
 	return m_descTmp;
-}
-
-#endif
-
-/********************************* FindDescriptionThread ******************************/
-#ifdef DEBIAN
-FindDescriptionThread::FindDescriptionThread(AltItemElement *altItem):
-m_altItem(altItem)
-{
-}
-
-FindDescriptionThread::~FindDescriptionThread()
-{
-	if (m_altItem) delete m_altItem;
-}
-
-void FindDescriptionThread::run()
-{
-	QString tmp = m_altItem->getDescriptionProcess();
-	m_altItem->setDescription(tmp);
-	QString desc = tmp;
-	desc.truncate(desc.find("\n"));
-	m_altItem->setText( 3, desc);	
 }
 
 #endif

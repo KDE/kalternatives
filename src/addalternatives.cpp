@@ -41,20 +41,23 @@ QWidget(kalt,0, WDestructiveClose | WType_Modal),m_treeItem(treeItem), m_kalt(ka
 	
 	AddAlternativesLayout->addWidget(addAlternativesUi,0,0);
 	
-	connect(addAlternativesUi->m_bOk, SIGNAL(clicked()), this, SLOT(slotOkClicked()));
-	connect(addAlternativesUi->m_bBrowse, SIGNAL(clicked()), this, SLOT(slotBrowseClicked()));
-	connect(addAlternativesUi->m_bBrowseMan, SIGNAL(clicked()), this, SLOT(slotBrowseManClicked()));
-	connect(addAlternativesUi->m_bCancel, SIGNAL( clicked() ), this, SLOT( close() ) );
+	connect(addAlternativesUi->m_bOk, SIGNAL(clicked()), this,
+			SLOT(slotOkClicked()));
+	connect(addAlternativesUi->m_bBrowse, SIGNAL(clicked()), this,
+			SLOT(slotBrowseClicked()));
+	connect(addAlternativesUi->m_bBrowseMan, SIGNAL(clicked()), this,
+			SLOT(slotBrowseManClicked()));
+	connect(addAlternativesUi->m_bCancel, SIGNAL( clicked() ), this,
+			SLOT( close() ) );
 	
 	
 	m_fileDialog = new KFileDialog ("", "", this, "Choose ALternative", TRUE);
-	connect(m_fileDialog->okButton (), SIGNAL(clicked()), this, SLOT(slotOkFileClicked()));
+	connect(m_fileDialog->okButton (), SIGNAL(clicked()), this,
+			SLOT(slotOkFileClicked()));
 	
 	m_fileDialogMan = new KFileDialog ("", "", this, "Choose ALternative Man Page", TRUE);
-	connect(m_fileDialogMan->okButton (), SIGNAL(clicked()), this, SLOT(slotOkFileManClicked()));
-	
-	
-	//m_addAlternativesUi->show();
+	connect(m_fileDialogMan->okButton (), SIGNAL(clicked()), this,
+			SLOT(slotOkFileManClicked()));
 	
 	m_Path = addAlternativesUi->m_Path;
 	m_PathMan = addAlternativesUi->m_PathMan;

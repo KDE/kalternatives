@@ -31,19 +31,14 @@
 class Alternative;
 class AltController;
 
-class AltItemElement : public QObject, public QCheckListItem
+class AltItemElement :  public QCheckListItem
 {
-	Q_OBJECT
-	
 	Alternative *m_alt;
 	KListView *m_parent;
 	bool m_bisBroken;
 	QString m_path;
 //#ifdef DEBIAN
 	QString m_desc;
-	QString m_descTmp;
-	QString m_exec;
-	QMutex m_mutex;
 //#endif
 	
 public:
@@ -56,23 +51,30 @@ public:
 	QString getPath() const {return m_path; }
 //#ifdef DEBIAN
 	QString getDescription();
-	QString getDescriptionProcess();
-	void setDescription(QString desc) {m_desc = desc; }
+	void setDescription(QString desc);
 	
-private slots:
-	void slotGetDescription(KProcess *proc, char *buffer, int buflen);
-	void slotGetExecutable(KProcess *proc, char *buffer, int buflen);
 //#endif
 };
 
-class FindDescriptionThread : public QThread 
+//#ifdef DEBIAN
+class FindDescriptionThread : public QObject, public QThread
 {
+	Q_OBJECT
+	
 	AltItemElement *m_altItem;
+	QString m_descTmp;
+	QString m_exec;
+	QMutex m_mutex;
 public:
 	FindDescriptionThread(AltItemElement *altItem);
 	virtual ~FindDescriptionThread();
 	
 	virtual void run();
+	QString getDescriptionProcess();
+private slots:
+	void slotGetDescription(KProcess *proc, char *buffer, int buflen);
+	void slotGetExecutable(KProcess *proc, char *buffer, int buflen);
 };
+//#endif
 
 #endif //_ALTITEMELEMENT_H_

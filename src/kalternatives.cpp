@@ -44,9 +44,9 @@ using namespace std;
 Kalternatives::Kalternatives()
 {
 	int user = getuid();
-    //FIXME: This won't be needed as kcm
-    if (user == 0) m_bisRoot = true;
-    else m_bisRoot = false;
+	//FIXME: This won't be needed as kcm
+	if (user == 0) m_bisRoot = true;
+	else m_bisRoot = false;
 
 #ifdef MANDRAKE
 m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
@@ -59,12 +59,12 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	#endif
 #endif
 	
-    if(!m_bisRoot)
-    {
-        if(KMessageBox::warningContinueCancel(this,
-            i18n("You are running this program from a non-privileged user account which usually means that you will be unable to apply any selected changes using the Apply button. If you want to commit your changes to the alternatives system please run the program as the root user."), i18n("Non-Privileged User")) == KMessageBox::Cancel)
-            QTimer::singleShot(0, this, SLOT(die()));
-    }
+	if(!m_bisRoot)
+	{
+	if(KMessageBox::warningContinueCancel(this,
+		i18n("You are running this program from a non-privileged user account which usually means that you will be unable to apply any selected changes using the Apply button. If you want to commit your changes to the alternatives system please run the program as the root user."), i18n("Non-Privileged User")) == KMessageBox::Cancel)
+		QTimer::singleShot(0, this, SLOT(die()));
+	}
 	
 	MainWindow *mainwindow = new MainWindow(this);
 	QGridLayout *KalternativesLayout = new QGridLayout( this, 1, 1, 11, 6, "KalternativesLayout"); 
@@ -72,15 +72,22 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	
 	mainwindow->m_altList->setShowToolTips(1);
 	
-	connect(mainwindow->m_hideAlt, SIGNAL(clicked()), this, SLOT(slotHideAlternativesClicked()));
+	connect(mainwindow->m_hideAlt, SIGNAL(clicked()), this,
+			SLOT(slotHideAlternativesClicked()));
 	
-	connect(mainwindow->m_altList, SIGNAL(selectionChanged( QListViewItem* )), this, SLOT(slotSelectAlternativesClicked(QListViewItem *)));
+	connect(mainwindow->m_altList, SIGNAL(selectionChanged( QListViewItem* )), this,
+			SLOT(slotSelectAlternativesClicked(QListViewItem *)));
 	
-	connect(mainwindow->m_optionsList, SIGNAL(clicked(QListViewItem *)), this, SLOT(slotOptionClicked(QListViewItem *)));
-    connect(mainwindow->m_bApply, SIGNAL(clicked()), this, SLOT(slotApplyClicked()));
-	connect(mainwindow->m_bAdd, SIGNAL(clicked()), this, SLOT(slotAddClicked()));
-	connect(mainwindow->m_bDelete, SIGNAL(clicked()), this, SLOT(slotDeleteClicked()));
-	connect(mainwindow->m_bProperties, SIGNAL(clicked()), this, SLOT(slotPropertiesClicked()));
+	connect(mainwindow->m_optionsList, SIGNAL(clicked(QListViewItem *)), 
+			this, SLOT(slotOptionClicked(QListViewItem *)));
+	connect(mainwindow->m_bApply, SIGNAL(clicked()), this,
+			SLOT(slotApplyClicked()));
+	connect(mainwindow->m_bAdd, SIGNAL(clicked()), this,
+			SLOT(slotAddClicked()));
+	connect(mainwindow->m_bDelete, SIGNAL(clicked()), this,
+			SLOT(slotDeleteClicked()));
+	connect(mainwindow->m_bProperties, SIGNAL(clicked()), this,
+			SLOT(slotPropertiesClicked()));
 	
 	m_altList = mainwindow->m_altList;
 	m_optionsList = mainwindow->m_optionsList;
@@ -96,7 +103,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 
 Kalternatives::~Kalternatives()
 {  
-    if(m_mgr) delete m_mgr;
+	if(m_mgr) delete m_mgr;
 }
 
 void Kalternatives::die()
@@ -107,21 +114,21 @@ void Kalternatives::die()
 void Kalternatives::updateData(AltFilesManager *mgr)
 {
 	QPtrList<Item> *itemslist = mgr->getGlobalAlternativeList();
-    Item *i;
-    TreeItemElement *treeit;
-    for(i = itemslist->first(); i; i = itemslist->next())
-    {
+	Item *i;
+	TreeItemElement *treeit;
+	for(i = itemslist->first(); i; i = itemslist->next())
+	{
 		AltController *altcontroller = new AltController();
-        treeit = new TreeItemElement(m_altList, i, altcontroller);
+		treeit = new TreeItemElement(m_altList, i, altcontroller);
 		
 		AltsPtrList *altList = i->getAlternatives();
 		Alternative *a = altList->first();
 		
-    	AltItemElement *ael;
+		AltItemElement *ael;
 		
 		for(; a; a=altList->next())
-    	{
-        	ael = new AltItemElement(m_optionsList, a);
+		{
+			ael = new AltItemElement(m_optionsList, a);
 			treeit->getAltController()->addAltItem(ael);
 		}
     }
@@ -134,7 +141,7 @@ void Kalternatives::clearList(KListView* list)
 {
 	QListViewItemIterator it( list );
 	QListViewItem *tmp;
-    while( (tmp=it.current()) )
+	while( (tmp=it.current()) )
 	{
 		it++;
 		list->takeItem(tmp);
@@ -153,7 +160,7 @@ void Kalternatives::slotSelectAlternativesClicked(QListViewItem *alternative)
 		m_altTilte->setText(treeItem->getName());
 		m_statusCombo->setCurrentItem(item->getMode());
 		
-    	AltItemList *altItemList = treeItem->getAltController()->getAltItemList();
+		AltItemList *altItemList = treeItem->getAltController()->getAltItemList();
 		
 		for( AltItemElement *altItem= altItemList->first(); altItem ; altItem = altItemList->next())
 		{
@@ -175,7 +182,7 @@ void Kalternatives::slotSelectAlternativesClicked(QListViewItem *alternative)
 				altItem->setText( 3, m_small_desc);
 			}
 #endif
-    	}
+		}
 	}
 	m_optionsList->setSelected(m_optionsList->firstChild(), 1);
 }
@@ -189,7 +196,7 @@ void Kalternatives::slotHideAlternativesClicked()
 		QListViewItemIterator it( m_altList );
 		TreeItemElement *i;
 		QListViewItem *tmp;
-    	while ( it.current() )
+		while ( it.current() )
 		{
 			if((i = dynamic_cast<TreeItemElement *>(it.current())))
 			{
@@ -215,7 +222,7 @@ void Kalternatives::slotHideAlternativesClicked()
 
 void Kalternatives::slotOptionClicked(QListViewItem *option)
 {
-    AltItemElement *altItem;
+	AltItemElement *altItem;
 	if((altItem = dynamic_cast<AltItemElement *>(option)))
 	{
 		if( !altItem->isOn() )
@@ -296,7 +303,7 @@ void Kalternatives::slotPropertiesClicked()
 		}*/
 #endif
 		text +="\n Path : ";
-	 	text += a->getPath();
+		text += a->getPath();
 		text +="\n Priority : ";
 		QString priority;
 		priority.setNum(a->getPriority());
@@ -324,12 +331,12 @@ void Kalternatives::slotPropertiesClicked()
 
 void Kalternatives::slotAboutClicked()
 {
-    /*KAboutDialog *dlg = new KAboutDialog;
-    dlg->setTitle(i18n("KDE Mandrake/Debian alternatives-system manager"));
-    dlg->setAuthor("Juanjo Alvarez Martinez", "juanjo@juanjoalvarez.net",
-                "http://juanjoalvarez.net", "\n\nKalternatives -- Mandrake/Debian alternatives-system manager");
-    dlg->setVersion(KALT_VERSION);
-    dlg->show();*/
+	/*KAboutDialog *dlg = new KAboutDialog;
+	dlg->setTitle(i18n("KDE Mandrake/Debian alternatives-system manager"));
+	dlg->setAuthor("Juanjo Alvarez Martinez", "juanjo@juanjoalvarez.net",
+		"http://juanjoalvarez.net", "\n\nKalternatives -- Mandrake/Debian alternatives-system manager");
+	dlg->setVersion(KALT_VERSION);
+	dlg->show();*/
 }
 
 void Kalternatives::slotApplyClicked()
@@ -337,7 +344,7 @@ void Kalternatives::slotApplyClicked()
 	QListViewItemIterator it( m_altList );
 	TreeItemElement *treeItem;
 	
-   	while ( it.current() )
+	while ( it.current() )
 	{
 		if((treeItem = dynamic_cast<TreeItemElement *>(it.current())))
 		{

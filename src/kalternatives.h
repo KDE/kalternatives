@@ -34,13 +34,6 @@
 
 #define KALT_VERSION "0.12"
 
-class TreeItemElement;
-class Alternative;
-class Item;
-class KProcess;
-class AltItemElement;
-class Kalternatives;
-class AltController;
 class AltFilesManager;
 
 
