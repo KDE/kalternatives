@@ -35,19 +35,38 @@
         </property>
         <widget class="QSplitter" row="0" column="0">
             <property name="name">
-                <cstring>splitter5</cstring>
+                <cstring>splitter2</cstring>
             </property>
             <property name="orientation">
                 <enum>Horizontal</enum>
             </property>
             <widget class="QLayoutWidget">
                 <property name="name">
-                    <cstring>layout21</cstring>
+                    <cstring>layout6</cstring>
                 </property>
                 <vbox>
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
+                    <widget class="KListView">
+                        <column>
+                            <property name="text">
+                                <string>Alternatives</string>
+                            </property>
+                            <property name="clickable">
+                                <bool>true</bool>
+                            </property>
+                            <property name="resizable">
+                                <bool>true</bool>
+                            </property>
+                        </column>
+                        <property name="name">
+                            <cstring>m_altList</cstring>
+                        </property>
+                        <property name="resizeMode">
+                            <enum>LastColumn</enum>
+                        </property>
+                    </widget>
                     <widget class="QGroupBox">
                         <property name="name">
                             <cstring>groupBox3</cstring>
@@ -102,25 +121,6 @@
                                 </property>
                             </widget>
                         </grid>
-                    </widget>
-                    <widget class="KListView">
-                        <column>
-                            <property name="text">
-                                <string>Alternatives</string>
-                            </property>
-                            <property name="clickable">
-                                <bool>true</bool>
-                            </property>
-                            <property name="resizable">
-                                <bool>true</bool>
-                            </property>
-                        </column>
-                        <property name="name">
-                            <cstring>m_altList</cstring>
-                        </property>
-                        <property name="resizeMode">
-                            <enum>LastColumn</enum>
-                        </property>
                     </widget>
                 </vbox>
             </widget>

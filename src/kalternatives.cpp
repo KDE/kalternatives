@@ -42,7 +42,7 @@
 #include <qfile.h> 
 #include <qtextstream.h> 
 #include <kgenericfactory.h>
-
+#include <kstdguiitem.h> 
 
 typedef KGenericFactory<Kalternatives, QWidget> KalternativesFactory;
 K_EXPORT_COMPONENT_FACTORY( kcm_Kalternatives, KalternativesFactory("kcmkalternatives"))
@@ -112,6 +112,12 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	m_statusCombo = mainwindow->m_statusCombo;
 	m_hideAlt = mainwindow->m_hideAlt;
 	
+	//KGuiItem *guiitem = KGuiItem(KStdGuiItem::StdItem::Delete);
+	//KStdGuiItem guiItem(KStdGuiItem::Delete);
+	mainwindow->m_bDelete->setGuiItem(KStdGuiItem::del());
+	mainwindow->m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "edit_add"));
+	mainwindow->m_bProperties->setGuiItem(KGuiItem( i18n( "&Properties" ), "configure" ));
+	
 	myAboutData = new KAboutData("KalternativesKCM", "Kalternatives", KALT_VERSION, i18n("KDE Mandrake/Debian alternatives-system manager"),
         KAboutData::License_GPL, "(c) 2004 Juanjo Alvarez Martinez and Mario Bensi", 0, 0 );
 		
@@ -123,7 +129,8 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	setAboutData( myAboutData );
 	
 	load();
-	m_altList->setSelected( m_altList->firstChild(), TRUE );
+	m_hideAlt->setChecked(true);
+	slotHideAlternativesClicked();
 	resize(615, 490);
 }
 

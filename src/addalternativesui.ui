@@ -56,7 +56,7 @@
                                 <cstring>m_bBrowse</cstring>
                             </property>
                             <property name="text">
-                                <string>Browse</string>
+                                <string></string>
                             </property>
                         </widget>
                     </hbox>

@@ -62,6 +62,8 @@ QWidget(kalt,0, WDestructiveClose | WType_Modal),m_treeItem(treeItem), m_kalt(ka
 	m_Priority = addAlternativesUi->m_Priority;
 	m_textSlave = addAlternativesUi->m_textSlave;
 	
+	addAlternativesUi->m_bBrowse->setGuiItem(KGuiItem( "" , "fileopen" ));
+	
 	resize( 435, 185 );
 }
 
