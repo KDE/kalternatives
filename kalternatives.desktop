@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Kalternatives
+Terminal=false
+Icon=kcmsystem.png
+DocPath=kalternatives/index.html
+Comment=Alternatives system manager
+Exec=kalternatives
+Path=
+Terminal=0
+Type=Application
+Comment[es]=Gestor para el sistema de alternativas
+X-KDE-StartupNotify=true

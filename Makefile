@@ -8,7 +8,8 @@ LOCALES = share/locale
 DOC = share/doc/kalternatives
 BIN = bin
 MAN = share/man/man2
-
+DESKTOPDIR = share/applications/kde/
+DESKTOPFILE = kalternatives.desktop
 
 make:
 install: 
@@ -27,10 +28,12 @@ install:
 	cp kalternatives $(DESTDIR)$(PREFIX)$(BIN)
 	chmod +x $(DESTDIR)$(PREFIX)$(BIN)/kalternatives
 	cp  Changelog copyright README TODO 	$(DESTDIR)$(PREFIX)$(DOC)
+	cp kalternatives.desktop $(DESTDIR)$(PREFIX)$(DESKTOPDIR)$(DESKTOPFILE)
 	#cp docs/kalternatives.2.gz $(DESTDIR)$(PREFIX)$(MAN)
 	
 uninstall:
 	rm -f		$(DESTDIR)$(PREFIX)$(BIN)/kalternatives
+	rm -f  	    $(DESTDIR)$(PREFIX)$(DESKTOPDIR)$(DESKTOPFILE)
 	#rm -f		$(DESTDIR)$(PREFIX)$(LIB)/altsmanager.*
 	rm -rf 		$(DESTDIR)$(PREFIX)$(DOC)
 clean:

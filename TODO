@@ -1,4 +1,4 @@
-* Full KDE Support: KUniqueApp, .desktop file installation
+* Full KDE Support: KUniqueApp, App 
 * Help, whatsthis and tooltips
 * Implement as a nice kcontrol module
 * .spec file for building Mandrake RPMS
