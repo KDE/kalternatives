@@ -2,6 +2,9 @@
  *   Copyright (C) 2004 by Juanjo                                          *
  *   juanjux@yahoo.es                                                      *
  *                                                                         *
+ *   Copyright (C) 2004 by Mario Bensi                                     *
+ *   nef@ipsquad.net                                                       *
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -21,9 +24,9 @@
 #ifndef _KALTERNATIVES_H_
 #define _KALTERNATIVES_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+//#ifdef HAVE_CONFIG_H
+//#include <config.h>
+//#endif
 
 #include <klistview.h>
 #include <kpushbutton.h> 

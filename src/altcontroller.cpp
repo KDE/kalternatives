@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Mario BENSI                                     *
+ *   Copyright (C) 2004 by Mario Bensi                                     *
  *   nef@ipsquad.net                                                       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,6 +29,7 @@ AltController::AltController()
 
 AltController::~AltController()
 {
+	 if(m_altItemslist) delete m_altItemslist;
 }
 
 

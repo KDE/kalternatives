@@ -2,6 +2,9 @@
  *   Copyright (C) 2004 by Juanjo                                          *
  *   juanjux@yahoo.es                                                      *
  *                                                                         *
+ *   Copyright (C) 2004 by Mario Bensi                                     *
+ *   nef@ipsquad.net                                                       *
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -20,11 +23,11 @@
 
 #include "main.h"
 #include "kalternatives.h"
-#include "mainwindow.h"
 #include <kuniqueapplication.h>
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 
 KUniqueApplication *app = 0; // Global
 
@@ -42,13 +45,14 @@ static KCmdLineOptions options[] =
 int main(int argc, char **argv)
 {
 	KAboutData about("kalternatives", I18N_NOOP("kalternatives"), version, description,
-					KAboutData::License_GPL, "(C) 2004 Juanjo Alvarez Martinez", 0, 0, "juanjux@yahoo.es");
-	about.addAuthor( "Juanjo Alvarez Martinez", 0, "juanjux@yahoo.es" );
+					KAboutData::License_GPL, "(C) 2004 Juanjo Alvarez Martinez and Mario Bensi", 0, 0, "juanjux@yahoo.es, nef@ipsquad.net");
+	about.addAuthor( "Juanjo Alvarez Martinez and Mario Bensi", 0, "juanjux@yahoo.es, nef@ipsquad.net" );
+	
 	KCmdLineArgs::init(argc, argv, &about);
 	KCmdLineArgs::addCmdLineOptions( options );
-	/*KUniqueApplication rapp;
+	KUniqueApplication rapp;
 	app = &rapp;
-	kalternatives *mainWin = 0;
+	Kalternatives *mainWin = 0;
 
 	if (app->isRestored())
 	{
@@ -61,22 +65,13 @@ int main(int argc, char **argv)
 
 		/// @todo do something with the command line args here
 
-		mainWin = new kalternatives();
+		mainWin = new Kalternatives();
 		app->setMainWidget( mainWin );
 		mainWin->show();
 		
 
 		args->clear();
-	}*/
-	KApplication app( argc, argv );
-
-	Kalternatives *mainwin = new Kalternatives();
-	app.setMainWidget( mainwin );
-	mainwin->show();
-
-	// mainWin has WDestructiveClose flag by default, so it will delete itself.
-	return app.exec();
-	
-    
+	}
+	return app->exec();
 }
 

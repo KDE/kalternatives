@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Mario BENSI                                     *
+ *   Copyright (C) 2004 by Mario Bensi                                     *
  *   nef@ipsquad.net                                                       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,8 +32,10 @@ class Alternative;
 class AltController;
 class FindDescriptionThread;
 
-class AltItemElement :  public QCheckListItem
+class AltItemElement :  public QObject, public QCheckListItem
 {
+	Q_OBJECT
+	
 	Alternative *m_alt;
 	KListView *m_parent;
 	bool m_bisBroken;
@@ -53,6 +55,9 @@ public:
 	QString getDescription() const {return m_desc;}
 	void searchDescription();
 	void setDescription(QString desc);
+	
+private slots:
+	void slotKillThread();
 };
 
 class FindDescriptionThread : public QObject, public QThread

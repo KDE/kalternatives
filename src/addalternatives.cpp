@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Mario BENSI                                     *
+ *   Copyright (C) 2004 by Mario Bensi                                    *
  *   nef@ipsquad.net                                                       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -69,7 +69,10 @@ QWidget(kalt,0, WDestructiveClose | WType_Modal),m_treeItem(treeItem), m_kalt(ka
 
 AddAlternatives::~AddAlternatives()
 {
-	delete m_fileDialog;
+	if(m_fileDialog) delete m_fileDialog;
+	if(m_Path) delete m_Path;
+	if(m_Priority) delete m_Priority;
+	if(m_textSlave) delete m_textSlave;
 }
 
 void AddAlternatives::slotBrowseClicked()

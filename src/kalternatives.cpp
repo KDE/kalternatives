@@ -2,6 +2,9 @@
  *   Copyright (C) 2004 by Juanjo                                          *
  *   juanjux@yahoo.es                                                      *
  *                                                                         *
+ *   Copyright (C) 2004 by Mario Bensi                                     *
+ *   nef@ipsquad.net                                                       *
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -104,6 +107,12 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 Kalternatives::~Kalternatives()
 {  
 	if(m_mgr) delete m_mgr;
+	if(m_altList) delete m_altList;
+	if(m_optionsList) delete m_optionsList;
+	if(m_altTilte) delete m_altTilte;
+	if(m_statusCombo) delete m_statusCombo;
+	if(m_hideAlt) delete m_hideAlt;
+	if(m_bApply) delete m_bApply;
 }
 
 void Kalternatives::die()
@@ -293,17 +302,9 @@ void Kalternatives::slotPropertiesClicked()
 	{
 		Alternative *a = altItem->getAlternative();
 		
+
 		text += "Description : \n";
-		
 		text += altItem->getDescription();	
-		
-		/*if (text == "Description : \n")
-		{
-			FindDescriptionThread *thread = new FindDescriptionThread(a->getPath(), altItem, this);
-			thread->start();
-			thread->wait();
-			text += altItem->getDescription();	
-		}*/
 		text +="\n Path : ";
 		text += a->getPath();
 		text +="\n Priority : ";

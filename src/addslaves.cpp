@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Mario BENSI                                     *
+ *   Copyright (C) 2004 by Mario Bensi                                     *
  *   nef@ipsquad.net                                                       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -56,7 +56,8 @@ QWidget(addAlternatives, 0, WDestructiveClose | WType_Modal), m_addAlternatives(
 
 AddSlaves::~AddSlaves()
 {
-	delete m_fileDialog;
+	if(m_fileDialog) delete m_fileDialog;
+	if(m_Path) delete m_Path;
 }
 
 void AddSlaves::slotBrowseClicked()

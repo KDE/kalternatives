@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Mario BENSI                                     *
+ *   Copyright (C) 2004 by Mario Bensi                                     *
  *   nef@ipsquad.net                                                       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,6 +22,8 @@
 #include "altitemelement.h"
 #include "altcontroller.h"
 #include "altparser.h"
+
+#include <qtimer.h> 
 
 /******************************* AltItemElement ********************/
 
@@ -67,6 +69,17 @@ void AltItemElement::setDescription(QString desc)
 	m_mutex.unlock();
 }
 
+
+void AltItemElement::slotKillThread()
+{
+	if (findDescriptionThread != 0L)
+	{
+		delete findDescriptionThread;
+		findDescriptionThread = 0L;
+	}
+}
+
+
 /********************************* FindDescriptionThread ******************************/
 FindDescriptionThread::FindDescriptionThread(AltItemElement *altItem):
 m_altItem(altItem)
@@ -75,13 +88,13 @@ m_altItem(altItem)
 
 FindDescriptionThread::~FindDescriptionThread()
 {
-	if (m_altItem) delete m_altItem;
 }
 
 void FindDescriptionThread::run()
 {
 	QString tmp = getDescriptionProcess();
 	m_altItem->setDescription(tmp);
+	QTimer::singleShot( 0, m_altItem, SLOT(slotKillThread()) );
 }
 
 void FindDescriptionThread::slotGetDescription(KProcess *, char *buffer, int buflen)
