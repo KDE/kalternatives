@@ -63,8 +63,8 @@ Alternative& Alternative::operator=(const Alternative &alt)
 
 void Alternative::setSlaves(QStringList *slaves)
 {
-    if(this->m_altSlaves)delete this->m_altSlaves;
-    this->m_altSlaves = slaves;
+    if(m_altSlaves) delete m_altSlaves;
+    m_altSlaves = slaves;
 }
 
 bool Alternative::isSelected() const
