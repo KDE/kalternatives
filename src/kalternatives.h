@@ -33,7 +33,7 @@
 #include <kiconloader.h>
 #include "altparser.h"
 
-#define KALT_VERSION "0.10"
+#define KALT_VERSION "0.11"
 #define DEBIAN 0
 #define MANDRAKE 1
 
@@ -114,7 +114,7 @@ signals:
 /*
  * @short Application Main Window
  * @author Juanjo Álvarez<juanjux@yahoo.es>
- * @version 0.10
+ * @version 0.11
  */
 class kalternatives : public KMainWindow
 {
