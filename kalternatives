@@ -522,7 +522,7 @@ class kalternatives(QMainWindow):
             confstr += alt.item.getPath() 
             confstr += "\n"
 
-        if (QMessageBox.question(self,"Commit Changes?",\
+        if (QMessageBox.information(self,"Commit Changes?",\
             "Do you want to change the following alternatives?\n\n" + confstr,\
             "&Yes", "&No", QString.null, 1, 1)):
             return
