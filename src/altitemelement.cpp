@@ -24,7 +24,7 @@
 #include "altparser.h"
 
 #include <qtimer.h> 
-
+#include <klocale.h>
 #include <kdebug.h>
 /******************************* AltItemElement ********************/
 
@@ -75,7 +75,7 @@ void AltItemElement::searchDescription()
 
 void AltItemElement::slotDescriptionTermined(KProcess *)
 {
-	int pos = m_desc.findRev("nothing appropriate");
+	int pos = m_desc.findRev(i18n("nothing appropriate"));
 	if (pos == -1)
 	{
 		pos = m_desc.find("\n");
