@@ -181,6 +181,10 @@ void Kalternatives::slotSelectAlternativesClicked(QListViewItem *alternative)
 				m_small_desc.truncate(m_small_desc.find("\n"));
 				altItem->setText( 3, m_small_desc);
 			}
+			else
+			{
+				altItem->searchDescription();
+			}
 #endif
 		}
 	}

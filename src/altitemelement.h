@@ -39,6 +39,7 @@ class AltItemElement :  public QCheckListItem
 	QString m_path;
 //#ifdef DEBIAN
 	QString m_desc;
+	QMutex m_mutex;
 //#endif
 	
 public:
@@ -50,7 +51,8 @@ public:
     Alternative *getAlternative() { return m_alt; }
 	QString getPath() const {return m_path; }
 //#ifdef DEBIAN
-	QString getDescription();
+	QString getDescription() const {return m_desc;}
+	void searchDescription();
 	void setDescription(QString desc);
 	
 //#endif
@@ -64,7 +66,6 @@ class FindDescriptionThread : public QObject, public QThread
 	AltItemElement *m_altItem;
 	QString m_descTmp;
 	QString m_exec;
-	QMutex m_mutex;
 public:
 	FindDescriptionThread(AltItemElement *altItem);
 	virtual ~FindDescriptionThread();

@@ -49,22 +49,21 @@ AltItemElement::~AltItemElement()
 
 #ifdef DEBIAN
 
-QString AltItemElement::getDescription()
+void AltItemElement::searchDescription()
 {
-	if (m_desc == "")
-	{
-		FindDescriptionThread *thread = new FindDescriptionThread(this);
-		thread->start();
-	}
-	
-	return m_desc; 
+	m_mutex.lock();
+	FindDescriptionThread *thread = new FindDescriptionThread(this);
+	thread->start();
+	m_mutex.unlock();
 }
 
 void AltItemElement::setDescription(QString desc) 
 {
+	m_mutex.lock();
 	m_desc = desc; 
 	desc.truncate(desc.find("\n"));
 	setText( 3, desc);
+	m_mutex.unlock();
 }
 
 #endif
@@ -83,10 +82,10 @@ FindDescriptionThread::~FindDescriptionThread()
 
 void FindDescriptionThread::run()
 {
-	/*QString tmp = getDescriptionProcess();
-	m_altItem->setDescription(tmp);*/
-	sleep(3);
-	m_altItem->setDescription("blub");
+	QString tmp = getDescriptionProcess();
+	m_altItem->setDescription(tmp);
+	/*sleep(3);
+	m_altItem->setDescription("blub");*/
 }
 
 void FindDescriptionThread::slotGetDescription(KProcess *, char *buffer, int buflen)
@@ -133,7 +132,7 @@ void FindDescriptionThread::slotGetExecutable(KProcess *, char *buffer, int bufl
 
 QString FindDescriptionThread::getDescriptionProcess()
 {
-	m_mutex.lock();
+	
 	m_exec = "";
 	KProcess *proc = new KProcess();
 	
@@ -167,7 +166,7 @@ QString FindDescriptionThread::getDescriptionProcess()
 	
 		procdesc->wait();
 	}
-	m_mutex.unlock();
+	
 	return m_descTmp;
 }
 

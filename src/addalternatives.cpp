@@ -129,6 +129,10 @@ void AddAlternatives::slotOkClicked()
 			m_small_desc.truncate(m_small_desc.find("\n"));
 			altItem->setText( 3, m_small_desc);
 		}
+		else
+		{
+			altItem->searchDescription();
+		}
 #endif
 		m_treeItem->setChanged(TRUE);
 		if (!close())
