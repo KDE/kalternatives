@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Add a Alternatives</string>
+        <string>Add an Alternative</string>
     </property>
     <grid>
         <property name="name">
@@ -43,7 +43,7 @@
                                 <cstring>textLabel1</cstring>
                             </property>
                             <property name="text">
-                                <string>Path :</string>
+                                <string>Path:</string>
                             </property>
                         </widget>
                         <widget class="KLineEdit">
@@ -74,7 +74,7 @@
                                 <cstring>textLabel2</cstring>
                             </property>
                             <property name="text">
-                                <string>Priority :</string>
+                                <string>Priority:</string>
                             </property>
                         </widget>
                         <spacer>
@@ -140,7 +140,7 @@
                                 <cstring>textLabel1_2</cstring>
                             </property>
                             <property name="text">
-                                <string>Man Page :</string>
+                                <string>Man Page:</string>
                             </property>
                         </widget>
                         <widget class="KLineEdit">
