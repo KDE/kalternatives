@@ -132,6 +132,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	myAboutData->addAuthor("Juanjo Alvarez Martinez", 0, "juanjo@juanjoalvarez.net",
 		"http://juanjoalvarez.net");
 	myAboutData->addAuthor("Mario Bensi", 0, "nef@ipsquad.net", "http://ipsquad.net");
+	myAboutData->addAuthor("Pino Toscano", 0, "toscano.pino@tiscali.it");
 	
 #if KDE_IS_VERSION(3,2,90)
 	setAboutData( myAboutData );
