@@ -86,8 +86,8 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 #endif
 	
 	MainWindow *mainwindow = new MainWindow(this);
-	QGridLayout *KalternativesLayout = new QGridLayout( this, 1, 1, 11, 6, "KalternativesLayout"); 
-	KalternativesLayout->addWidget(mainwindow, 0, 0);
+	QBoxLayout *layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
+	layout->addWidget( mainwindow );
 	
 	mainwindow->m_altList->setShowToolTips(1);
 	
