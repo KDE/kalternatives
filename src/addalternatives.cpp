@@ -63,6 +63,9 @@ QWidget(kalt,0, WDestructiveClose | WType_Modal),m_treeItem(treeItem), m_kalt(ka
 	m_textSlave = addAlternativesUi->m_textSlave;
 	
 	addAlternativesUi->m_bBrowse->setGuiItem(KGuiItem( "" , "fileopen" ));
+	addAlternativesUi->m_bOk->setGuiItem(KGuiItem( "&Ok" , "ok" ));
+	addAlternativesUi->m_bCancel->setGuiItem(KGuiItem( "&Cancel" , "cancel" ));
+	addAlternativesUi->m_bAddSlave->setGuiItem(KGuiItem(i18n("&Add Slave"), "edit_add"));
 	
 	resize( 435, 185 );
 }

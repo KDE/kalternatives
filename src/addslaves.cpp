@@ -52,6 +52,8 @@ QWidget(addAlternatives, 0, WDestructiveClose | WType_Modal), m_addAlternatives(
 	m_Path = addSlavesUi->m_Path;
 	
 	addSlavesUi->m_bBrowse->setGuiItem(KGuiItem( "" , "fileopen" ));
+	addSlavesUi->m_bOk->setGuiItem(KGuiItem( "&Ok" , "ok" ));
+	addSlavesUi->m_bCancel->setGuiItem(KGuiItem( "&Cancel" , "cancel" ));
 }
 
 AddSlaves::~AddSlaves()

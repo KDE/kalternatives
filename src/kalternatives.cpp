@@ -350,6 +350,7 @@ void Kalternatives::slotPropertiesClicked()
 			text += *it;
 		}
 		prop->m_text->setText(text);
+		prop->bClose->setGuiItem(KGuiItem( "&Close" , "close" ));
 		prop->show();
 	}
 }
