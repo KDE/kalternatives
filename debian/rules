@@ -6,7 +6,7 @@ package=kalternatives
 
 build:
 	$(checkdir)
-	
+	./configure
 	$(MAKE) CFLAGS="-O2 -g -Wall"
 	touch build
 
