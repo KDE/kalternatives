@@ -18,25 +18,23 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
  
- #include "addalternatives.h"
- #include "addslaves.h"
- #include "treeitemelement.h"
- #include "kalternatives.h"
- #include "addalternativesui.h"
- #include "altcontroller.h"
- #include "altitemelement.h"
- #include "altparser.h"
+#include "addalternatives.h"
+#include "addslaves.h"
+#include "treeitemelement.h"
+#include "kalternatives.h"
+#include "addalternativesui.h"
+#include "altcontroller.h"
+#include "altitemelement.h"
+#include "altparser.h"
  
- #include <qlayout.h>
- #include <iostream>
- #include <kurl.h>
- #include <qstringlist.h> 
- #include <qstring.h> 
- #include <qregexp.h> 
- #include <klocale.h>
- #include <kmessagebox.h>
+#include <qlayout.h>
+#include <kurl.h>
+#include <qstringlist.h> 
+#include <qstring.h> 
+#include <qregexp.h> 
+#include <klocale.h>
+#include <kmessagebox.h>
  
- using namespace std;
 
 AddAlternatives::AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt, int countSlaves):
 QWidget(kalt,0, WDestructiveClose | WType_Modal),m_treeItem(treeItem), m_kalt(kalt), m_countSlave(countSlaves)
@@ -135,7 +133,6 @@ void AddAlternatives::slotOkClicked()
 		
 			if (!(m_small_desc == ""))
 			{
-				m_small_desc.truncate(m_small_desc.find("\n"));
 				altItem->setText( 3, m_small_desc);
 			}
 			else

@@ -24,13 +24,10 @@
 #include <qlistview.h>
 #include <klistview.h>
 #include <qstring.h>
-#include <qmutex.h>
-#include <qthread.h>
 #include <kprocess.h>
 
 class Alternative;
 class AltController;
-class FindDescriptionThread;
 
 class AltItemElement :  public QObject, public QCheckListItem
 {
@@ -41,8 +38,6 @@ class AltItemElement :  public QObject, public QCheckListItem
 	bool m_bisBroken;
 	QString m_path;
 	QString m_desc;
-	FindDescriptionThread *findDescriptionThread;
-	QMutex m_mutex;
 	
 public:
     AltItemElement(KListView *parent, Alternative *alternative );
@@ -54,28 +49,10 @@ public:
 	QString getPath() const {return m_path; }
 	QString getDescription() const {return m_desc;}
 	void searchDescription();
-	void setDescription(QString desc);
 	
 private slots:
-	void slotKillThread();
-};
-
-class FindDescriptionThread : public QObject, public QThread
-{
-	Q_OBJECT
-	
-	AltItemElement *m_altItem;
-	QString m_descTmp;
-	QString m_exec;
-public:
-	FindDescriptionThread(AltItemElement *altItem);
-	virtual ~FindDescriptionThread();
-	
-	virtual void run();
-	QString getDescriptionProcess();
-private slots:
+	void slotDescriptionTermined(KProcess *);
 	void slotGetDescription(KProcess *proc, char *buffer, int buflen);
-	void slotGetExecutable(KProcess *proc, char *buffer, int buflen);
 };
 
 #endif //_ALTITEMELEMENT_H_
