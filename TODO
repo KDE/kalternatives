@@ -1,4 +1,3 @@
-* sys.exit(0) doesn't seems to work here, change it
 * KDE Support (KUniqueApp, Exit confirm dialog, etc)
 * Buttons with icons, where configured
 * About, Help and tooltips
