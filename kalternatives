@@ -18,7 +18,7 @@
 #   along with this program. If not, write to the Free Software Foundation,
 #   Inc. ,59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-__version__ =  "0.7"
+__version__ =  "0.8"
 
 import sys
 sys.path.append("/usr/lib/python/site-packages")
@@ -432,7 +432,17 @@ class kalternatives(QMainWindow):
     def start(self):
         global app
         self.setCentralWidget(QWidget(self, "pok"))
-        self.mgr = AltFilesManager()
+        if os.path.exists("/var/lib/dpkg/alternatives"):
+            #Debian
+            self.mgr = AltFilesManager()
+        elif os.path.exists("/var/lib/rpm/alternatives"):
+            #Mandrake
+            self.mgr = AltFilesManager("/var/lib/rpm/alternatives")
+        else:
+            # Ups?
+            QMessageBox.critical(self, "Critical Error", \
+            "Kalternatives only work on Debian based or Mandrake systems\n\n","&Exit")
+            sys.exit(0)
 
         self.iw = ItemsWidget(self.centralWidget())
         self.iw.updatedata(self.mgr)
