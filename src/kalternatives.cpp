@@ -116,7 +116,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	//KStdGuiItem guiItem(KStdGuiItem::Delete);
 	mainwindow->m_bDelete->setGuiItem(KStdGuiItem::del());
 	mainwindow->m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "edit_add"));
-	mainwindow->m_bProperties->setGuiItem(KGuiItem( i18n( "&Properties" ), "properties" ));
+	mainwindow->m_bProperties->setGuiItem(KGuiItem( i18n( "&Properties" ), "configure"));
 	
 	myAboutData = new KAboutData("KalternativesKCM", "Kalternatives", KALT_VERSION, i18n("KDE Mandrake/Debian alternatives-system manager"),
         KAboutData::License_GPL, "(c) 2004 Juanjo Alvarez Martinez and Mario Bensi", 0, 0 );
