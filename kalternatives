@@ -240,7 +240,7 @@ class AltFilesManager:
             item.setName(f)
             #print ""
             #print "----Analizing alternative file %s----" % f
-            altfile = open("/var/lib/dpkg/alternatives/%s" % f, "r")
+            altfile = open(self.altdir+"/"+f,"r")
             lines = altfile.readlines()
 
             item.setMode(lines[0][:-1])
