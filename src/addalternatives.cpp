@@ -40,10 +40,10 @@ AddAlternatives::AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt,
 QWidget(kalt,0, WDestructiveClose | WType_Modal),m_treeItem(treeItem), m_kalt(kalt), m_countSlave(countSlaves)
 {
 	AddAlternativesUi *addAlternativesUi = new AddAlternativesUi(this);
-	QGridLayout *AddAlternativesLayout = new QGridLayout( this, 1, 1, 11, 6, "AddAlternativesLayout"); 
-	AddAlternativesLayout->setResizeMode( QLayout::Fixed );
+	QBoxLayout *layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
+	layout->setResizeMode( QLayout::Fixed );
 	
-	AddAlternativesLayout->addWidget(addAlternativesUi,0,0);
+	layout->addWidget(addAlternativesUi,0,0);
 	
 	connect(addAlternativesUi->m_bOk, SIGNAL(clicked()), this,
 			SLOT(slotOkClicked()));

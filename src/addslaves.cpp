@@ -33,10 +33,10 @@ AddSlaves::AddSlaves(AddAlternatives *addAlternatives):
 QWidget(addAlternatives, 0, WDestructiveClose | WType_Modal), m_addAlternatives(addAlternatives)
 {
 	AddSlavesUi *addSlavesUi = new AddSlavesUi(this);
-	QGridLayout *AddSalvesLayout = new QGridLayout( this, 1, 1, 11, 6, "AddSlavesLayout"); 
-	AddSalvesLayout->setResizeMode( QLayout::Fixed );
+	QBoxLayout *layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
+	layout->setResizeMode( QLayout::Fixed );
 	
-	AddSalvesLayout->addWidget(addSlavesUi,0,0);
+	layout->addWidget(addSlavesUi,0,0);
 	
 	connect(addSlavesUi->m_bOk, SIGNAL(clicked()), this,
 			 SLOT(slotOkClicked()));

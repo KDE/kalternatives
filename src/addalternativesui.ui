@@ -8,9 +8,17 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>455</width>
-            <height>262</height>
+            <width>453</width>
+            <height>253</height>
         </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>7</hsizetype>
+            <vsizetype>7</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
     </property>
     <property name="caption">
         <string>Add a Alternative</string>
@@ -20,19 +28,25 @@
             <cstring>unnamed</cstring>
         </property>
         <property name="resizeMode">
-            <enum>Fixed</enum>
+            <enum>Minimum</enum>
         </property>
         <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>layout27</cstring>
+                <cstring>layout8</cstring>
             </property>
             <vbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>0</number>
+                </property>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout19</cstring>
+                        <cstring>layout7</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -133,6 +147,20 @@
                     </property>
                     <property name="readOnly">
                         <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="Line">
+                    <property name="name">
+                        <cstring>line1</cstring>
+                    </property>
+                    <property name="frameShape">
+                        <enum>HLine</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Sunken</enum>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
                     </property>
                 </widget>
                 <widget class="QLayoutWidget">
