@@ -1,6 +1,6 @@
-* KDE Support (KUniqueApp, Exit confirm dialog, etc)
+* KDE Support (KUniqueApp, Exit confirm dialog, .desktop file, etc)
 * Buttons with icons, where configured
-* About, Help and tooltips (the tooltips showing the package the file belongs to?)
+* About, Help, whatsthis and tooltips (the tooltips showing the package the file belongs to?)
 * Change the ugly yellow square for the KDE gear icon
 * i18n
 
