@@ -49,8 +49,8 @@ public:
 	void setNbrAltChanged(bool c) { m_nbrAltChanged = c; }
 	bool isNbrAltChanged() const { return m_nbrAltChanged; }
 	AltController *getAltController() {return m_altControl;}
+	
+	virtual void paintCell( QPainter * p, const QColorGroup & cg, int column, int width, int align );
 };
-
-
 
 #endif //_TREEITEMELEMENT_H_

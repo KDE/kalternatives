@@ -18,10 +18,15 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
  
- #include "treeitemelement.h"
- #include "altparser.h"
- #include "altcontroller.h"
+#include "treeitemelement.h"
+#include "altparser.h"
+#include "altcontroller.h"
+#include <qfont.h> 
+#include <qpainter.h> 
 
+#include <iostream>
+using namespace std;
+ 
 TreeItemElement::TreeItemElement(KListView *parent, Item *itemarg, AltController *altControl )
 : QListViewItem(parent, itemarg->getName()),
   m_item(itemarg),
@@ -35,4 +40,31 @@ TreeItemElement::TreeItemElement(KListView *parent, Item *itemarg, AltController
 
 TreeItemElement::~TreeItemElement()
 {
+}
+
+void TreeItemElement::paintCell( QPainter * p, const QColorGroup & cg, int column, int width, int align )
+{
+	QColor color;
+	
+	if (m_changed || m_nbrAltChanged)
+	{
+		color=QColor(QColor("red"));
+		QFont f = p->font();
+		f.setBold(true);
+		p->setFont(f);
+	}
+	 
+	// the pallet of colors is saved
+	QColorGroup _cg( cg );
+	QColor oldText=_cg.text();
+ 
+	// modification of the pallet of colors by defining 
+	//our new color as color of text
+	_cg.setColor( QColorGroup::Text, color );
+ 
+	QListViewItem::paintCell( p, _cg, column, width, align );
+ 
+	// restoration of the pallet of "standard" colors
+	_cg.setColor( QColorGroup::Text, oldText );
+ 
 }

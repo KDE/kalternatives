@@ -270,7 +270,6 @@ void Kalternatives::slotDeleteClicked()
 			altItemList->remove(altItem);
 			m_optionsList->takeItem(altItem);
 			
-			//treeItem->setChanged(TRUE);
 			treeItem->setNbrAltChanged(TRUE);
 			if(!m_bApply->isEnabled() && m_bisRoot)
 			{
@@ -326,9 +325,9 @@ void Kalternatives::slotPropertiesClicked()
 			text += "\n\t";
 			text += *it;
 		}
+		prop->m_text->setText(text);
+		prop->show();
 	}
-	prop->m_text->setText(text);
-	prop->show();
 }
 
 void Kalternatives::slotAboutClicked()
