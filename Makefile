@@ -1,6 +1,5 @@
 MSGFMT = msgfmt
 
-#Change this if you want Animail installed on other location:
 PREFIX=/usr/
 #PREFIX=/usr/local/
 
