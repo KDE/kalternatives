@@ -35,7 +35,9 @@
 #include <ktextedit.h>
 #include <klocale.h>
 #include <qlayout.h>
- 
+#include <qfile.h> 
+#include <qtextstream.h> 
+
 #include <iostream>
 
 
@@ -251,11 +253,6 @@ void Kalternatives::slotAddClicked()
 	{
 		AddAlternatives *addAlternatives = new AddAlternatives(treeItem, this);
 		addAlternatives->show();
-		treeItem->setChanged(TRUE);
-		if(!m_bApply->isEnabled() && m_bisRoot)
-		{
-			m_bApply->setEnabled(1);
-		}
 	}
 }
 void Kalternatives::slotDeleteClicked()
@@ -273,7 +270,8 @@ void Kalternatives::slotDeleteClicked()
 			altItemList->remove(altItem);
 			m_optionsList->takeItem(altItem);
 			
-			treeItem->setChanged(TRUE);
+			//treeItem->setChanged(TRUE);
+			treeItem->setNbrAltChanged(TRUE);
 			if(!m_bApply->isEnabled() && m_bisRoot)
 			{
 				m_bApply->setEnabled(1);
@@ -352,6 +350,58 @@ void Kalternatives::slotApplyClicked()
 	{
 		if((treeItem = dynamic_cast<TreeItemElement *>(it.current())))
 		{
+			if(treeItem->isNbrAltChanged())
+			{
+				QString parentPath =  QString("%1/%2")
+										.arg(m_mgr->getAltDir())
+										.arg(treeItem->getName());
+				
+				QFile origFile(parentPath);
+				if(origFile.exists())
+				{
+					origFile.remove();
+				}
+				
+				if( origFile.open( IO_WriteOnly )) 
+				{
+					QTextStream stream( &origFile );
+				
+				
+					Item *item = treeItem->getItem();
+				
+					stream << item->getMode() << endl;
+					stream << item->getPath() << endl;
+					
+					SlaveList *slaveList = item->getSlaves();
+					Slave *slave = slaveList->first();
+					for(; slave; slave = slaveList->next())
+					{
+						stream << slave->slname << endl;
+						stream << slave->slpath << endl;
+					}
+					
+					stream << endl;
+					
+					AltItemList *altItemList = treeItem->getAltController()->getAltItemList();
+					AltItemElement *altItem= altItemList->first();
+					for( ; altItem ; altItem = altItemList->next())
+					{
+						Alternative *a = altItem->getAlternative();
+						
+						stream << a->getPath() << endl;
+						stream << a->getPriority() << endl;
+					
+						QStringList *slaveList = a->getSlaves();
+						QStringList::Iterator it = slaveList->begin();
+						for ( ; it != slaveList->end(); ++it )
+						{
+							stream << *it << endl;
+						}
+					}
+					origFile.close();
+				}
+				treeItem->setNbrAltChanged(FALSE);
+			}
 			if(treeItem->isChanged())
 			{
 				AltItemList *altItemList = treeItem->getAltController()->getAltItemList();
@@ -367,6 +417,7 @@ void Kalternatives::slotApplyClicked()
 						}
 					}
 				}
+				treeItem->setChanged(FALSE);
 			}
 		}
 		it++;

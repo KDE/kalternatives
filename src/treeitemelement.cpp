@@ -27,6 +27,7 @@ TreeItemElement::TreeItemElement(KListView *parent, Item *itemarg, AltController
   m_item(itemarg),
   m_name(itemarg->getName()),
   m_changed(FALSE),
+  m_nbrAltChanged(FALSE),
   m_altControl(altControl)
 {
 }

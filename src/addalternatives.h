@@ -25,6 +25,7 @@
 #include <klineedit.h> 
 #include <knuminput.h> 
 #include <qwidget.h>
+#include <ktextedit.h>
 
 class TreeItemElement;
 class Kalternatives;
@@ -34,24 +35,23 @@ class AddAlternatives : public QWidget
 	Q_OBJECT
 	
 	KFileDialog *m_fileDialog;
-	KFileDialog *m_fileDialogMan;
 	TreeItemElement *m_treeItem;
 	Kalternatives *m_kalt;
 	KLineEdit* m_Path;
-	KLineEdit* m_PathMan;
 	KIntSpinBox* m_Priority;
+	KTextEdit* m_textSlave;
 	
 public:
 	AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt);
 	virtual ~AddAlternatives();
 	
+	void addSlave(QString text){m_textSlave->append(text);}
+	
 private slots:
 	void slotOkFileClicked();
 	void slotOkClicked();
 	void slotBrowseClicked();
-	void slotBrowseManClicked();
-	void slotOkFileManClicked();
-	
+	void slotAddSlaveClicked();	
 };
 
 #endif //ADDALTERNATIVES_H_

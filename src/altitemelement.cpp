@@ -55,18 +55,22 @@ void AltItemElement::searchDescription()
 	if (!findDescriptionThread->running ())
 	{
 		m_mutex.lock();
+		cout << " findDescriptionThread lock " << m_path << endl;
 		findDescriptionThread->start();
 		m_mutex.unlock();
+		cout << " findDescriptionThread unlock " << m_path << endl;
 	}
 }
 
 void AltItemElement::setDescription(QString desc) 
 {
 	m_mutex.lock();
+	cout << " setDescription lock " << m_path << endl;
 	m_desc = desc; 
 	desc.truncate(desc.find("\n"));
 	setText( 3, desc);
 	m_mutex.unlock();
+	cout << " setDescription unlock " << m_path << endl;
 }
 
 //#endif

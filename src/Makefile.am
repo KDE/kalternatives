@@ -2,7 +2,7 @@
 INCLUDES = $(all_includes)
 
 # these are the headers for your project
-noinst_HEADERS = kalternatives.h altparser.h altcontroller.h altitemelement.h treeitemelement.h addalternatives.h
+noinst_HEADERS = kalternatives.h altparser.h altcontroller.h altitemelement.h treeitemelement.h addslaves.h addalternatives.h
 
 # let automoc handle all of the meta source files (moc)
 METASOURCES = AUTO
@@ -20,7 +20,7 @@ KDE_ICON = kalternatives
 bin_PROGRAMS = kalternatives
 
 # the application source, library search path, and link libraries
-kalternatives_SOURCES = propertieswindow.ui addalternativesui.ui mainwindow.ui altcontroller.cpp kalternatives.cpp altparser.cpp main.cpp altitemelement.cpp treeitemelement.cpp addalternatives.cpp
+kalternatives_SOURCES = addslavesui.ui propertieswindow.ui addalternativesui.ui mainwindow.ui altcontroller.cpp kalternatives.cpp altparser.cpp main.cpp altitemelement.cpp treeitemelement.cpp addslaves.cpp addalternatives.cpp
 kalternatives_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 kalternatives_LDADD = $(LIB_KDEUI) $(LIB_KIO)
 

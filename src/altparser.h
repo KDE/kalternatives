@@ -133,6 +133,7 @@ public:
     Item* getItem (const QString &name) const;
     //FIXME: Put in a #ifdef
     void debugPrintAlts() const;
+	QString getAltDir() { return m_altdir ;}
 //protected:
     //virtual int compareItems(Item i1, Item i2);
 };

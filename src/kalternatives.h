@@ -36,10 +36,6 @@
 
 class AltFilesManager;
 
-
-
-
-
 class Kalternatives : public QWidget
 {
     Q_OBJECT
@@ -60,7 +56,10 @@ public:
     Kalternatives();
     virtual ~Kalternatives();
 	KListView *optionsList() const {return m_optionsList;}
-
+	bool isBisRoot() const {return m_bisRoot;}
+	bool applyIsEnabled() const { return m_bApply->isEnabled();}
+	void applySetEnabled() {m_bApply->setEnabled(1);}
+	
 private slots:
 	void slotSelectAlternativesClicked(QListViewItem *);
     void slotApplyClicked();

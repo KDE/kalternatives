@@ -19,6 +19,7 @@
  ***************************************************************************/
  
  #include "addalternatives.h"
+ #include "addslaves.h"
  #include "treeitemelement.h"
  #include "kalternatives.h"
  #include "addalternativesui.h"
@@ -29,6 +30,9 @@
  #include <qlayout.h>
  #include <iostream>
  #include <kurl.h>
+ #include <qstringlist.h> 
+ #include <qstring.h> 
+ #include <qregexp.h> 
  
  using namespace std;
 
@@ -37,7 +41,7 @@ QWidget(kalt,0, WDestructiveClose | WType_Modal),m_treeItem(treeItem), m_kalt(ka
 {
 	AddAlternativesUi *addAlternativesUi = new AddAlternativesUi(this);
 	QGridLayout *AddAlternativesLayout = new QGridLayout( this, 1, 1, 11, 6, "AddAlternativesLayout"); 
-    AddAlternativesLayout->setResizeMode( QLayout::Fixed );
+	AddAlternativesLayout->setResizeMode( QLayout::Fixed );
 	
 	AddAlternativesLayout->addWidget(addAlternativesUi,0,0);
 	
@@ -45,23 +49,18 @@ QWidget(kalt,0, WDestructiveClose | WType_Modal),m_treeItem(treeItem), m_kalt(ka
 			SLOT(slotOkClicked()));
 	connect(addAlternativesUi->m_bBrowse, SIGNAL(clicked()), this,
 			SLOT(slotBrowseClicked()));
-	connect(addAlternativesUi->m_bBrowseMan, SIGNAL(clicked()), this,
-			SLOT(slotBrowseManClicked()));
 	connect(addAlternativesUi->m_bCancel, SIGNAL( clicked() ), this,
 			SLOT( close() ) );
-	
-	
+	connect(addAlternativesUi->m_bAddSlave, SIGNAL( clicked() ), this,
+			SLOT( slotAddSlaveClicked() ) );
+			
 	m_fileDialog = new KFileDialog ("", "", this, "Choose ALternative", TRUE);
 	connect(m_fileDialog->okButton (), SIGNAL(clicked()), this,
 			SLOT(slotOkFileClicked()));
 	
-	m_fileDialogMan = new KFileDialog ("", "", this, "Choose ALternative Man Page", TRUE);
-	connect(m_fileDialogMan->okButton (), SIGNAL(clicked()), this,
-			SLOT(slotOkFileManClicked()));
-	
 	m_Path = addAlternativesUi->m_Path;
-	m_PathMan = addAlternativesUi->m_PathMan;
 	m_Priority = addAlternativesUi->m_Priority;
+	m_textSlave = addAlternativesUi->m_textSlave;
 	
 	resize( 435, 185 );
 }
@@ -81,17 +80,11 @@ void AddAlternatives::slotOkFileClicked()
 	m_Path->setText(url.path());
 }
 
-void AddAlternatives::slotBrowseManClicked()
+void AddAlternatives::slotAddSlaveClicked()
 {
-	m_fileDialogMan->show();
+	AddSlaves *addSlaves = new AddSlaves(this);
+	addSlaves->show();
 }
-void AddAlternatives::slotOkFileManClicked()
-{
-	KURL url = m_fileDialogMan->selectedURL();
-	m_PathMan->setText(url.path());
-}
-
-
 
 void AddAlternatives::slotOkClicked()
 {
@@ -103,9 +96,15 @@ void AddAlternatives::slotOkClicked()
 		
 		a->setPath(m_Path->text());
 		a->setPriority(m_Priority->value());
-		if (m_PathMan->text() != "")
+		if (m_textSlave->text() != "")
 		{
-			a->addSlave(m_PathMan->text());
+			QRegExp reg("\n");
+			QStringList slaveList = QStringList::split(reg, m_textSlave->text());
+			QStringList::Iterator it = slaveList.begin();
+			for ( ; it != slaveList.end(); ++it ) 
+			{
+				a->addSlave(*it);
+			}
 		}
 		
 		item->addAlternative(a);
@@ -134,11 +133,12 @@ void AddAlternatives::slotOkClicked()
 			altItem->searchDescription();
 		}
 #endif
-		m_treeItem->setChanged(TRUE);
-		if (!close())
+		m_treeItem->setNbrAltChanged(TRUE);
+		if(!m_kalt->applyIsEnabled() && m_kalt->isBisRoot())
 		{
-			cout << "je veux pas me fermer et je t'emmerde !!" << endl;
+			m_kalt->applySetEnabled();
 		}
+		close();
 	}
 }
 

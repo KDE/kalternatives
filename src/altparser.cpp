@@ -27,7 +27,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
-#include <iostream.h>
 
 Alternative::Alternative(Item *parentarg) : m_parent(parentarg)
 {

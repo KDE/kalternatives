@@ -17,40 +17,65 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+ 
+#include "addslaves.h"
+#include "addslavesui.h"
+#include "addalternatives.h"
 
-#ifndef _TREEITEMELEMENT_H_
-#define _TREEITEMELEMENT_H_
+#include <kpushbutton.h>
+#include <qlayout.h>
+#include <kurl.h>
+ 
+#include <iostream>
+using namespace std;
 
-#include <qstring.h>
-#include <qptrlist.h>
-#include <qlistview.h>
-#include <klistview.h>
-
-class AltController;
-class Item;
-
-
-class TreeItemElement : public QListViewItem
+AddSlaves::AddSlaves(AddAlternatives *addAlternatives):
+QWidget(addAlternatives, 0, WDestructiveClose | WType_Modal), m_addAlternatives(addAlternatives)
 {
-    Item   *m_item;
-    QString m_name;
-	bool    m_changed;
-	bool    m_nbrAltChanged;
-	AltController *m_altControl;
+	AddSlavesUi *addSlavesUi = new AddSlavesUi(this);
+	QGridLayout *AddSalvesLayout = new QGridLayout( this, 1, 1, 11, 6, "AddSlavesLayout"); 
+	AddSalvesLayout->setResizeMode( QLayout::Fixed );
 	
-public:
-    TreeItemElement(KListView *parent, Item *itemarg, AltController *altControl);
-    ~TreeItemElement();
+	AddSalvesLayout->addWidget(addSlavesUi,0,0);
+	
+	connect(addSlavesUi->m_bOk, SIGNAL(clicked()), this,
+			 SLOT(slotOkClicked()));
+	connect(addSlavesUi->m_bBrowse, SIGNAL(clicked()), this,
+			SLOT(slotBrowseClicked()));
+	connect(addSlavesUi->m_bCancel, SIGNAL( clicked() ), this,
+			SLOT( close() ) );
+	
+	m_fileDialog = new KFileDialog ("", "", this, "Choose ALternative", TRUE);
+	connect(m_fileDialog->okButton (), SIGNAL(clicked()), this,
+			SLOT(slotOkFileClicked()));
+	
+	m_Path = addSlavesUi->m_Path;
+	
+	resize( 435, 185 );
+}
 
-    QString getName() const { return m_name; }
-    Item *getItem() const { return m_item; }
-	void setChanged(bool c) { m_changed = c; }
-	bool isChanged() const { return m_changed; }
-	void setNbrAltChanged(bool c) { m_nbrAltChanged = c; }
-	bool isNbrAltChanged() const { return m_nbrAltChanged; }
-	AltController *getAltController() {return m_altControl;}
-};
+AddSlaves::~AddSlaves()
+{
+	delete m_fileDialog;
+}
 
+void AddSlaves::slotBrowseClicked()
+{
+	m_fileDialog->show();
+}
+void AddSlaves::slotOkFileClicked()
+{
+	KURL url = m_fileDialog->selectedURL();
+	m_Path->setText(url.path());
+}
 
+void AddSlaves::slotOkClicked()
+{
+	if(m_Path->text() != "")
+	{
+		m_addAlternatives->addSlave(m_Path->text());
+		close();
+	}
+}
 
-#endif //_TREEITEMELEMENT_H_
+#include "addslaves.moc"

@@ -18,39 +18,34 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _TREEITEMELEMENT_H_
-#define _TREEITEMELEMENT_H_
+#ifndef _ADDSLAVES_H_
+#define _ADDSLAVES_H_
 
-#include <qstring.h>
-#include <qptrlist.h>
-#include <qlistview.h>
-#include <klistview.h>
+#include <kfiledialog.h>
+#include <klineedit.h> 
+#include <knuminput.h> 
+#include <qwidget.h>
+#include <ktextedit.h>
 
-class AltController;
-class Item;
+class AddAlternatives;
 
-
-class TreeItemElement : public QListViewItem
+class AddSlaves : public QWidget
 {
-    Item   *m_item;
-    QString m_name;
-	bool    m_changed;
-	bool    m_nbrAltChanged;
-	AltController *m_altControl;
+	Q_OBJECT
+	
+	KFileDialog *m_fileDialog;
+	AddAlternatives *m_addAlternatives;
+	KLineEdit* m_Path;
 	
 public:
-    TreeItemElement(KListView *parent, Item *itemarg, AltController *altControl);
-    ~TreeItemElement();
-
-    QString getName() const { return m_name; }
-    Item *getItem() const { return m_item; }
-	void setChanged(bool c) { m_changed = c; }
-	bool isChanged() const { return m_changed; }
-	void setNbrAltChanged(bool c) { m_nbrAltChanged = c; }
-	bool isNbrAltChanged() const { return m_nbrAltChanged; }
-	AltController *getAltController() {return m_altControl;}
+	AddSlaves(AddAlternatives *addAlternatives);
+	virtual ~AddSlaves();
+	
+private slots:
+	void slotOkFileClicked();
+	void slotOkClicked();
+	void slotBrowseClicked();
+	
 };
 
-
-
-#endif //_TREEITEMELEMENT_H_
+#endif //ADDSLAVES_H_
