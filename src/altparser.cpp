@@ -430,12 +430,12 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         line = lines[0];
         tmp = line.left(line.length()-1);
         item->setMode(tmp);
-
+	
         line = lines[1];
         tmp = line.left(line.length()-1);
         item->setPath(tmp);
         
-        index = 2;
+	index = 2;
         line = lines[index];
         nslaves = 0;
         SlaveList *slaves = new SlaveList;
@@ -456,29 +456,36 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         }
 
         item->setSlaves(slaves);
-        line = lines[++index];
-
+        
+	++index;
         while(index < lines.count()-1)
         {
-            Alternative *a = new Alternative(item);
+	    line = lines[index];
+	    Alternative *a = new Alternative(item);
             tmp = line.left(line.length()-1);
             a->setPath(tmp);
+	    
             if(line=="\n")
                 //File end (with a \n)
                 break;
-            if(++index == lines.count())
+	    
+	    if(++index == lines.count())
             {
                 item->addAlternative(a);
                 break;
             }
+	    
+	    
             line = lines[index];
             tmp = line.left(line.length()-1);
             a->setPriority(tmp.toInt());
+	    
             if(++index == lines.count())
             {
                 item->addAlternative(a);
                 break;
             }
+	    
             line = lines[index];
             if(line != "\n" and nslaves > 0)
             {
@@ -491,7 +498,7 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
                     ++index;
                 }
             }
-
+	    
             item->addAlternative(a);
         }
         itemlist->append(item);
