@@ -37,10 +37,10 @@ AltItemElement::AltItemElement(KListView *parent, Alternative *alternative)
 {
 	setOn(alternative->isSelected());
 	setEnabled(!m_bisBroken);
-#ifdef DEBIAN
+//#ifdef DEBIAN
 	findDescriptionThread = new FindDescriptionThread(this);
 	m_desc = "";
-#endif
+//#endif
 }
 
 AltItemElement::~AltItemElement()
@@ -48,7 +48,7 @@ AltItemElement::~AltItemElement()
 	delete m_alt;
 }
 
-#ifdef DEBIAN
+//#ifdef DEBIAN
 
 void AltItemElement::searchDescription()
 {
@@ -69,10 +69,10 @@ void AltItemElement::setDescription(QString desc)
 	m_mutex.unlock();
 }
 
-#endif
+//#endif
 
 /********************************* FindDescriptionThread ******************************/
-#ifdef DEBIAN
+//#ifdef DEBIAN
 FindDescriptionThread::FindDescriptionThread(AltItemElement *altItem):
 m_altItem(altItem)
 {
@@ -173,6 +173,6 @@ QString FindDescriptionThread::getDescriptionProcess()
 	return m_descTmp;
 }
 
-#endif
+//#endif
 
 #include "altitemelement.moc"
