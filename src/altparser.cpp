@@ -19,7 +19,6 @@
  ***************************************************************************/
 
 #include "altparser.h"
-#include <stdio.h>
 #include <qfileinfo.h>
 #include <qfile.h>
 #include <qdir.h>
@@ -120,7 +119,6 @@ bool Alternative::select()
         parsl = parslaves->at(count);
         QString parstr = QString("/etc/alternatives/%1").arg(parsl->name);
         QFile parlink(parstr);
-        printf("XXX parstr: %s\n", parstr.ascii());
         if(!parlink.remove())
         {
             selectError = QString("Could not delete slave alternative link %1: %2").arg(parstr).arg(parlink.errorString());
@@ -295,7 +293,6 @@ Alternative *Item::getAlternative(const QString &altpath)
     Alternative *a;
     for(a = alts->first(); a; a = alts->next())
     {
-        printf("a->getPath: %s altpath: %s\n", a->getPath().ascii(), altpath.ascii());
         if(a->getPath() == altpath)
         {
             return a;
@@ -361,7 +358,7 @@ AltFilesManager::AltFilesManager(const QString &altdirarg) :
     {
         parseOk = false;
     }
-    debugPrintAlts();
+    //debugPrintAlts();
 }
 
 AltFilesManager::~AltFilesManager()
@@ -512,6 +509,7 @@ int AltFilesManager::compareItems(Item i1, Item i2)
 }
 */
 
+/*
 void AltFilesManager::debugPrintAlts() const
 {
     printf("----------------------------------\n");
@@ -560,6 +558,7 @@ void AltFilesManager::debugPrintAlts() const
         }
     }
 }
+*/
 /*
 // ************************************** Test
 int main(int argc, char **argv)
