@@ -1,0 +1,67 @@
+0.10
+[Juanjo]
+
+* First C++ version for user convenience. No new features but a lot more lines
+of code ;) Also the installation procedure will be not standart autotools.
+
+0.9.1
+[Juanjo]
+
+* Desktop file and desktop file installation
+
+0.9
+[Juanjo]
+
+* Started KDEification. Still lacking some things
+
+0.8 
+[Juanjo]
+
+* Mandrake support
+
+0.7
+[Juanjo]
+* Added "Expand All" and "Collapse All" buttons
+
+* Now all tree items are collapsed at program init
+
+0.6
+
+* Fixes
+
+0.5
+
+* Corrected some typos in the README (thanks Martin Atukunda)
+
+* Corrected a bug where kalternatives didn't exited in some cases 
+  where it should.
+
+0.4
+
+* Bug fixed.
+
+* Unhadled exceptions should now be shown in a dialog to the user so he can 
+  report them to me.
+
+0.3 
+
+* Since the program is so simple, I've joined the two (small) source files in
+  one.
+
+* Non-root user checking and warnings.
+
+* Some documentation.
+
+0.2
+
+* Some method documentation
+
+* Implemented Aaron's suggestions.
+
+* Refactor of some code (now is a lot simpler)
+
+0.1
+
+* Now closing the window using the window "close" button will also ask for
+  confirmation if there are still changes pending.
+* Some small fixes

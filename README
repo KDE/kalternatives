@@ -1,0 +1,64 @@
+README for Kalternatives
+------------------------
+
+Kalternatives is a KDE program that a allows you to easily configure and
+change your Mandrake/Debian alternatives system. 
+
+What is the Mandrake/Debian Alternatives System?
+----------------------------------------
+
+The Mandrake/Debian alternatives system is designed to allow the system administrator to
+select an alternative when there are several options that provide the same file
+or functionality. For example, there are several different packages on Mandrake/Debian
+that provide the command "vi" (the standard POSIX text editor) and Mandrake/Debian (and
+other distributions using this same system as Mandrake Linux) allows you to
+have more than one option installed (for example, to satisfy the needs for
+different users on a multiuser system). But, how does Mandrake/Debian knows which of the
+installed programs must be run when "vi" is entered on a shell? The answer is:
+using the alternatives system. This system keeps a database of provided
+alternatives for every option on /var/lib/dpkg/alternatives and a collection of
+links on /etc/alternatives that point to the real program. So, if your default
+version of "vi" is "vim", the link /usr/bin/vi will point to
+/etc/alternatives/vi that points to /usr/bin/vim. But if in the future you
+would like to change /usr/bin/vi to point to the nvi executable you could:
+
+1. Change the link on /etc/alternatives/vi by hand.
+2. Use the Mandrake/Debian command update-alternatives --config  vi
+3. Use Kalternatives.
+
+
+How is the program used?
+------------------------
+
+The program should be very simple to use; once executed (as root) you will be
+presented with a window showing a list where there are entries with yellow
+squares and subentries bellow them.  The entries are "nodes", that is, programs
+that can have one or more alternative packages providing them and the
+subentries are the alternatives. You can select one alternative just by
+clicking on the radiobutton to the left of his name and pushing the "Apply"
+button. Then you will be presented with a dialog showing you the changes to be
+made and allowing you to confirm them before really changing the alternatives.
+
+Please note that some "nodes" only have one alternative because there are no
+more packages installed providing it and some alternatives are disabled (you
+will be unable to click on them). This last case is because the alternative
+exists in the database but the link to it is broken. This sometimes happends
+with unclean packages uninstallations and usually is not something to worry
+about.
+
+Who do I have to whine if the program fails for me?
+--------------------------------------------------
+
+To Juanjo Álvarez <juanjux@yahoo.es>
+
+What is the KDE-Mandrake/Debian project?
+-------------------------------
+
+The KDE-Debian project is composed of some individuals, actively supported by
+some companies, trying to provide Debian and Debian based distributions with a
+collection of first-class, updated KDE desktop including some KDE applications
+specifically designed for Debian. If you want to support the info by money or
+by work (coding, translations, testing) you can have more info on the
+kde-Debian mailing list:
+
+https://mail.kde.org/mailman/listinfo/kde-Mandrake/Debian

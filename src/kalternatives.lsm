@@ -1,0 +1,16 @@
+Begin3
+Title:          kalternatives -- Some description
+Version:        0.10
+Entered-date:   
+Description:    
+Keywords:       KDE Qt
+Author:         Juanjo <juanjux@yahoo.es>
+Maintained-by:  Juanjo <juanjux@yahoo.es>
+Home-page:      
+Alternate-site: 
+Primary-site:   ftp://ftp.kde.org/pub/kde/unstable/apps/utils
+                xxxxxx  kalternatives-0.10.tar.gz
+                xxx     kalternatives-0.10.lsm
+Platform:       Linux. Needs KDE
+Copying-policy: GPL
+End

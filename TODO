@@ -1,0 +1,5 @@
+* Help, documentation, whatsthis and tooltips
+* Implement as a nice kcontrol/kadmin/kwhatever module 
+* .spec file for building Mandrake RPMS
+* Decent debian/ subdir (I'm not using Debian anymore so I need help 
+  with this one)

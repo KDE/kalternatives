@@ -1,0 +1,16 @@
+What you need:
+
+- KDE >= 3.2
+- Qt
+- All development packages for KDE (kdelibs & qt)
+
+To install configure the program with the correct prefix for
+your KDE installation (like /usr or /opt/kde3 or similar)
+
+./configure --prefix=...
+
+And finally:
+
+make install
+
+Now you should be able to run the "kalternatives" command.

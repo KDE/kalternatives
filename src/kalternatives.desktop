@@ -1,0 +1,23 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Kalternatives
+Name[ta]=Kமாற்றுகள்
+Name[xx]=xxKalternativesxx
+Terminal=false
+Icon=kcmsystem.png
+DocPath=kalternatives/index.html
+Comment=Alternatives system manager
+Comment[da]=Alternative systemhåndtering
+Comment[es]=Administrador del sistema de alternativos
+Comment[et]=Alternatiivne süsteemihaldur
+Comment[nl]=Alternatief systeembeheerder
+Comment[pt]=Gestão do sistema de alternativas
+Comment[pt_BR]=Gerenciador do sistem Alternatives
+Comment[sv]=Alternatives systemhantering
+Comment[ta]=மாற்றுகள் முறைமை மேலாளர்
+Comment[xx]=xxAlternatives system managerxx
+Exec=kalternatives
+Path=
+Terminal=0
+Type=Application
+X-KDE-StartupNotify=true
