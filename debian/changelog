@@ -4,6 +4,10 @@ kalternatives (0.8-1) workstation-unstable; urgency=low
 
  --  <Juanjo Alvarez <juanjux@yahoo.es>>  Tue, 30 Dec 2003 22:40:14 +0100
 
+  * GUI redesign.
+
+ -- <Mario BENSI <nef@ipsquad.net>> Fri, 1 Oct 2004 17:22:12 +0101
+
 Local variables:
 mode: debian-changelog
 End:

@@ -1,12 +1,13 @@
 Source: kalternatives
 Section: admin
 Priority: optional
-Maintainer:  Juanjo Alvarez <juanjux@yahoo.es>
+Maintainer:  Juanjo Alvarez <juanjux@yahoo.es> and Mario BENSI <nef@ipsquad.net>
+Build-Depends: 
 Standards-Version: 3.2.1
 
 Package: kalternatives
 Architecture: all
-Depends: python2.3 | python2.2, python2.3-qt3c102 | python2.2-qt3c102,
+Depends: 
 Description: KDE GUI for configuring the Debian alternatives system
  This program lets you configure the Debian/Mandrake alternatives system (a system that allows 
  you to select one alternative file for many in the filesystem) using an easy KDE GUI.
