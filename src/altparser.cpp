@@ -28,58 +28,58 @@
 #include <string.h>
 #include <errno.h>
 
-Alternative::Alternative(Item *parentarg) : parent(parentarg)
+Alternative::Alternative(Item *parentarg) : m_parent(parentarg)
 {
-    priority = 1;
-    slaves = new QStringList;
+    m_priority = 1;
+    m_altSlaves = new QStringList;
 }
 
 // Copy constructor
-Alternative::Alternative(const Alternative &alt) : 
-    path(alt.getPath()), 
-    priority(alt.getPriority()), 
-    parent(alt.parent)
+Alternative::Alternative(const Alternative &alt) :
+    m_altPath(alt.getPath()),
+    m_priority(alt.getPriority()),
+    m_parent(alt.getParent())
 {
-    slaves = new QStringList( *(alt.slaves) );
+    m_altSlaves = new QStringList( *(alt.m_altSlaves) );
 }
 
 Alternative::~Alternative()
 {
-    if(slaves)delete slaves;
+    if(m_altSlaves)delete m_altSlaves;
 }
 
 Alternative& Alternative::operator=(const Alternative &alt)
 {
     if(this != &alt)
     {
-        if(slaves)delete slaves;
-        path = alt.getPath();
-        priority = alt.getPriority();
-        parent = alt.parent;
-        slaves = new QStringList( *(alt.slaves) );
+        if(m_altSlaves)delete m_altSlaves;
+        m_altPath = alt.getPath();
+        m_priority = alt.getPriority();
+        m_parent = alt.getParent();
+        m_altSlaves = new QStringList( *(alt.m_altSlaves) );
     }
     return (*this);
 }
 
 void Alternative::setSlaves(QStringList *slaves)
 {
-    if(this->slaves)delete this->slaves;
-    this->slaves = slaves;
+    if(this->m_altSlaves)delete this->m_altSlaves;
+    this->m_altSlaves = slaves;
 }
 
 bool Alternative::isSelected() const
 {
-    if(parent->isBroken()) return false;
-    QFileInfo file("/etc/alternatives/"+parent->getName());
+    if(m_parent->isBroken()) return false;
+    QFileInfo file("/etc/alternatives/"+m_parent->getName());
     if(!file.isSymLink()) return false;
-    if(file.readLink() == path) return 1;
+    if(file.readLink() == m_altPath) return 1;
     return 0;
 }
 
 
 bool Alternative::isBroken() const
 {
-    return !QFile::exists(path);
+    return !QFile::exists(m_altPath);
 }
 
 bool Alternative::select()
@@ -88,46 +88,46 @@ bool Alternative::select()
     if(isSelected()) return true;
     if(isBroken())
     {
-        selectError = QString("Broken alternative: Unexisting path %1").arg(path);
+        m_selectError = QString("Broken alternative: Unexisting path %1").arg(m_altPath);
         return false;
     }
 
     // Remove the current link:
-    QString parentPath = QString("/etc/alternatives/%1").arg(parent->getName());
+    QString parentPath = QString("/etc/alternatives/%1").arg(m_parent->getName());
     QFile origlink(parentPath);
     if(!origlink.remove())
     {
-        selectError = QString("Could not delete alternative link %1: %2").arg(parentPath).arg(origlink.errorString());
+        m_selectError = QString("Could not delete alternative link %1: %2").arg(parentPath).arg(origlink.errorString());
         return false;
     }
 
     // Then we do the main link:
-    if(symlink(path.ascii(), parentPath.ascii()) == -1)
+    if(symlink(m_altPath.ascii(), parentPath.ascii()) == -1)
     {
-        selectError = QString(strerror(errno));
+        m_selectError = QString(strerror(errno));
         return false;
     }
 
     // And finally the slaves
-    SlaveList *parslaves = parent->getSlaves();
+    SlaveList *parslaves = m_parent->getSlaves();
     parslaves->setAutoDelete(1);
-    if(parslaves->count() == 0 || slaves->count() == 0) return true;
+    if(parslaves->count() == 0 || m_altSlaves->count() == 0) return true;
     int count = 0;
     QStringList::iterator sl;
     Slave *parsl;
-    for( sl = slaves->begin(); sl != slaves->end(); ++sl)
+    for( sl = m_altSlaves->begin(); sl != m_altSlaves->end(); ++sl)
     {
         parsl = parslaves->at(count);
-        QString parstr = QString("/etc/alternatives/%1").arg(parsl->name);
+        QString parstr = QString("/etc/alternatives/%1").arg(parsl->slname);
         QFile parlink(parstr);
         if(!parlink.remove())
         {
-            selectError = QString("Could not delete slave alternative link %1: %2").arg(parstr).arg(parlink.errorString());
+            m_selectError = QString("Could not delete slave alternative link %1: %2").arg(parstr).arg(parlink.errorString());
             return false;
         }
         if(symlink( (*sl).ascii(), parstr.ascii()) == -1)
         {
-            selectError = QString(strerror(errno));
+            m_selectError = QString(strerror(errno));
             return false;
         }
         ++count;
@@ -140,40 +140,40 @@ bool Alternative::select()
 
 Item::Item()
 {
-    mode = "auto";
-    slaves = new SlaveList;
-    alts = new AltsPtrList;
-    slaves->setAutoDelete(1);
-    alts->setAutoDelete(1);
+    m_mode = "auto";
+    m_itemSlaves = new SlaveList;
+    m_itemAlts = new AltsPtrList;
+    m_itemSlaves->setAutoDelete(1);
+    m_itemAlts->setAutoDelete(1);
 }
 
 // Deep copy
-Item::Item(const Item &item) : 
-    name(item.name), 
-    mode(item.mode), 
-    path(item.path)
+Item::Item(const Item &item) :
+    m_name(item.m_name),
+    m_mode(item.m_mode),
+    m_path(item.m_path)
 {
-    slaves = new SlaveList;
-    alts = new AltsPtrList;
-    slaves->setAutoDelete(1);
-    alts->setAutoDelete(1);
+    m_itemSlaves = new SlaveList;
+    m_itemAlts = new AltsPtrList;
+    m_itemSlaves->setAutoDelete(1);
+    m_itemAlts->setAutoDelete(1);
     Slave *slave;
     Slave *slavecopy;
-    for(slave = item.slaves->first(); slave; slave = item.slaves->next())
+    for(slave = item.m_itemSlaves->first(); slave; slave = item.m_itemSlaves->next())
     {
         slavecopy = new Slave;
-        slavecopy->name = slave->name;
-        slavecopy->path = slave->path;        
-        slaves->append(slavecopy);
+        slavecopy->slname = slave->slname;
+        slavecopy->slpath = slave->slpath;
+        m_itemSlaves->append(slavecopy);
     }
 
     Alternative *alt;
     Alternative *altcopy;
-    for(alt = item.alts->first(); alt; alt = item.alts->next())
+    for(alt = item.m_itemAlts->first(); alt; alt = item.m_itemAlts->next())
     {
         // The Alternative class already has a deep copy constructor:
         altcopy = new Alternative( (*alt) );
-        alts->append(altcopy);
+        m_itemAlts->append(altcopy);
     }
 }
 
@@ -181,59 +181,48 @@ Item& Item::operator=(const Item &item)
 {
     if(this != &item)
     {
-        if(slaves)delete slaves;
-        if(alts)delete alts;
-        name = item.name;
-        mode = item.mode;
-        path = item.path;
-        slaves = new SlaveList;
-        alts = new AltsPtrList;
-        slaves->setAutoDelete(1);
-        alts->setAutoDelete(1);
+        if(m_itemSlaves)delete m_itemSlaves;
+        if(m_itemAlts)delete m_itemAlts;
+        m_name = item.m_name;
+        m_mode = item.m_mode;
+        m_path = item.m_path;
+        m_itemSlaves = new SlaveList;
+        m_itemAlts = new AltsPtrList;
+        m_itemSlaves->setAutoDelete(1);
+        m_itemAlts->setAutoDelete(1);
         Slave *slave;
         Slave *slavecopy;
-        for(slave = item.slaves->first(); slave; slave = item.slaves->next())
+        for(slave = item.m_itemSlaves->first(); slave; slave = item.m_itemSlaves->next())
         {
             slavecopy = new Slave;
-            slavecopy->name = slave->name;
-            slavecopy->path = slave->path;
-            slaves->append(slavecopy);
+            slavecopy->slname = slave->slname;
+            slavecopy->slpath = slave->slpath;
+            m_itemSlaves->append(slavecopy);
         }
-        
+
         Alternative *alt;
         Alternative *altcopy;
-        for(alt = item.alts->first(); alt; alt = item.alts->next())
+        for(alt = item.m_itemAlts->first(); alt; alt = item.m_itemAlts->next())
         {
             altcopy = new Alternative( (*alt) );
-            alts->append(altcopy);
+            m_itemAlts->append(altcopy);
         }
     }
     return (*this);
 }
 
-        
+
 
 Item::~Item()
 {
-    if(slaves)delete slaves;
-    if(alts)delete alts;
-    /*
-    Slave *slave;
-    for(slave = slaves->first(); slave; slave = slaves->next())
-        delete slave;
-    delete slaves;
-    
-    Alternative *a;
-    for(a = alts->first(); a; a = alts->next())
-        delete a;
-    delete alts;
-    */
+    if(m_itemSlaves)delete m_itemSlaves;
+    if(m_itemAlts)delete m_itemAlts;
 }
 
 Alternative *Item::getSelected() const
 {
     Alternative *a;
-    for(a = alts->first(); a; a = alts->next())
+    for(a = m_itemAlts->first(); a; a = m_itemAlts->next())
     {
         if(a->isSelected())
         {
@@ -246,44 +235,44 @@ Alternative *Item::getSelected() const
 
 void Item::setSlaves(SlaveList *slaves)
 {
-    if(this->slaves)delete this->slaves;
-    this->slaves = slaves;
+    if(this->m_itemSlaves)delete this->m_itemSlaves;
+    this->m_itemSlaves = slaves;
 }
 
 void Item::addSlave(const QString &namearg, const QString &patharg)
 {
     Slave *s = new Slave;
-    s->name = namearg;
-    s->path = patharg;
-    slaves->append(s);
+    s->slname = namearg;
+    s->slpath = patharg;
+    m_itemSlaves->append(s);
 }
 
 void Item::delSlave(const QString &namearg)
 {
-    QPtrListIterator<Slave> it(*slaves);
+    QPtrListIterator<Slave> it(*m_itemSlaves);
 
     Slave *s;
     while( (s = it.current()) != 0)
     {
         ++it;
-        if(s->name == namearg) 
+        if(s->slname == namearg)
         {
-            slaves->remove(s);
+            m_itemSlaves->remove(s);
             break;
         }
     }
 }
 void Item::delSlaveByPath(const QString &patharg)
 {
-    QPtrListIterator<Slave> it(*slaves);
-    
+    QPtrListIterator<Slave> it(*m_itemSlaves);
+
     Slave *s;
     while( (s = it.current()) != 0)
     {
         ++it;
-        if(s->path == patharg)
+        if(s->slpath == patharg)
         {
-            slaves->remove(s);
+            m_itemSlaves->remove(s);
             break;
         }
     }
@@ -292,7 +281,7 @@ void Item::delSlaveByPath(const QString &patharg)
 Alternative *Item::getAlternative(const QString &altpath)
 {
     Alternative *a;
-    for(a = alts->first(); a; a = alts->next())
+    for(a = m_itemAlts->first(); a; a = m_itemAlts->next())
     {
         if(a->getPath() == altpath)
         {
@@ -305,13 +294,13 @@ Alternative *Item::getAlternative(const QString &altpath)
 
 void Item::setAlternatives(AltsPtrList &alts)
 {
-    if(this->alts)delete this->alts;
-    this->alts = &alts;
+    if(this->m_itemAlts)delete this->m_itemAlts;
+    this->m_itemAlts = &alts;
 }
 
 void Item::delAlternativeByPath(const QString &patharg)
 {
-    QPtrListIterator<Alternative> it(*alts);
+    QPtrListIterator<Alternative> it(*m_itemAlts);
 
     Alternative *a;
     while( (a = it.current()) != 0)
@@ -319,7 +308,7 @@ void Item::delAlternativeByPath(const QString &patharg)
         ++it;
         if(a->getPath() == patharg)
         {
-            alts->remove(a);
+            m_itemAlts->remove(a);
             break;
         }
     }
@@ -327,15 +316,15 @@ void Item::delAlternativeByPath(const QString &patharg)
 
 void Item::delAlternativeByPriority(int priorityarg)
 {
-    QPtrListIterator<Alternative> it(*alts);
-    
+    QPtrListIterator<Alternative> it(*m_itemAlts);
+
     Alternative *a;
     while( (a = it.current()) != 0)
     {
         ++it;
         if(a->getPriority() == priorityarg)
         {
-            alts->remove(a);
+            m_itemAlts->remove(a);
             break;
         }
     }
@@ -343,49 +332,48 @@ void Item::delAlternativeByPriority(int priorityarg)
 
 bool Item::isBroken() const
 {
-    return !QFile::exists(path);
+    return !QFile::exists(m_path);
 }
 
 /********************** AltFIlesManager ************/
 
-AltFilesManager::AltFilesManager(const QString &altdirarg) : 
-    altdir(altdirarg)
+AltFilesManager::AltFilesManager(const QString &altdirarg) :
+    m_altdir(altdirarg)
 {
-    itemlist = new ItemPtrList;
-    itemlist->setAutoDelete(1);
-    parseOk = true;
-    errorMsg = "";
-    if(!parseAltFiles(errorMsg))
+    m_itemlist = new ItemPtrList;
+    m_itemlist->setAutoDelete(1);
+    m_parseOk = true;
+    m_errorMsg = "";
+    if(!parseAltFiles(m_errorMsg))
     {
-        parseOk = false;
+        m_parseOk = false;
     }
     //debugPrintAlts();
 }
 
 AltFilesManager::~AltFilesManager()
 {
-    //delete itemlist;
+    //delete m_itemlist;
     /*
     Item *item;
-    for(item = itemlist->first(); item; item = itemlist->next())
+    for(item = m_itemlist->first(); item; item = m_itemlist->next())
     {
         delete item;
-    }    
+    }
 
-    delete itemlist;
+    delete m_itemlist;
     */
-    
+
 }
 
 Item* AltFilesManager::getItem(const QString &name) const
 {
-    QPtrListIterator<Item> it(*itemlist);
-
+    QPtrListIterator<Item> it(*m_itemlist);
     Item *i;
     while( (i = it.current()) !=  0)
     {
         ++it;
-        if(i->getName() == name) 
+        if(i->getName() == name)
         {
             return i;
             break;
@@ -396,7 +384,7 @@ Item* AltFilesManager::getItem(const QString &name) const
 
 bool AltFilesManager::parseAltFiles(QString &errorstr)
 {
-    QDir d(altdir);
+    QDir d(m_altdir);
     QStringList fileList = d.entryList();
     QStringList lines;
     QFile altFile;
@@ -413,7 +401,7 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         }
 
         item->setName(*it);
-        altFile.setName(altdir+"/"+*it);
+        altFile.setName(m_altdir+"/"+*it);
 
         if(!altFile.open( IO_ReadOnly ))
         {
@@ -437,12 +425,12 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         line = lines[0];
         tmp = line.left(line.length()-1);
         item->setMode(tmp);
-	
+
         line = lines[1];
         tmp = line.left(line.length()-1);
         item->setPath(tmp);
-        
-	    index = 2;
+
+        index = 2;
         line = lines[index];
         nslaves = 0;
         SlaveList *slaves = new SlaveList;
@@ -453,49 +441,49 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
             tmp = line.left(line.length()-1);
             Slave *slave = new Slave;
             nslaves++;
-            slave->name = tmp;
-            
+            slave->slname = tmp;
+
             line = lines[++index];
             tmp = line.left(line.length()-1);
-            slave->path = tmp;
+            slave->slpath = tmp;
 
             slaves->append(slave);
             line = lines[++index];
         }
 
         item->setSlaves(slaves);
-        
-	    ++index;
+
+        ++index;
         while(index < lines.count()-1)
         {
             line = lines[index];
             Alternative *a = new Alternative(item);
             tmp = line.left(line.length()-1);
             a->setPath(tmp);
-            
+
             if(line=="\n") {
                 //File end (with a \n)
                 delete a;
                 break;
             }
-            
+
             if(++index == lines.count())
             {
                 item->addAlternative(a);
                 break;
             }
-            
-            
+
+
             line = lines[index];
             tmp = line.left(line.length()-1);
             a->setPriority(tmp.toInt());
-        
+
             if(++index == lines.count())
             {
                 item->addAlternative(a);
                 break;
             }
-        
+
             line = lines[index];
             if(line != "\n" and nslaves > 0)
             {
@@ -510,7 +498,7 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
             }
             item->addAlternative(a);
         }
-        itemlist->append(item);
+        m_itemlist->append(item);
         altFile.close();
     }
 
@@ -530,7 +518,7 @@ void AltFilesManager::debugPrintAlts() const
 {
     printf("----------------------------------\n");
     Item *item;
-    for(item = itemlist->first(); item; item = itemlist->next())
+    for(item = m_itemlist->first(); item; item = m_itemlist->next())
     {
         printf("\nItem: %s\n", item->getName().ascii());
         printf("\tMode: %s\n", item->getMode().ascii());

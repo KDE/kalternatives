@@ -34,6 +34,8 @@
 #include "altparser.h"
 
 #define KALT_VERSION "0.10"
+#define DEBIAN 0
+#define MANDRAKE 1
 
 class TreeItemElement;
 class Alternative;
@@ -41,23 +43,23 @@ class Item;
 
 class AltItemElement : public QCheckListItem
 {
-    Alternative *alt;
-    TreeItemElement *parent;
-    bool bisBroken;
-    bool balreadyEnabled;
-    bool bisNode;
-    QString path;
+    Alternative *m_alt;
+    TreeItemElement *m_parent;
+    bool m_bisBroken;
+    bool m_balreadyEnabled;
+    bool m_bisNode;
+    QString m_path;
 
 public:
     AltItemElement(TreeItemElement *parent, Alternative *alternative);
     ~AltItemElement();
 
-    bool isBroken() const { return bisBroken; }
-    bool alreadyEnabled() const { return balreadyEnabled; }
-    void setAlreadyEnabled(bool b) { balreadyEnabled = b; }
-    bool isNode() const { return bisNode; }
-    TreeItemElement *getParent() const { return parent; }
-    Alternative *getAlternative() { return alt; }
+    bool isBroken() const { return m_bisBroken; }
+    bool alreadyEnabled() const { return m_balreadyEnabled; }
+    void setAlreadyEnabled(bool b) { m_balreadyEnabled = b; }
+    bool isNode() const { return m_bisNode; }
+    TreeItemElement *getParent() const { return m_parent; }
+    Alternative *getAlternative() { return m_alt; }
 
 protected:
     virtual void stateChange(bool);
@@ -66,19 +68,19 @@ protected:
 
 class TreeItemElement : public QCheckListItem
 {
-    Item *item;
-    QString name;
-    bool bisNode;
-    QPtrList<AltItemElement> *altList;
+    Item   *m_item;
+    QString m_name;
+    bool    m_bisNode;
+    QPtrList<AltItemElement> *m_altList;
 
 public:
     TreeItemElement(KListView *parent, Item *itemarg);
     ~TreeItemElement();
 
     void setData();
-    bool isNode() const { return bisNode; }
-    Item *getItem() const { return item; }
-    QPtrList<AltItemElement> *getAltList() const { return altList; }
+    bool isNode() const { return m_bisNode; }
+    Item *getItem() const { return m_item; }
+    QPtrList<AltItemElement> *getAltList() const { return m_altList; }
 
 protected:
     virtual void setup();
@@ -90,16 +92,16 @@ class ItemsWidget : public KListView
 {
     Q_OBJECT
 
-    QPtrList<TreeItemElement> *itemWidgetsList;
-    bool changed;
+    QPtrList<TreeItemElement> *m_itemWidgetsList;
+    bool m_bChanged;
 
 public:
     ItemsWidget(QWidget *parent);
     ~ItemsWidget();
 
     void updatedata(AltFilesManager *mgr);
-    QPtrList<TreeItemElement> *getItemWidgetsList() const { return itemWidgetsList; }
-    bool getChanged() const { return changed; }
+    QPtrList<TreeItemElement> *getItemWidgetsList() const { return m_itemWidgetsList; }
+    bool getChanged() const { return m_bChanged; }
 
 public slots:
     void slotItemClicked(QListViewItem *);
@@ -118,17 +120,17 @@ class kalternatives : public KMainWindow
 {
     Q_OBJECT
 
-    bool isRoot;
-    int distro;
-    KIconLoader *icons;
-    AltFilesManager *mgr;
-    ItemsWidget *iw;
-    KPushButton *apply;
-    KPushButton *expand;
-    KPushButton *collapse;
-    KPushButton *about;
-    KPushButton *help;
-    KPushButton *close;
+    bool m_bisRoot;
+    int m_distro;
+    KIconLoader *m_icons;
+    AltFilesManager *m_mgr;
+    ItemsWidget *m_iw;
+    KPushButton *m_apply;
+    KPushButton *m_expand;
+    KPushButton *m_collapse;
+    KPushButton *m_about;
+    KPushButton *m_help;
+    KPushButton *m_close;
 
     void start();
     QPtrList<AltItemElement> *getChangedList();

@@ -46,27 +46,27 @@
 AltItemElement::AltItemElement(TreeItemElement *parent, Alternative *alternative)
 : QCheckListItem(parent, alternative->getPath(),
         QCheckListItem::RadioButton),
-        alt(alternative),
-        parent(parent),
-        bisBroken(alternative->isBroken()),
-        balreadyEnabled(alternative->isSelected()),
-        bisNode(false),
-        path(alternative->getPath())
+        m_alt(alternative),
+        m_parent(parent),
+        m_bisBroken(alternative->isBroken()),
+        m_balreadyEnabled(alternative->isSelected()),
+        m_bisNode(false),
+        m_path(alternative->getPath())
 {
-    setOn(balreadyEnabled);
-    setEnabled(!bisBroken);
+    setOn(m_balreadyEnabled);
+    setEnabled(!m_bisBroken);
 }
 
 AltItemElement::~AltItemElement()
 {
     //Don't delete the alt because it is still being used in the AltFilesManager
-    //delete alt;
+    //delete m_alt;
 }
 
 void AltItemElement::stateChange(bool on)
 {
-    if(balreadyEnabled && (!isOn()) )
-        balreadyEnabled = 0;
+    if(m_balreadyEnabled && (!isOn()) )
+        m_balreadyEnabled = 0;
     QCheckListItem::stateChange(on);
 }
 
@@ -75,28 +75,30 @@ void AltItemElement::stateChange(bool on)
 
 TreeItemElement::TreeItemElement(KListView *parent, Item *itemarg)
 : QCheckListItem(parent, itemarg->getName(), QCheckListItem::RadioButtonController),
-    item(itemarg), name(itemarg->getName()), bisNode(1)
+  m_item(itemarg),
+  m_name(itemarg->getName()),
+  m_bisNode(1)
 {
-    altList = new QPtrList<AltItemElement>;
-    altList->setAutoDelete(1);
+    m_altList = new QPtrList<AltItemElement>;
+    m_altList->setAutoDelete(1);
 }
 
 TreeItemElement::~TreeItemElement()
 {
-    delete altList;
+    delete m_altList;
 }
 
 void TreeItemElement::setData()
 {
-    if(item->isBroken())
+    if(m_item->isBroken())
         setEnabled(0);
 
     Alternative *a;
     AltItemElement *ael;
-    for(a = item->getAlternatives()->first(); a; a = item->getAlternatives()->next())
+    for(a = m_item->getAlternatives()->first(); a; a = m_item->getAlternatives()->next())
     {
         ael = new AltItemElement(this, a);
-        altList->append(ael);
+        m_altList->append(ael);
     }
 }
 
@@ -117,14 +119,14 @@ ItemsWidget::ItemsWidget(QWidget *parent) : KListView(parent)
     setAcceptDrops(0);
 
     connect(this, SIGNAL(clicked(QListViewItem *)), this, SLOT(slotItemClicked(QListViewItem *)));
-    itemWidgetsList = new QPtrList<TreeItemElement>;
-    itemWidgetsList->setAutoDelete(1);
-    changed = 0;
+    m_itemWidgetsList = new QPtrList<TreeItemElement>;
+    m_itemWidgetsList->setAutoDelete(1);
+    m_bChanged = 0;
 }
 
 ItemsWidget::~ItemsWidget()
 {
-    delete itemWidgetsList;
+    delete m_itemWidgetsList;
 }
 
 void ItemsWidget::updatedata(AltFilesManager *mgr)
@@ -137,7 +139,7 @@ void ItemsWidget::updatedata(AltFilesManager *mgr)
         treeit = new TreeItemElement(this, i);
         treeit->setData();
         treeit->setOpen(0);
-        itemWidgetsList->append(treeit);
+        m_itemWidgetsList->append(treeit);
     }
     setMinimumSize(QSize(200,280));
 }
@@ -152,7 +154,7 @@ void ItemsWidget::slotItemClicked(QListViewItem *qlit)
     AltItemElement *it = (AltItemElement *)qlit;
     if( !it->isOn() || it->alreadyEnabled())
         return;
-    changed = 1;
+    m_bChanged = 1;
     it->setAlreadyEnabled(1);
     emit iwChanged();
 }
@@ -163,23 +165,23 @@ kalternatives::kalternatives()
     new QLabel( "Hello World", this, "hello label" );
     int user = getuid();
     //FIXME: This won't be needed as kcm
-    if (user == 0) isRoot = true;
-    else isRoot = false;
-    icons = new KIconLoader();
+    if (user == 0) m_bisRoot = true;
+    else m_bisRoot = false;
+    m_icons = new KIconLoader();
     QWidget *centralWidget = new QWidget(this, "centralW");
     setCentralWidget(centralWidget);
 
     if(QFile::exists("/var/lib/rpm/alternatives") && QFile::exists("/etc/mandrakelinux-release"))
     {
         // Mandrake
-        distro = 1;
-        mgr = new AltFilesManager("/var/lib/rpm/alternatives");
+        m_distro = MANDRAKE;
+        m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
     }
     else if(QFile::exists("/var/lib/dpkg/alternatives"))
     {
         // Debian
-        distro = 0;
-        mgr = new AltFilesManager("/var/lib/dpkg/alternatives");
+        m_distro = DEBIAN;
+        m_mgr = new AltFilesManager("/var/lib/dpkg/alternatives");
     }
 
     else
@@ -189,43 +191,43 @@ kalternatives::kalternatives()
         QTimer::singleShot(0, this, SLOT(die()));
     }
 
-    iw = new ItemsWidget(centralWidget);
-    iw->updatedata(mgr);
+    m_iw = new ItemsWidget(centralWidget);
+    m_iw->updatedata(m_mgr);
 
-    apply = new KPushButton(QIconSet(icons->loadIcon("ok", KIcon::Small)), i18n("&Apply"), centralWidget);
-    apply->setEnabled(0);
-    expand = new KPushButton(i18n("&Expand All"), centralWidget);
-    collapse = new KPushButton(i18n("C&ollapse All"), centralWidget);
-    about = new KPushButton(QIconSet(icons->loadIcon("about_kde", KIcon::Small)), i18n("A&bout"), centralWidget);
-    help = new KPushButton(QIconSet(icons->loadIcon("help", KIcon::Small)), i18n("&Help"), centralWidget);
-    close = new KPushButton(QIconSet(icons->loadIcon("exit", KIcon::Small)), i18n("&Close"), centralWidget);
+    m_apply = new KPushButton(QIconSet(m_icons->loadIcon("ok", KIcon::Small)), i18n("&Apply"), centralWidget);
+    m_apply->setEnabled(0);
+    m_expand = new KPushButton(i18n("&Expand All"), centralWidget);
+    m_collapse = new KPushButton(i18n("C&ollapse All"), centralWidget);
+    m_about = new KPushButton(QIconSet(m_icons->loadIcon("about_kde", KIcon::Small)), i18n("A&bout"), centralWidget);
+    m_help = new KPushButton(QIconSet(m_icons->loadIcon("help", KIcon::Small)), i18n("&Help"), centralWidget);
+    m_close = new KPushButton(QIconSet(m_icons->loadIcon("exit", KIcon::Small)), i18n("&Close"), centralWidget);
 
-    connect(close, SIGNAL(clicked()),   this, SLOT(slotCloseClicked()));
-    connect(collapse, SIGNAL(clicked()),this, SLOT(slotCollapseClicked()));
-    connect(expand, SIGNAL(clicked()),  this, SLOT(slotExpandClicked()));
-    connect(about, SIGNAL(clicked()),   this, SLOT(slotAboutClicked()));
-    connect(iw, SIGNAL(iwChanged()), this, SLOT(slotSelectionChanged()));
-    connect(apply, SIGNAL(clicked()), this, SLOT(slotApplyClicked()));
+    connect(m_close, SIGNAL(clicked()),   this, SLOT(slotCloseClicked()));
+    connect(m_collapse, SIGNAL(clicked()),this, SLOT(slotCollapseClicked()));
+    connect(m_expand, SIGNAL(clicked()),  this, SLOT(slotExpandClicked()));
+    connect(m_about, SIGNAL(clicked()),   this, SLOT(slotAboutClicked()));
+    connect(m_iw, SIGNAL(iwChanged()), this, SLOT(slotSelectionChanged()));
+    connect(m_apply, SIGNAL(clicked()), this, SLOT(slotApplyClicked()));
 
 
     QHBoxLayout *l = new QHBoxLayout(centralWidget, 10);
-    l->addWidget(iw, 10);
+    l->addWidget(m_iw, 10);
     QVBoxLayout *buttonBox = new QVBoxLayout;
     l->addLayout(buttonBox);
 
-    buttonBox->addWidget(apply);
-    buttonBox->addWidget(expand);
-    buttonBox->addWidget(collapse);
+    buttonBox->addWidget(m_apply);
+    buttonBox->addWidget(m_expand);
+    buttonBox->addWidget(m_collapse);
     buttonBox->addStretch(1);
-    buttonBox->addWidget(about);
-    buttonBox->addWidget(help);
-    buttonBox->addWidget(close);
+    buttonBox->addWidget(m_about);
+    buttonBox->addWidget(m_help);
+    buttonBox->addWidget(m_close);
 
     //FIXME: Remove as kcm
     setMinimumSize(QSize(300,300));
     resize(QSize(420,360));
 
-    if(!isRoot)
+    if(!m_bisRoot)
     {
         if(KMessageBox::warningContinueCancel(this,
             i18n("You are running this program from a non-privileged user account which usually means that you will be unable to apply any selected changes using the Apply button. If you want to commit your changes to the alternatives system please run the program as the root user."), i18n("Non-Privileged User")) == KMessageBox::Cancel)
@@ -240,14 +242,14 @@ kalternatives::kalternatives()
     //AltFilesManager *a = new AltFilesManager("/var/lib/rpm/alternatives");
 
     setCaption(i18n("Alternatives Manager"));
-    connect(iw, SIGNAL(iwChanged()), this, SLOT(slotSelectionChanged()));
+    connect(m_iw, SIGNAL(iwChanged()), this, SLOT(slotSelectionChanged()));
 }
 
 kalternatives::~kalternatives()
 {
-    if(icons)delete icons;
-    if(mgr) delete mgr;
-    if(iw) delete iw;
+    if(m_icons)delete m_icons;
+    if(m_mgr) delete m_mgr;
+    if(m_iw) delete m_iw;
 }
 
 void kalternatives::die()
@@ -257,8 +259,8 @@ void kalternatives::die()
 
 void kalternatives::slotSelectionChanged()
 {
-    if(iw->getChanged() && isRoot)
-        apply->setEnabled(1);
+    if(m_iw->getChanged() && m_bisRoot)
+        m_apply->setEnabled(1);
 }
 
 void kalternatives::slotCloseClicked()
@@ -269,23 +271,23 @@ void kalternatives::slotCloseClicked()
 
 void kalternatives::slotCollapseClicked()
 {
-    QPtrListIterator<TreeItemElement> it(*(iw->getItemWidgetsList()));
+    QPtrListIterator<TreeItemElement> it(*(m_iw->getItemWidgetsList()));
     TreeItemElement *i;
     while( (i = it.current()) != 0)
     {
         ++it;
-        iw->setOpen(i, 0);
+        m_iw->setOpen(i, 0);
     }
 }
 
 void kalternatives::slotExpandClicked()
 {
-    QPtrListIterator<TreeItemElement> it(*(iw->getItemWidgetsList()));
+    QPtrListIterator<TreeItemElement> it(*(m_iw->getItemWidgetsList()));
     TreeItemElement *i;
     while( (i = it.current()) != 0)
     {
         ++it;
-        iw->setOpen(i, 1);
+        m_iw->setOpen(i, 1);
     }
 }
 
@@ -301,7 +303,7 @@ void kalternatives::slotAboutClicked()
 
 void kalternatives::slotApplyClicked()
 {
-    if(!isRoot) {
+    if(!m_bisRoot) {
         KMessageBox::information(this, i18n("Non-root user"),
         i18n("You are not the root user; if you want your changes to be applied you have to run this program as root."), i18n("&Ok"));
         return;
@@ -338,7 +340,7 @@ void kalternatives::slotApplyClicked()
                 break;
         }
         if ( countChanged() == 0 )
-            apply->setEnabled(0);
+            m_apply->setEnabled(0);
     }
     delete forChangeList;
 }
@@ -346,7 +348,7 @@ void kalternatives::slotApplyClicked()
 QPtrList<AltItemElement> *kalternatives::getChangedList()
 {
     QPtrList<AltItemElement> *forChangeList = new QPtrList<AltItemElement>;
-    QPtrListIterator<TreeItemElement> ittree(*(iw->getItemWidgetsList()));
+    QPtrListIterator<TreeItemElement> ittree(*(m_iw->getItemWidgetsList()));
     TreeItemElement *node;
     while ( (node = ittree.current()) != 0 )
     {
@@ -375,7 +377,7 @@ int kalternatives::countChanged()
 
 bool kalternatives::queryClose()
 {
-  if (isRoot)
+  if (m_bisRoot)
   {
     if (countChanged() != 0)
     {
