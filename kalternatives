@@ -18,7 +18,7 @@
 #   along with this program. If not, write to the Free Software Foundation,
 #   Inc. ,59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-__version__ =  "0.6"
+__version__ =  "0.7"
 
 import sys
 sys.path.append("/usr/lib/python/site-packages")
@@ -393,7 +393,7 @@ class ItemsWidget(QListView):
             item = mgr.getItem(i)
             self.itemWidgetsList.append(TreeItemElement(self,item))
             self.itemWidgetsList[-1].setData()
-            self.itemWidgetsList[-1].setOpen(1)
+            self.itemWidgetsList[-1].setOpen(0)
         self.setMinimumSize(QSize(200,280))
 
     def slotItemClicked(self,item):
@@ -439,6 +439,8 @@ class kalternatives(QMainWindow):
 
         self.apply = QPushButton("&Apply", self.centralWidget())
         self.apply.setEnabled(0)
+        self.expand = QPushButton("&Expand All", self.centralWidget())
+        self.collapse = QPushButton("C&ollapse All", self.centralWidget())
 
         about = QPushButton("A&bout", self.centralWidget())
         help  = QPushButton("&Help", self.centralWidget())
@@ -447,6 +449,8 @@ class kalternatives(QMainWindow):
         QObject.connect(self.iw, PYSIGNAL("selectionChanged(QCheckListItem)"),self.slotSelectionChanged)
         QObject.connect(self.apply, SIGNAL("clicked()"), self.slotApplyClicked)
         QObject.connect(close,SIGNAL("clicked()"),self.slotCloseClicked)
+        QObject.connect(self.expand, SIGNAL("clicked()"), self.slotExpandClicked)
+        QObject.connect(self.collapse, SIGNAL("clicked()"), self.slotCollapseClicked)
 
         l = QHBoxLayout(self.centralWidget(),10)
         l.addWidget(self.iw,10)
@@ -454,6 +458,8 @@ class kalternatives(QMainWindow):
         l.addLayout(buttonBox)
 
         buttonBox.addWidget(self.apply)
+        buttonBox.addWidget(self.expand)
+        buttonBox.addWidget(self.collapse)
         buttonBox.addStretch(1)
         buttonBox.addWidget(about)
         buttonBox.addWidget(help)
@@ -520,6 +526,14 @@ class kalternatives(QMainWindow):
                         break
             if self.getChangedList() == 0:        
                 self.apply.setEnabled(0)
+
+    def slotExpandClicked(self):
+        for i in self.iw.itemWidgetsList:
+            self.iw.setOpen(i, 1)
+
+    def slotCollapseClicked(self):
+        for i in self.iw.itemWidgetsList:
+            self.iw.setOpen(i, 0)
 
     def slotCloseClicked(self):
         if self.isRoot:
