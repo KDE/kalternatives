@@ -165,13 +165,17 @@ QString FindDescriptionThread::getDescriptionProcess()
         
 #ifdef DEBIAN
 		int posDesc = m_descTmp.findRev("Description:");
+        if (posDesc != -1)
+        {
+            m_descTmp.remove(0, posDesc+12);
+        }
 #else
         int posDesc = m_descTmp.findRev("Description :");
+        if (posDesc != -1)
+        {
+            m_descTmp.remove(0, posDesc+13);
+        }
 #endif
-		if (posDesc != -1)
-		{
-			m_descTmp.remove(0, posDesc+13);
-		}
 	}
 	
 	return m_descTmp;
