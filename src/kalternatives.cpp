@@ -61,7 +61,6 @@ Kalternatives::Kalternatives(QWidget *parent, const char *name, const QStringLis
 	setUseRootOnlyMsg(false);
 
 	int user = getuid();
-	//FIXME: This won't be needed as kcm
 	
 	if (user == 0)
 	{
@@ -119,6 +118,13 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	mainwindow->m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "edit_add"));
 	mainwindow->m_bProperties->setGuiItem(KGuiItem( i18n( "&Properties" ), "configure"));
 	
+	if(!m_bisRoot)
+	{
+		mainwindow->m_bDelete->setEnabled(false);
+		mainwindow->m_bAdd->setEnabled(false);
+		m_statusCombo->setEnabled(false);
+	}
+	
 	myAboutData = new KAboutData("KalternativesKCM", "Kalternatives", KALT_VERSION, i18n("KDE Mandrake/Debian alternatives-system manager"),
         KAboutData::License_GPL, "(c) 2004 Juanjo Alvarez Martinez and Mario Bensi", 0, 0 );
 		
@@ -169,6 +175,7 @@ void Kalternatives::load()
 		for(; a; a=altList->next())
 		{
 			ael = new AltItemElement(m_optionsList, a);
+			if(!m_bisRoot) ael->setEnabled(false);
 			treeit->getAltController()->addAltItem(ael);
 		}
     }
@@ -265,7 +272,7 @@ void Kalternatives::slotOptionClicked(QListViewItem *option)
 	AltItemElement *altItem;
 	if((altItem = dynamic_cast<AltItemElement *>(option)))
 	{
-		if( !altItem->isOn() )
+		if( !altItem->isOn())
 			return;
 		TreeItemElement *treeItem;
 		if((treeItem = dynamic_cast<TreeItemElement *>(m_altList->selectedItem())))
