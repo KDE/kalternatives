@@ -13,11 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-<<<<<<< addalternativesui.ui
         <string>Add a Alternative</string>
-=======
-        <string>Add Alternatives</string>
->>>>>>> 1.4
     </property>
     <grid>
         <property name="name">
@@ -138,35 +134,6 @@
                     <property name="readOnly">
                         <bool>true</bool>
                     </property>
-<<<<<<< addalternativesui.ui
-=======
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabel1_2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Man Page:</string>
-                            </property>
-                        </widget>
-                        <widget class="KLineEdit">
-                            <property name="name">
-                                <cstring>m_PathMan</cstring>
-                            </property>
-                        </widget>
-                        <widget class="KPushButton">
-                            <property name="name">
-                                <cstring>m_bBrowseMan</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Browse</string>
-                            </property>
-                        </widget>
-                    </hbox>
->>>>>>> 1.4
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
