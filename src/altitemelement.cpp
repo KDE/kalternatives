@@ -23,8 +23,7 @@
 #include "altcontroller.h"
 #include "altparser.h"
 
-#include <iostream>
-using namespace std;
+#include <kdebug.h>
 
 /******************************* AltItemElement ********************/
 
@@ -38,13 +37,14 @@ AltItemElement::AltItemElement(KListView *parent, Alternative *alternative)
 	setOn(alternative->isSelected());
 	setEnabled(!m_bisBroken);
 //#ifdef DEBIAN
-	findDescriptionThread = new FindDescriptionThread(this);
+	findDescriptionThread = 0L;
 	m_desc = "";
 //#endif
 }
 
 AltItemElement::~AltItemElement()
 {
+	if (findDescriptionThread!=0) delete findDescriptionThread;
 	delete m_alt;
 }
 
@@ -52,25 +52,28 @@ AltItemElement::~AltItemElement()
 
 void AltItemElement::searchDescription()
 {
-	if (!findDescriptionThread->running ())
+	m_mutex.lock();
+	kdDebug() << " findDescriptionThread lock " << m_path << endl;
+	
+	if (findDescriptionThread==0L || !findDescriptionThread->running ())
 	{
-		m_mutex.lock();
-		cout << " findDescriptionThread lock " << m_path << endl;
+		findDescriptionThread = new FindDescriptionThread(this);
 		findDescriptionThread->start();
-		m_mutex.unlock();
-		cout << " findDescriptionThread unlock " << m_path << endl;
 	}
+	
+	m_mutex.unlock();
+	kdDebug() << " findDescriptionThread unlock " << m_path << endl;
 }
 
 void AltItemElement::setDescription(QString desc) 
 {
 	m_mutex.lock();
-	cout << " setDescription lock " << m_path << endl;
+	kdDebug() << " setDescription lock " << m_path << endl;
 	m_desc = desc; 
 	desc.truncate(desc.find("\n"));
 	setText( 3, desc);
 	m_mutex.unlock();
-	cout << " setDescription unlock " << m_path << endl;
+	kdDebug() << " setDescription unlock " << m_path << endl;
 }
 
 //#endif
@@ -91,38 +94,32 @@ void FindDescriptionThread::run()
 {
 	QString tmp = getDescriptionProcess();
 	m_altItem->setDescription(tmp);
-	/*sleep(3);
-	m_altItem->setDescription("blub");*/
 }
 
 void FindDescriptionThread::slotGetDescription(KProcess *, char *buffer, int buflen)
 {
-	if (m_descTmp != "")
-	{
-		m_descTmp += QString::fromLatin1(buffer, buflen);
-	}
-	else
-	{
-		m_descTmp =  QString::fromLatin1(buffer, buflen);
-	}
-	
-	int posDesc = m_descTmp.findRev("Description:");
-	if (posDesc != -1)
-	{
-		m_descTmp.remove(0, posDesc+12);
-	}
+	m_descTmp += QString::fromLatin1(buffer, buflen);
 }
 
 void FindDescriptionThread::slotGetExecutable(KProcess *, char *buffer, int buflen)
 {
-	if (m_exec != "")
-	{
-		m_exec += QString::fromLatin1(buffer, buflen);
-	}
-	else
-	{
-		m_exec =  QString::fromLatin1(buffer, buflen);
-	}
+	m_exec += QString::fromLatin1(buffer, buflen);
+}
+
+QString FindDescriptionThread::getDescriptionProcess()
+{
+	m_exec = "";
+	KProcess *proc = new KProcess();
+	
+	*proc << "dpkg";
+	*proc << "-S" << m_altItem->getPath();
+	
+	connect(proc, SIGNAL(receivedStdout(KProcess *, char *, int)), this,
+			SLOT(slotGetExecutable(KProcess *, char *, int)));
+	connect(proc, SIGNAL( receivedStderr(KProcess *, char *, int) ), this,
+			SLOT(slotGetExecutable(KProcess *, char *, int)));
+	
+	proc->start(KProcess::Block, KProcess::AllOutput);
 	
 	int pos = m_exec.findRev(":");
 	if (pos != -1)
@@ -135,28 +132,10 @@ void FindDescriptionThread::slotGetExecutable(KProcess *, char *buffer, int bufl
 			m_exec = m_exec.simplifyWhiteSpace();
 		}
 	}
-}
-
-QString FindDescriptionThread::getDescriptionProcess()
-{
-	
-	m_exec = "";
-	KProcess *proc = new KProcess();
-	
-	*proc << "dpkg";
-	*proc << "-S" << m_altItem->getPath();
-	
-	connect(proc, SIGNAL(receivedStdout(KProcess *, char *, int)), this,
-			SLOT(slotGetExecutable(KProcess *, char *, int)));
-	connect(proc, SIGNAL( receivedStderr(KProcess *, char *, int) ), this,
-			SLOT(slotGetExecutable(KProcess *, char *, int)));
-	
-    proc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
-	
-	proc->wait();
 	
 	m_descTmp = "";
-
+	
+	kdDebug() << "Exec: m_exec==\"" << m_exec << "\"" << endl;
 	if (m_exec != "")
 	{
 		KProcess *procdesc = new KProcess();
@@ -169,11 +148,16 @@ QString FindDescriptionThread::getDescriptionProcess()
 		connect(procdesc, SIGNAL( receivedStderr(KProcess *, char *, int) ), this,
 				SLOT(slotGetDescription(KProcess *, char *, int)));
 	
-		procdesc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
-	
-		procdesc->wait();
+		procdesc->start(KProcess::Block, KProcess::AllOutput);
+
+		int posDesc = m_descTmp.findRev("Description:");
+		if (posDesc != -1)
+		{
+			m_descTmp.remove(0, posDesc+12);
+		}
 	}
 	
+	kdDebug() << "Description empty? m_descTmp.isEmpty()==\"" << m_descTmp.isEmpty() << "\"" << endl;
 	return m_descTmp;
 }
 

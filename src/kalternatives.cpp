@@ -33,15 +33,13 @@
 #include <kmessagebox.h>
 #include <kaboutdialog.h>
 #include <ktextedit.h>
+#include <kdebug.h>
 #include <klocale.h>
 #include <qlayout.h>
 #include <qfile.h> 
 #include <qtextstream.h> 
 
-#include <iostream>
 
-
-using namespace std;
 
 Kalternatives::Kalternatives()
 {
@@ -412,7 +410,7 @@ void Kalternatives::slotApplyClicked()
 						Alternative *a = altItem->getAlternative();
 						if(!a->select())
 						{
-							cout << a->getSelectError() <<endl;
+							kdDebug() << a->getSelectError() << endl;
 						}
 					}
 				}
