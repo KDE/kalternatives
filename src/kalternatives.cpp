@@ -58,6 +58,8 @@ extern "C"
 Kalternatives::Kalternatives(QWidget *parent, const char *name, const QStringList&)
 :KCModule(/*KalternativesFactory::instance(), */parent, name), myAboutData(0)
 {
+	setUseRootOnlyMsg(false);
+
 	int user = getuid();
 	//FIXME: This won't be needed as kcm
 	
@@ -65,13 +67,11 @@ Kalternatives::Kalternatives(QWidget *parent, const char *name, const QStringLis
 	{
 		m_bisRoot = true;
 		setButtons(KCModule::Help|KCModule::Apply);
-		setEnabled( true );
 	}
 	else 
 	{
 		m_bisRoot = false;
 		setButtons(Help);
-		setEnabled( false );
 	}
 
 #ifdef MANDRAKE
@@ -88,6 +88,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	MainWindow *mainwindow = new MainWindow(this);
 	QBoxLayout *layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
 	layout->addWidget( mainwindow );
+	layout->activate();
 	
 	mainwindow->m_altList->setShowToolTips(1);
 	
