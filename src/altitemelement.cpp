@@ -38,6 +38,7 @@ AltItemElement::AltItemElement(KListView *parent, Alternative *alternative)
 	setOn(alternative->isSelected());
 	setEnabled(!m_bisBroken);
 #ifdef DEBIAN
+	findDescriptionThread = new FindDescriptionThread(this);
 	m_desc = "";
 #endif
 }
@@ -51,10 +52,12 @@ AltItemElement::~AltItemElement()
 
 void AltItemElement::searchDescription()
 {
-	m_mutex.lock();
-	FindDescriptionThread *thread = new FindDescriptionThread(this);
-	thread->start();
-	m_mutex.unlock();
+	if (!findDescriptionThread->running ())
+	{
+		m_mutex.lock();
+		findDescriptionThread->start();
+		m_mutex.unlock();
+	}
 }
 
 void AltItemElement::setDescription(QString desc) 

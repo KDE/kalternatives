@@ -30,6 +30,7 @@
 
 class Alternative;
 class AltController;
+class FindDescriptionThread;
 
 class AltItemElement :  public QCheckListItem
 {
@@ -39,6 +40,7 @@ class AltItemElement :  public QCheckListItem
 	QString m_path;
 //#ifdef DEBIAN
 	QString m_desc;
+	FindDescriptionThread *findDescriptionThread;
 	QMutex m_mutex;
 //#endif
 	
