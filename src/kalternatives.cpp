@@ -185,7 +185,7 @@ kalternatives::kalternatives()
     else
     {
         // Crap ;)
-        KMessageBox::sorry(this, i18n("Kalternatives only work on Debian or Mandrake based systems"), i18n("Wrong System Type"));
+        KMessageBox::sorry(this, i18n("Kalternatives only work on Debian- or Mandrake-based systems"), i18n("Wrong System Type"));
         QTimer::singleShot(0, this, SLOT(die()));
     }
 
@@ -228,7 +228,7 @@ kalternatives::kalternatives()
     if(!isRoot)
     {
         if(KMessageBox::warningContinueCancel(this,
-                    i18n("You are running this program from a non-privileged user account which usually means that you will be unable to apply any selected changes using the Apply button. If you want to commit your changes to the alternatives system please run the program as the root user."), i18n("Non Privileged User")) == KMessageBox::Cancel)
+                    i18n("You are running this program from a non-privileged user account which usually means that you will be unable to apply any selected changes using the Apply button. If you want to commit your changes to the alternatives system please run the program as the root user."), i18n("Non-Privileged User")) == KMessageBox::Cancel)
             QTimer::singleShot(0, this, SLOT(die()));
     }
 
@@ -294,7 +294,7 @@ void kalternatives::slotAboutClicked()
     KAboutDialog *dlg = new KAboutDialog;
     dlg->setTitle(i18n("KDE Mandrake/Debian alternatives-system manager"));
     dlg->setAuthor("Juanjo Alvarez Martinez", "juanjo@juanjoalvarez.net",
-                  "http://juanjoalvarez.net", "\n\nKalternatives -- Mandrake/Debian alternatives system manager");
+                  "http://juanjoalvarez.net", "\n\nKalternatives -- Mandrake/Debian alternatives-system manager");
     dlg->setVersion(KALT_VERSION);
     dlg->show();
 }
@@ -302,14 +302,14 @@ void kalternatives::slotAboutClicked()
 void kalternatives::slotApplyClicked()
 {
     if(!isRoot) {
-        KMessageBox::information(this, i18n("Non root user"),
-        i18n("You are not the root user. If you want your changed to be applied you have to run this program as root"), i18n("&Ok"));
+        KMessageBox::information(this, i18n("Non-root user"),
+        i18n("You are not the root user; if you want your changes to be applied you have to run this program as root."), i18n("&Ok"));
         return;
     }
 
     QPtrList<AltItemElement> *forChangeList = getChangedList();
     if (forChangeList->count() == 0) {
-        KMessageBox::information(this, i18n("You didn't change any alternative"), i18n("No change selected"));
+        KMessageBox::information(this, i18n("You did not change any alternatives"), i18n("No change selected"));
         return;
     }
     QPtrListIterator<AltItemElement> altit(*forChangeList);
@@ -369,7 +369,7 @@ bool kalternatives::queryClose()
     if (getChangedList()->count() != 0)
     {
         if (KMessageBox::warningYesNo(this,
-            i18n("Some changes were not applied. Do you want to apply them now?"),
+            i18n("Some changes were not applied; do you want to apply them now?"),
             i18n("Unapplied changes")) != KMessageBox::No);
                 slotApplyClicked();
     }
