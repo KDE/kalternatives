@@ -122,6 +122,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	{
 		mainwindow->m_bDelete->setEnabled(false);
 		mainwindow->m_bAdd->setEnabled(false);
+		mainwindow->m_bProperties->setEnabled(false);
 		m_statusCombo->setEnabled(false);
 	}
 	
