@@ -426,7 +426,7 @@ class kalternatives(KMainWindow):
             self.icons = KIconLoader()
             apply(KMainWindow.__init__, (self,) + args)
             self.start()
-            self.setCaption(i18n("Debian Alternatives Manager"))
+            self.setCaption(i18n("Alternatives Manager"))
         except SystemExit:
             print "Exiting..."
             sys.exit(0)
@@ -454,7 +454,7 @@ class kalternatives(KMainWindow):
         else:
             # Ups?
             KMessageBox.critical(self, i18n("Critical Error"), \
-            i18n("Kalternatives only work on Debian based or Mandrake systems"),i18n("&Exit"))
+            i18n("Kalternatives only work on Debian or Mandrake based systems"),i18n("&Exit"))
             sys.exit(0)
 
         self.iw = ItemsWidget(self.centralWidget())
@@ -502,7 +502,7 @@ class kalternatives(KMainWindow):
             if KMessageBox.warningContinueCancel(self, \
             i18n("You are running this program from a non-privileged user account which"
             "usually means that you will be unable to apply any selected changes using"
-            "the Apply button. If you want to commit your changes to the Debian alternatives"
+            "the Apply button. If you want to commit your changes to the alternatives"
             "system please run the program as the root user."), i18n("Non Privileged User")) == KMessageBox.Cancel:
                 sys.exit(0)
                 #app.quit()
