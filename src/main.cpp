@@ -20,6 +20,7 @@
 
 #include "main.h"
 #include "kalternatives.h"
+#include "mainwindow.h"
 #include <kuniqueapplication.h>
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
@@ -45,13 +46,13 @@ int main(int argc, char **argv)
     about.addAuthor( "Juanjo Alvarez Martinez", 0, "juanjux@yahoo.es" );
     KCmdLineArgs::init(argc, argv, &about);
     KCmdLineArgs::addCmdLineOptions( options );
-    KUniqueApplication rapp;
+    /*KUniqueApplication rapp;
     app = &rapp;
     kalternatives *mainWin = 0;
 
     if (app->isRestored())
     {
-        RESTORE(kalternatives);
+        //RESTORE(kalternatives);
     }
     else
     {
@@ -61,13 +62,22 @@ int main(int argc, char **argv)
         /// @todo do something with the command line args here
 
         mainWin = new kalternatives();
-        app->setMainWidget( mainWin );
-        mainWin->show();
+        app->setMainWidget( mainWin->m_mainwindow );
+        mainWin->m_mainwindow->show();
+		
 
         args->clear();
-    }
+    }*/
+	KApplication app( argc, argv );
 
-    // mainWin has WDestructiveClose flag by default, so it will delete itself.
-    return app->exec();
+    //mainwindow mainwin;
+	Kalternatives mainwin;
+    app.setMainWidget( mainwin.m_mainwindow );
+    mainwin.m_mainwindow->show();
+
+	// mainWin has WDestructiveClose flag by default, so it will delete itself.
+    return app.exec();
+	
+    
 }
 

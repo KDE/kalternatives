@@ -20,9 +20,9 @@ KDE_ICON = kalternatives
 bin_PROGRAMS = kalternatives
 
 # the application source, library search path, and link libraries
-kalternatives_SOURCES = main.cpp kalternatives.cpp altparser.cpp
+kalternatives_SOURCES = propertieswindow.ui addalternativesui.ui mainwindow.ui kalternatives.cpp altparser.cpp main.cpp  
 kalternatives_LDFLAGS = $(KDE_RPATH) $(all_libraries)
-kalternatives_LDADD = $(LIB_KDEUI)
+kalternatives_LDADD = $(LIB_KDEUI) $(LIB_KIO)
 
 # this is where the desktop file will go 
 shelldesktopdir   = $(kde_appsdir)/Utilities

@@ -27,6 +27,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
+#include <iostream.h>
 
 Alternative::Alternative(Item *parentarg) : m_parent(parentarg)
 {
@@ -363,7 +364,6 @@ AltFilesManager::~AltFilesManager()
 
     delete m_itemlist;
     */
-
 }
 
 Item* AltFilesManager::getItem(const QString &name) const
@@ -496,6 +496,13 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
                     ++index;
                 }
             }
+			else
+			{
+				if (nslaves >0)
+				{
+					++index;
+				}
+			}
             item->addAlternative(a);
         }
         m_itemlist->append(item);
