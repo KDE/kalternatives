@@ -39,7 +39,6 @@ class AltItemElement : public QObject, public QCheckListItem
 	KListView *m_parent;
 	bool m_bisBroken;
 	QString m_path;
-	AltController *m_altControl;
 //#ifdef DEBIAN
 	QString m_desc;
 	QString m_descTmp;
@@ -48,14 +47,13 @@ class AltItemElement : public QObject, public QCheckListItem
 //#endif
 	
 public:
-    AltItemElement(KListView *parent, Alternative *alternative, AltController *altControl );
+    AltItemElement(KListView *parent, Alternative *alternative );
     ~AltItemElement();
 
     bool isBroken() const { return m_bisBroken; }
     KListView *getParent() const { return m_parent; }
     Alternative *getAlternative() { return m_alt; }
 	QString getPath() const {return m_path; }
-	AltController *getAltController() {return m_altControl;}
 //#ifdef DEBIAN
 	QString getDescription();
 	QString getDescriptionProcess();

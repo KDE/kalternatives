@@ -22,9 +22,9 @@
 #include "altitemelement.h"
 #include "treeitemelement.h"
 
-AltController::AltController(TreeItemElement *treeItem):
-m_treeItem(treeItem)
+AltController::AltController()
 {
+	m_altItemslist = new AltItemList;
 }
 
 AltController::~AltController()
@@ -32,7 +32,7 @@ AltController::~AltController()
 }
 
 
-void AltController::setBoutonOnOff(KListView *list)
+void AltController::setBoutonOnOff(KListView *list, AltItemElement *altItem)
 {
 	QListViewItemIterator it( list );
 	AltItemElement *alt;
@@ -40,7 +40,7 @@ void AltController::setBoutonOnOff(KListView *list)
 	{
 		if((alt = dynamic_cast<AltItemElement *>(it.current())))
 		{
-			if((alt!=m_altItem) && alt->isOn())
+			if((alt!=altItem) && alt->isOn())
 			{
     			alt->setState(QCheckListItem::Off);
 			}

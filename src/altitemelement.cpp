@@ -27,15 +27,13 @@
 
 /******************************* AltItemElement ********************/
 
-AltItemElement::AltItemElement(KListView *parent, Alternative *alternative, AltController *altControl )
+AltItemElement::AltItemElement(KListView *parent, Alternative *alternative)
 : QCheckListItem(parent, "", QCheckListItem::RadioButton),
   m_alt(alternative),
   m_parent(parent),
   m_bisBroken(alternative->isBroken()),
-  m_path(alternative->getPath()),
-  m_altControl(altControl)
+  m_path(alternative->getPath())
 {
-	m_altControl->setAltItem(this);
     setOn(alternative->isSelected());
     setEnabled(!m_bisBroken);
 	m_desc = "";

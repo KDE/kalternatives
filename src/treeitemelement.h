@@ -26,32 +26,26 @@
 #include <qlistview.h>
 #include <klistview.h>
 
-class AltItemElement;
+class AltController;
 class Item;
 
-
-typedef QPtrList<AltItemElement> AltItemList;
 
 class TreeItemElement : public QListViewItem
 {
     Item   *m_item;
     QString m_name;
 	bool    m_changed;
-	AltItemElement *m_altItemChanged;
-	AltItemList *m_altItemslist;
+	AltController *m_altControl;
 	
 public:
-    TreeItemElement(KListView *parent, Item *itemarg);
+    TreeItemElement(KListView *parent, Item *itemarg, AltController *altControl);
     ~TreeItemElement();
 
     QString getName() const { return m_name; }
     Item *getItem() const { return m_item; }
 	void setChanged(bool c) { m_changed = c; }
 	bool isChanged() const { return m_changed; }
-	void setAltItemChanged(AltItemElement *alt) { m_altItemChanged = alt; }
-	AltItemElement *getAltItemChanged() const { return m_altItemChanged; }
-	void addAltItem(AltItemElement *altItem) {m_altItemslist->append(altItem);}
-	AltItemList *getAltItemList() {return m_altItemslist;}
+	AltController *getAltController() {return m_altControl;}
 };
 
 

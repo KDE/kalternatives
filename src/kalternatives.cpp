@@ -111,7 +111,8 @@ void Kalternatives::updateData(AltFilesManager *mgr)
     TreeItemElement *treeit;
     for(i = itemslist->first(); i; i = itemslist->next())
     {
-        treeit = new TreeItemElement(m_altList, i);
+		AltController *altcontroller = new AltController();
+        treeit = new TreeItemElement(m_altList, i, altcontroller);
 		
 		AltsPtrList *altList = i->getAlternatives();
 		Alternative *a = altList->first();
@@ -120,9 +121,8 @@ void Kalternatives::updateData(AltFilesManager *mgr)
 		
 		for(; a; a=altList->next())
     	{
-			AltController *altcontroller = new AltController(treeit);
-        	ael = new AltItemElement(m_optionsList, a, altcontroller);
-			treeit->addAltItem(ael);
+        	ael = new AltItemElement(m_optionsList, a);
+			treeit->getAltController()->addAltItem(ael);
 		}
     }
 }
@@ -153,7 +153,7 @@ void Kalternatives::slotSelectAlternativesClicked(QListViewItem *alternative)
 		m_altTilte->setText(treeItem->getName());
 		m_statusCombo->setCurrentItem(item->getMode());
 		
-    	AltItemList *altItemList = treeItem->getAltItemList();
+    	AltItemList *altItemList = treeItem->getAltController()->getAltItemList();
 		
 		for( AltItemElement *altItem= altItemList->first(); altItem ; altItem = altItemList->next())
 		{
@@ -215,17 +215,16 @@ void Kalternatives::slotHideAlternativesClicked()
 
 void Kalternatives::slotOptionClicked(QListViewItem *option)
 {
-    AltItemElement *it;
-	if((it = dynamic_cast<AltItemElement *>(option)))
+    AltItemElement *altItem;
+	if((altItem = dynamic_cast<AltItemElement *>(option)))
 	{
-		if( !it->isOn() )
+		if( !altItem->isOn() )
 			return;
-    	it->getAltController()->setBoutonOnOff(m_optionsList);
-		TreeItemElement *i;
-		if((i = dynamic_cast<TreeItemElement *>(m_altList->selectedItem())))
+		TreeItemElement *treeItem;
+		if((treeItem = dynamic_cast<TreeItemElement *>(m_altList->selectedItem())))
 		{
-			i->setChanged(TRUE);
-			i->setAltItemChanged(it);
+			treeItem->getAltController()->setBoutonOnOff(m_optionsList, altItem);
+			treeItem->setChanged(TRUE);
 		}
 		if(!m_bApply->isEnabled() && m_bisRoot)
 		{
@@ -258,7 +257,7 @@ void Kalternatives::slotDeleteClicked()
 		{
 			treeItem->getItem()->delAlternativeByPath(altItem->getPath());
 			
-			AltItemList *altItemList = treeItem->getAltItemList();
+			AltItemList *altItemList = treeItem->getAltController()->getAltItemList();
 			
 			altItemList->remove(altItem);
 			m_optionsList->takeItem(altItem);
@@ -344,7 +343,7 @@ void Kalternatives::slotApplyClicked()
 		{
 			if(treeItem->isChanged())
 			{
-				AltItemList *altItemList = treeItem->getAltItemList();
+				AltItemList *altItemList = treeItem->getAltController()->getAltItemList();
 				AltItemElement *altItem= altItemList->first();
 				for( ; altItem ; altItem = altItemList->next())
 				{

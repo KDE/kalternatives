@@ -107,10 +107,11 @@ void AddAlternatives::slotOkClicked()
 		
 		item->addAlternative(a);
 		
-		AltController *altController = new AltController(m_treeItem);
-		AltItemElement *altItem = new AltItemElement(m_kalt->optionsList(), a, altController);
 		
-		m_treeItem->addAltItem(altItem);
+		AltItemElement *altItem = new AltItemElement(m_kalt->optionsList(), a);
+		
+		m_treeItem->getAltController()->addAltItem(altItem);
+		
 		
 		QString priority;
 		priority.setNum(a->getPriority());

@@ -19,21 +19,22 @@
  ***************************************************************************/
  
  #include "treeitemelement.h"
- #include "altitemelement.h"
  #include "altparser.h"
+ #include "altcontroller.h"
 
-TreeItemElement::TreeItemElement(KListView *parent, Item *itemarg)
+TreeItemElement::TreeItemElement(KListView *parent, Item *itemarg, AltController *altControl )
 : QListViewItem(parent, itemarg->getName()),
   m_item(itemarg),
   m_name(itemarg->getName()),
-  m_changed(FALSE)
+  m_changed(FALSE),
+  m_altControl(altControl)
 {
-	m_altItemslist = new AltItemList;
 }
 
 
 TreeItemElement::~TreeItemElement()
 {
 }
+
 
  

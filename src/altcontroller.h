@@ -22,19 +22,23 @@
 #define _ALTCONTROLLER_H_
 
 #include <klistview.h>
+#include <qptrlist.h>
 
-class TreeItemElement;
 class AltItemElement;
+
+typedef QPtrList<AltItemElement> AltItemList;
+
 
 class AltController
 {
-	AltItemElement *m_altItem;
-	TreeItemElement *m_treeItem;
-public:
-	AltController(TreeItemElement *treeItem);
-	~AltController();
+	AltItemList *m_altItemslist;
 	
-	void setAltItem(AltItemElement *altItem){m_altItem = altItem;}
-	void setBoutonOnOff(KListView *list);
+public:
+	AltController();
+	~AltController();
+
+	void setBoutonOnOff(KListView *list, AltItemElement *altItem);
+	void addAltItem(AltItemElement *altItem) {m_altItemslist->append(altItem);}
+	AltItemList *getAltItemList() {return m_altItemslist;}
 };
 #endif // _ALTCONTROLLER_H_
