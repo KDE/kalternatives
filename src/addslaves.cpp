@@ -25,7 +25,7 @@
 #include <kpushbutton.h>
 #include <qlayout.h>
 #include <kurl.h>
- 
+
 #include <iostream>
 using namespace std;
 

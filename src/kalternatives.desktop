@@ -1,23 +1,38 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Kalternatives
-Name[ta]=Kமாற்றுகள்
-Name[xx]=xxKalternativesxx
-Terminal=false
-Icon=kcmsystem.png
-DocPath=kalternatives/index.html
-Comment=Alternatives system manager
-Comment[da]=Alternative systemhåndtering
-Comment[es]=Administrador del sistema de alternativos
-Comment[et]=Alternatiivne süsteemihaldur
-Comment[nl]=Alternatief systeembeheerder
-Comment[pt]=Gestão do sistema de alternativas
-Comment[pt_BR]=Gerenciador do sistem Alternatives
-Comment[sv]=Alternatives systemhantering
-Comment[ta]=மாற்றுகள் முறைமை மேலாளர்
-Comment[xx]=xxAlternatives system managerxx
-Exec=kalternatives
-Path=
-Terminal=0
+Exec=kcmshell kalternatives
+Icon=misc
 Type=Application
-X-KDE-StartupNotify=true
+
+X-KDE-ModuleType=Library
+X-KDE-Library=kalternatives
+X-KDE-RootOnly=true
+X-KDE-ParentApp=kcontrol
+
+Comment=Kalternatives - KDE Mandrake/Debian alternatives-system manager
+Comment[fr]=Kalternatives - Gestionnaire KDE d'alternatives pour Mandrake/debian 
+Keywords=Kalternatives,kalternatives
+Keywords[xx]=xxKalternatives,kalternativesxx
+Name=Kalternatives
+Name[ca]=Kalternatives
+Name[da]=Kalternatives
+Name[de]=Kalternatives
+Name[et]=Kalternatives
+Name[fr]=Kalternatives
+Name[hu]=Kalternatives
+Name[it]=Kalternatives
+Name[nl]=Kalternatives
+Name[pl]=Kalternatives
+Name[pt]=Kalternatives
+Name[pt_BR]=Kalternatives
+Name[ru]=Kalternatives
+Name[sl]=Kalternatives
+Name[sr]=Kalternatives
+Name[sr@Latn]=Kalternatives
+Name[sv]=Kalternatives
+Name[ta]=Kalternatives
+Name[xx]=xxKalternativesxx
+Name[zh_CN]=Kalternatives
+
+
+Categories=Qt;KDE;X-KDE-settings-system

@@ -143,10 +143,7 @@ void AddAlternatives::slotOkClicked()
 				altItem->searchDescription();
 			}
 			m_treeItem->setNbrAltChanged(TRUE);
-			if(!m_kalt->applyIsEnabled() && m_kalt->isBisRoot())
-			{
-				m_kalt->applySetEnabled();
-			}
+			emit m_kalt->configChanged();
 			close();
 		}
 		else

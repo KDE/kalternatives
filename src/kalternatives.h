@@ -34,12 +34,14 @@
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
+#include <kcmodule.h>
+#include <kaboutdata.h>
 
 #define KALT_VERSION "0.12"
 
 class AltFilesManager;
 
-class Kalternatives : public QWidget
+class Kalternatives : public KCModule
 {
     Q_OBJECT
 
@@ -50,24 +52,27 @@ class Kalternatives : public QWidget
 	KComboBox* m_statusCombo;
 	QLabel* m_altTilte;
 	QCheckBox* m_hideAlt;
-	KPushButton* m_bApply;
+	KAboutData *myAboutData;
 	
-	void updateData(AltFilesManager *mgr);
 	void clearList(KListView* list);
 	
 public:
-    Kalternatives();
+    Kalternatives(QWidget *parent=0, const char *name=0, const QStringList& = QStringList() );
     virtual ~Kalternatives();
 	KListView *optionsList() const {return m_optionsList;}
 	bool isBisRoot() const {return m_bisRoot;}
-	bool applyIsEnabled() const { return m_bApply->isEnabled();}
-	void applySetEnabled() {m_bApply->setEnabled(1);}
 	
+	virtual void load();
+	virtual void save();
+	virtual QString quickHelp() const;
+	virtual const KAboutData *aboutData()const { return myAboutData; };
+
+public slots:
+	void configChanged();
+
 private slots:
 	void slotSelectAlternativesClicked(QListViewItem *);
-    void slotApplyClicked();
 	void slotHideAlternativesClicked();
-    void slotAboutClicked();
     void die();
 	void slotOptionClicked(QListViewItem *option);
 	void slotAddClicked();

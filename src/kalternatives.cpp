@@ -41,15 +41,38 @@
 #include <qlayout.h>
 #include <qfile.h> 
 #include <qtextstream.h> 
+#include <kgenericfactory.h>
 
 
+typedef KGenericFactory<Kalternatives, QWidget> KalternativesFactory;
+K_EXPORT_COMPONENT_FACTORY( kcm_Kalternatives, KalternativesFactory("kcmkalternatives"))
 
-Kalternatives::Kalternatives()
+extern "C"
+{
+	KCModule *create_kalternatives(QWidget *parent, const char *name)
+	{
+		return new Kalternatives(parent, name); 
+	};
+}
+
+Kalternatives::Kalternatives(QWidget *parent, const char *name, const QStringList&)
+:KCModule(/*KalternativesFactory::instance(), */parent, name), myAboutData(0)
 {
 	int user = getuid();
 	//FIXME: This won't be needed as kcm
-	if (user == 0) m_bisRoot = true;
-	else m_bisRoot = false;
+	
+	if (user == 0)
+	{
+		m_bisRoot = true;
+		setButtons(KCModule::Help|KCModule::Apply);
+		setEnabled( true );
+	}
+	else 
+	{
+		m_bisRoot = false;
+		setButtons(Help);
+		setEnabled( false );
+	}
 
 #ifdef MANDRAKE
 m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
@@ -61,13 +84,6 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	QTimer::singleShot(0, this, SLOT(die()));
 	#endif
 #endif
-	
-	if(!m_bisRoot)
-	{
-	if(KMessageBox::warningContinueCancel(this,
-		i18n("You are running this program from a non-privileged user account which usually means that you will be unable to apply any selected changes using the Apply button. If you want to commit your changes to the alternatives system please run the program as the root user."), i18n("Non-Privileged User")) == KMessageBox::Cancel)
-		QTimer::singleShot(0, this, SLOT(die()));
-	}
 	
 	MainWindow *mainwindow = new MainWindow(this);
 	QGridLayout *KalternativesLayout = new QGridLayout( this, 1, 1, 11, 6, "KalternativesLayout"); 
@@ -83,8 +99,6 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	
 	connect(mainwindow->m_optionsList, SIGNAL(clicked(QListViewItem *)), 
 			this, SLOT(slotOptionClicked(QListViewItem *)));
-	connect(mainwindow->m_bApply, SIGNAL(clicked()), this,
-			SLOT(slotApplyClicked()));
 	connect(mainwindow->m_bAdd, SIGNAL(clicked()), this,
 			SLOT(slotAddClicked()));
 	connect(mainwindow->m_bDelete, SIGNAL(clicked()), this,
@@ -97,9 +111,18 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	m_altTilte = mainwindow->m_altTilte;
 	m_statusCombo = mainwindow->m_statusCombo;
 	m_hideAlt = mainwindow->m_hideAlt;
-	m_bApply = mainwindow->m_bApply;
 	
-	updateData(m_mgr);
+	myAboutData = new KAboutData("KalternativesKCM", "Kalternatives", KALT_VERSION, i18n("KDE Mandrake/Debian alternatives-system manager"),
+        KAboutData::License_GPL, "(c) 2004 Juanjo Alvarez Martinez and Mario Bensi", 0, 0 );
+		
+		
+	myAboutData->addAuthor("Juanjo Alvarez Martinez", "\n\nKalternatives -- Mandrake/Debian alternatives-system manager", "juanjo@juanjoalvarez.net",
+		"http://juanjoalvarez.net");
+	myAboutData->addAuthor("Mario Bensi", "\n\nKalternatives -- Mandrake/Debian alternatives-system manager", "nef@ipsquad.net", "http://ipsquad.net");
+	
+	setAboutData( myAboutData );
+	
+	load();
 	m_altList->setSelected( m_altList->firstChild(), TRUE );
 	resize(615, 490);
 }
@@ -112,7 +135,6 @@ Kalternatives::~Kalternatives()
 	if(m_altTilte) delete m_altTilte;
 	if(m_statusCombo) delete m_statusCombo;
 	if(m_hideAlt) delete m_hideAlt;
-	if(m_bApply) delete m_bApply;
 }
 
 void Kalternatives::die()
@@ -120,9 +142,10 @@ void Kalternatives::die()
 	delete this;
 }
 
-void Kalternatives::updateData(AltFilesManager *mgr)
+void Kalternatives::load()
 {
-	QPtrList<Item> *itemslist = mgr->getGlobalAlternativeList();
+	clearList(m_altList);
+	QPtrList<Item> *itemslist = m_mgr->getGlobalAlternativeList();
 	Item *i;
 	TreeItemElement *treeit;
 	for(i = itemslist->first(); i; i = itemslist->next())
@@ -224,8 +247,7 @@ void Kalternatives::slotHideAlternativesClicked()
 	}
 	else
 	{
-		clearList(m_altList);
-		updateData(m_mgr);
+		load();
 	}
 	m_altList->setSelected(m_altList->firstChild (), 1);
 }
@@ -243,10 +265,7 @@ void Kalternatives::slotOptionClicked(QListViewItem *option)
 		{
 			treeItem->getAltController()->setBoutonOnOff(m_optionsList, altItem);
 			treeItem->setChanged(TRUE);
-		}
-		if(!m_bApply->isEnabled() && m_bisRoot)
-		{
-			m_bApply->setEnabled(1);
+			emit changed(true);
 		}
 	}
 }
@@ -283,10 +302,7 @@ void Kalternatives::slotDeleteClicked()
 			m_optionsList->takeItem(altItem);
 			
 			treeItem->setNbrAltChanged(TRUE);
-			if(!m_bApply->isEnabled() && m_bisRoot)
-			{
-				m_bApply->setEnabled(1);
-			}
+			emit changed( TRUE );
 			m_optionsList->setSelected(m_optionsList->firstChild (), 1);
 		}
 	}
@@ -332,17 +348,8 @@ void Kalternatives::slotPropertiesClicked()
 	}
 }
 
-void Kalternatives::slotAboutClicked()
-{
-	/*KAboutDialog *dlg = new KAboutDialog;
-	dlg->setTitle(i18n("KDE Mandrake/Debian alternatives-system manager"));
-	dlg->setAuthor("Juanjo Alvarez Martinez", "juanjo@juanjoalvarez.net",
-		"http://juanjoalvarez.net", "\n\nKalternatives -- Mandrake/Debian alternatives-system manager");
-	dlg->setVersion(KALT_VERSION);
-	dlg->show();*/
-}
 
-void Kalternatives::slotApplyClicked()
+void Kalternatives::save()
 {
 	QListViewItemIterator it( m_altList );
 	TreeItemElement *treeItem;
@@ -423,7 +430,21 @@ void Kalternatives::slotApplyClicked()
 		}
 		it++;
 	}
-	m_bApply->setEnabled(0);
+	emit changed( false );
 }
+
+
+void Kalternatives::configChanged()
+{
+	emit changed(true);
+}
+
+
+QString Kalternatives::quickHelp() const
+{
+	return i18n("\n\nKalternatives -- Mandrake/Debian alternatives-system manager");
+}
+
+
 
 #include "kalternatives.moc"

@@ -1,34 +1,21 @@
-# set the include path for X, qt and KDE
 INCLUDES = $(all_includes)
 
-# these are the headers for your project
-noinst_HEADERS = kalternatives.h altparser.h altcontroller.h altitemelement.h treeitemelement.h addslaves.h addalternatives.h
-
-# let automoc handle all of the meta source files (moc)
-METASOURCES = AUTO
-
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/kalternatives.pot
+noinst_HEADERS = kalternatives.h altparser.h altcontroller.h altitemelement.h treeitemelement.h addslaves.h addalternatives.h 
 
 KDE_ICON = kalternatives
 
-#########################################################################
-# APPLICATION SECTION
-#########################################################################
-# this is the program that gets installed.  it's name is used for all
-# of the other Makefile.am variables
-bin_PROGRAMS = kalternatives
+# Install this plugin in the KDE modules directory
+kde_module_LTLIBRARIES = kcm_kalternatives.la
 
-# the application source, library search path, and link libraries
-kalternatives_SOURCES = addslavesui.ui propertieswindow.ui addalternativesui.ui mainwindow.ui altcontroller.cpp kalternatives.cpp altparser.cpp main.cpp altitemelement.cpp treeitemelement.cpp addslaves.cpp addalternatives.cpp
-kalternatives_LDFLAGS = $(KDE_RPATH) $(all_libraries)
-kalternatives_LDADD = $(LIB_KDEUI) $(LIB_KIO)
+kcm_kalternatives_la_SOURCES = addslavesui.ui propertieswindow.ui addalternativesui.ui mainwindow.ui altcontroller.cpp kalternatives.cpp altparser.cpp altitemelement.cpp treeitemelement.cpp addslaves.cpp addalternatives.cpp 
 
-# this is where the desktop file will go 
-shelldesktopdir   = $(kde_appsdir)/Utilities
-shelldesktop_DATA = kalternatives.desktop
+kcm_kalternatives_la_LIBADD = $(LIB_KDEUI) $(LIB_KIO)
+kcm_kalternatives_la_LDFLAGS = $(all_libraries) -module -avoid-version -no-undefined
 
-# this is where the shell's XML-GUI resource file goes
-shellrcdir   = $(kde_datadir)/kalternatives
-shellrc_DATA = kalternativesui.rc
 
+kcm_kalternatives_la_METASOURCES = AUTO
+
+messages: rc.cpp
+	$(XGETTEXT) *.cpp -o $(podir)/kalternatives.pot
+	
+xdg_apps_DATA = kalternatives.desktop
