@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Juanjo                                          *
- *   juanjux@yahoo.es                                                      *
+ *   Copyright (C) 2004 by Mario BENSI                                     *
+ *   nef@ipsquad.net                                                       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,66 +18,42 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _KALTERNATIVES_H_
-#define _KALTERNATIVES_H_
+#ifndef _TREEITEMELEMENT_H_
+#define _TREEITEMELEMENT_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
+#include <qstring.h>
+#include <qptrlist.h>
+#include <qlistview.h>
 #include <klistview.h>
-#include <kpushbutton.h> 
-#include <kcombobox.h> 
-#include <qwidget.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
 
-#define KALT_VERSION "0.12"
-
-class TreeItemElement;
-class Alternative;
-class Item;
-class KProcess;
 class AltItemElement;
-class Kalternatives;
-class AltController;
-class AltFilesManager;
+class Item;
 
 
+typedef QPtrList<AltItemElement> AltItemList;
 
-
-
-class Kalternatives : public QWidget
+class TreeItemElement : public QListViewItem
 {
-    Q_OBJECT
-
-    bool m_bisRoot;
-    AltFilesManager *m_mgr;
-	KListView* m_optionsList;
-	KListView* m_altList;
-	KComboBox* m_statusCombo;
-	QLabel* m_altTilte;
-	QCheckBox* m_hideAlt;
-	KPushButton* m_bApply;
-	
-	void updateData(AltFilesManager *mgr);
-	void clearList(KListView* list);
+    Item   *m_item;
+    QString m_name;
+	bool    m_changed;
+	AltItemElement *m_altItemChanged;
+	AltItemList *m_altItemslist;
 	
 public:
-    Kalternatives();
-    virtual ~Kalternatives();
-	KListView *optionsList() const {return m_optionsList;}
+    TreeItemElement(KListView *parent, Item *itemarg);
+    ~TreeItemElement();
 
-private slots:
-	void slotSelectAlternativesClicked(QListViewItem *);
-    void slotApplyClicked();
-	void slotHideAlternativesClicked();
-    void slotAboutClicked();
-    void die();
-	void slotOptionClicked(QListViewItem *option);
-	void slotAddClicked();
-	void slotDeleteClicked();
-	void slotPropertiesClicked();
+    QString getName() const { return m_name; }
+    Item *getItem() const { return m_item; }
+	void setChanged(bool c) { m_changed = c; }
+	bool isChanged() const { return m_changed; }
+	void setAltItemChanged(AltItemElement *alt) { m_altItemChanged = alt; }
+	AltItemElement *getAltItemChanged() const { return m_altItemChanged; }
+	void addAltItem(AltItemElement *altItem) {m_altItemslist->append(altItem);}
+	AltItemList *getAltItemList() {return m_altItemslist;}
 };
 
-#endif // _KALTERNATIVES_H_
+
+
+#endif //_TREEITEMELEMENT_H_

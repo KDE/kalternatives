@@ -71,9 +71,9 @@ int main(int argc, char **argv)
 	KApplication app( argc, argv );
 
     //mainwindow mainwin;
-	Kalternatives mainwin;
-    app.setMainWidget( mainwin.m_mainwindow );
-    mainwin.m_mainwindow->show();
+	Kalternatives *mainwin = new Kalternatives();
+    app.setMainWidget( mainwin/*.m_mainwindow*/ );
+    mainwin/*.m_mainwindow*/->show();
 
 	// mainWin has WDestructiveClose flag by default, so it will delete itself.
     return app.exec();

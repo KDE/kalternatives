@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Juanjo                                          *
- *   juanjux@yahoo.es                                                      *
+ *   Copyright (C) 2004 by Mario BENSI                                     *
+ *   nef@ipsquad.net                                                       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,66 +18,23 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _KALTERNATIVES_H_
-#define _KALTERNATIVES_H_
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#ifndef _ALTCONTROLLER_H_
+#define _ALTCONTROLLER_H_
 
 #include <klistview.h>
-#include <kpushbutton.h> 
-#include <kcombobox.h> 
-#include <qwidget.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-
-#define KALT_VERSION "0.12"
 
 class TreeItemElement;
-class Alternative;
-class Item;
-class KProcess;
 class AltItemElement;
-class Kalternatives;
-class AltController;
-class AltFilesManager;
 
-
-
-
-
-class Kalternatives : public QWidget
+class AltController
 {
-    Q_OBJECT
-
-    bool m_bisRoot;
-    AltFilesManager *m_mgr;
-	KListView* m_optionsList;
-	KListView* m_altList;
-	KComboBox* m_statusCombo;
-	QLabel* m_altTilte;
-	QCheckBox* m_hideAlt;
-	KPushButton* m_bApply;
-	
-	void updateData(AltFilesManager *mgr);
-	void clearList(KListView* list);
-	
+	AltItemElement *m_altItem;
+	TreeItemElement *m_treeItem;
 public:
-    Kalternatives();
-    virtual ~Kalternatives();
-	KListView *optionsList() const {return m_optionsList;}
-
-private slots:
-	void slotSelectAlternativesClicked(QListViewItem *);
-    void slotApplyClicked();
-	void slotHideAlternativesClicked();
-    void slotAboutClicked();
-    void die();
-	void slotOptionClicked(QListViewItem *option);
-	void slotAddClicked();
-	void slotDeleteClicked();
-	void slotPropertiesClicked();
+	AltController(TreeItemElement *treeItem);
+	~AltController();
+	
+	void setAltItem(AltItemElement *altItem){m_altItem = altItem;}
+	void setBoutonOnOff(KListView *list);
 };
-
-#endif // _KALTERNATIVES_H_
+#endif // _ALTCONTROLLER_H_

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Juanjo                                          *
- *   juanjux@yahoo.es                                                      *
+ *   Copyright (C) 2004 by Mario BENSI                                     *
+ *   nef@ipsquad.net                                                       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,66 +18,40 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _KALTERNATIVES_H_
-#define _KALTERNATIVES_H_
+#ifndef _ADDALTERNATIVES_H_
+#define _ADDALTERNATIVES_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <klistview.h>
-#include <kpushbutton.h> 
-#include <kcombobox.h> 
+#include <kfiledialog.h>
+#include <klineedit.h> 
+#include <knuminput.h> 
 #include <qwidget.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-
-#define KALT_VERSION "0.12"
 
 class TreeItemElement;
-class Alternative;
-class Item;
-class KProcess;
-class AltItemElement;
 class Kalternatives;
-class AltController;
-class AltFilesManager;
 
-
-
-
-
-class Kalternatives : public QWidget
+class AddAlternatives : public QWidget
 {
-    Q_OBJECT
-
-    bool m_bisRoot;
-    AltFilesManager *m_mgr;
-	KListView* m_optionsList;
-	KListView* m_altList;
-	KComboBox* m_statusCombo;
-	QLabel* m_altTilte;
-	QCheckBox* m_hideAlt;
-	KPushButton* m_bApply;
+	Q_OBJECT
 	
-	void updateData(AltFilesManager *mgr);
-	void clearList(KListView* list);
+	KFileDialog *m_fileDialog;
+	KFileDialog *m_fileDialogMan;
+	TreeItemElement *m_treeItem;
+	Kalternatives *m_kalt;
+	KLineEdit* m_Path;
+	KLineEdit* m_PathMan;
+	KIntSpinBox* m_Priority;
 	
 public:
-    Kalternatives();
-    virtual ~Kalternatives();
-	KListView *optionsList() const {return m_optionsList;}
-
+	AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt);
+	virtual ~AddAlternatives();
+	
 private slots:
-	void slotSelectAlternativesClicked(QListViewItem *);
-    void slotApplyClicked();
-	void slotHideAlternativesClicked();
-    void slotAboutClicked();
-    void die();
-	void slotOptionClicked(QListViewItem *option);
-	void slotAddClicked();
-	void slotDeleteClicked();
-	void slotPropertiesClicked();
+	void slotOkFileClicked();
+	void slotOkClicked();
+	void slotBrowseClicked();
+	void slotBrowseManClicked();
+	void slotOkFileManClicked();
+	
 };
 
-#endif // _KALTERNATIVES_H_
+#endif //ADDALTERNATIVES_H_
