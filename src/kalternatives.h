@@ -132,6 +132,7 @@ class kalternatives : public KMainWindow
 
     void start();
     QPtrList<AltItemElement> *getChangedList();
+    int countChanged();
 
 public:
     kalternatives();

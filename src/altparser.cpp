@@ -110,6 +110,7 @@ bool Alternative::select()
 
     // And finally the slaves
     SlaveList *parslaves = parent->getSlaves();
+    parslaves->setAutoDelete(1);
     if(parslaves->count() == 0 || slaves->count() == 0) return true;
     int count = 0;
     QStringList::iterator sl;
@@ -363,7 +364,7 @@ AltFilesManager::AltFilesManager(const QString &altdirarg) :
 
 AltFilesManager::~AltFilesManager()
 {
-    if(itemlist)delete itemlist;
+    //delete itemlist;
     /*
     Item *item;
     for(item = itemlist->first(); item; item = itemlist->next())
@@ -373,6 +374,7 @@ AltFilesManager::~AltFilesManager()
 
     delete itemlist;
     */
+    
 }
 
 Item* AltFilesManager::getItem(const QString &name) const
@@ -405,7 +407,10 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
     for( QStringList::Iterator it = fileList.begin(); it != fileList.end(); ++it)
     {
         Item *item = new Item;
-        if(*it == "." || *it == "..")continue;
+        if(*it == "." || *it == "..") {
+            delete item;
+            continue;
+        }
 
         item->setName(*it);
         altFile.setName(altdir+"/"+*it);
@@ -413,6 +418,7 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         if(!altFile.open( IO_ReadOnly ))
         {
             errorstr = altFile.errorString();
+            delete item;
             return false;
         }
 
@@ -422,6 +428,7 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
             if(!altFile.readLine(line, 9999))
             {
                 errorstr = altFile.errorString();
+                delete item;
                 return false;
             }
             lines.append(line);
@@ -435,10 +442,11 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         tmp = line.left(line.length()-1);
         item->setPath(tmp);
         
-	index = 2;
+	    index = 2;
         line = lines[index];
         nslaves = 0;
         SlaveList *slaves = new SlaveList;
+        slaves->setAutoDelete(1);
 
         while(line != "\n")
         {
@@ -457,35 +465,37 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
 
         item->setSlaves(slaves);
         
-	++index;
+	    ++index;
         while(index < lines.count()-1)
         {
-	    line = lines[index];
-	    Alternative *a = new Alternative(item);
+            line = lines[index];
+            Alternative *a = new Alternative(item);
             tmp = line.left(line.length()-1);
             a->setPath(tmp);
-	    
-            if(line=="\n")
+            
+            if(line=="\n") {
                 //File end (with a \n)
-                break;
-	    
-	    if(++index == lines.count())
-            {
-                item->addAlternative(a);
+                delete a;
                 break;
             }
-	    
-	    
-            line = lines[index];
-            tmp = line.left(line.length()-1);
-            a->setPriority(tmp.toInt());
-	    
+            
             if(++index == lines.count())
             {
                 item->addAlternative(a);
                 break;
             }
-	    
+            
+            
+            line = lines[index];
+            tmp = line.left(line.length()-1);
+            a->setPriority(tmp.toInt());
+        
+            if(++index == lines.count())
+            {
+                item->addAlternative(a);
+                break;
+            }
+        
             line = lines[index];
             if(line != "\n" and nslaves > 0)
             {
@@ -498,7 +508,6 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
                     ++index;
                 }
             }
-	    
             item->addAlternative(a);
         }
         itemlist->append(item);

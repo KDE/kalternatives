@@ -228,7 +228,7 @@ kalternatives::kalternatives()
     if(!isRoot)
     {
         if(KMessageBox::warningContinueCancel(this,
-                    i18n("You are running this program from a non-privileged user account which usually means that you will be unable to apply any selected changes using the Apply button. If you want to commit your changes to the alternatives system please run the program as the root user."), i18n("Non-Privileged User")) == KMessageBox::Cancel)
+            i18n("You are running this program from a non-privileged user account which usually means that you will be unable to apply any selected changes using the Apply button. If you want to commit your changes to the alternatives system please run the program as the root user."), i18n("Non-Privileged User")) == KMessageBox::Cancel)
             QTimer::singleShot(0, this, SLOT(die()));
     }
 
@@ -294,7 +294,7 @@ void kalternatives::slotAboutClicked()
     KAboutDialog *dlg = new KAboutDialog;
     dlg->setTitle(i18n("KDE Mandrake/Debian alternatives-system manager"));
     dlg->setAuthor("Juanjo Alvarez Martinez", "juanjo@juanjoalvarez.net",
-                  "http://juanjoalvarez.net", "\n\nKalternatives -- Mandrake/Debian alternatives-system manager");
+                "http://juanjoalvarez.net", "\n\nKalternatives -- Mandrake/Debian alternatives-system manager");
     dlg->setVersion(KALT_VERSION);
     dlg->show();
 }
@@ -337,9 +337,10 @@ void kalternatives::slotApplyClicked()
                 i18n("Error")) == KMessageBox::Cancel )
                 break;
         }
-        if ( getChangedList()->count() == 0 )
+        if ( countChanged() == 0 )
             apply->setEnabled(0);
     }
+    delete forChangeList;
 }
 
 QPtrList<AltItemElement> *kalternatives::getChangedList()
@@ -359,14 +360,24 @@ QPtrList<AltItemElement> *kalternatives::getChangedList()
                 forChangeList->append(alt);
         }
     }
+    // Don't forget to delete it!!
     return forChangeList;
 }
+
+int kalternatives::countChanged()
+{
+    QPtrList<AltItemElement> *fc = getChangedList();
+    int count = fc->count();
+    delete fc;
+    return count;
+}
+
 
 bool kalternatives::queryClose()
 {
   if (isRoot)
   {
-    if (getChangedList()->count() != 0)
+    if (countChanged() != 0)
     {
         if (KMessageBox::warningYesNo(this,
             i18n("Some changes were not applied; do you want to apply them now?"),
