@@ -40,9 +40,10 @@ class AddAlternatives : public QWidget
 	KLineEdit* m_Path;
 	KIntSpinBox* m_Priority;
 	KTextEdit* m_textSlave;
+	int m_countSlave;
 	
 public:
-	AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt);
+	AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt, int countSlaves);
 	virtual ~AddAlternatives();
 	
 	void addSlave(QString text){m_textSlave->append(text);}

@@ -249,8 +249,15 @@ void Kalternatives::slotAddClicked()
 	TreeItemElement *treeItem;
 	if((treeItem = dynamic_cast<TreeItemElement *>(m_altList->selectedItem())))
 	{
-		AddAlternatives *addAlternatives = new AddAlternatives(treeItem, this);
-		addAlternatives->show();
+		m_optionsList->setSelected(m_optionsList->firstChild(), 1);
+		
+		AltItemElement *altItem;
+		if((altItem = dynamic_cast<AltItemElement *>(m_optionsList->selectedItem())))
+		{
+			int countSlave = altItem->getAlternative()->countSlaves();
+			AddAlternatives *addAlternatives = new AddAlternatives(treeItem, this, countSlave);
+			addAlternatives->show();
+		}
 	}
 }
 void Kalternatives::slotDeleteClicked()

@@ -23,8 +23,6 @@
 #include "altcontroller.h"
 #include "altparser.h"
 
-#include <kdebug.h>
-
 /******************************* AltItemElement ********************/
 
 AltItemElement::AltItemElement(KListView *parent, Alternative *alternative)
@@ -36,10 +34,10 @@ AltItemElement::AltItemElement(KListView *parent, Alternative *alternative)
 {
 	setOn(alternative->isSelected());
 	setEnabled(!m_bisBroken);
-//#ifdef DEBIAN
+#ifdef DEBIAN
 	findDescriptionThread = 0L;
 	m_desc = "";
-//#endif
+#endif
 }
 
 AltItemElement::~AltItemElement()
@@ -48,12 +46,11 @@ AltItemElement::~AltItemElement()
 	delete m_alt;
 }
 
-//#ifdef DEBIAN
+#ifdef DEBIAN
 
 void AltItemElement::searchDescription()
 {
 	m_mutex.lock();
-	kdDebug() << " findDescriptionThread lock " << m_path << endl;
 	
 	if (findDescriptionThread==0L || !findDescriptionThread->running ())
 	{
@@ -62,24 +59,21 @@ void AltItemElement::searchDescription()
 	}
 	
 	m_mutex.unlock();
-	kdDebug() << " findDescriptionThread unlock " << m_path << endl;
 }
 
 void AltItemElement::setDescription(QString desc) 
 {
 	m_mutex.lock();
-	kdDebug() << " setDescription lock " << m_path << endl;
 	m_desc = desc; 
 	desc.truncate(desc.find("\n"));
 	setText( 3, desc);
 	m_mutex.unlock();
-	kdDebug() << " setDescription unlock " << m_path << endl;
 }
 
-//#endif
+#endif
 
 /********************************* FindDescriptionThread ******************************/
-//#ifdef DEBIAN
+#ifdef DEBIAN
 FindDescriptionThread::FindDescriptionThread(AltItemElement *altItem):
 m_altItem(altItem)
 {
@@ -135,7 +129,6 @@ QString FindDescriptionThread::getDescriptionProcess()
 	
 	m_descTmp = "";
 	
-	kdDebug() << "Exec: m_exec==\"" << m_exec << "\"" << endl;
 	if (m_exec != "")
 	{
 		KProcess *procdesc = new KProcess();
@@ -157,10 +150,9 @@ QString FindDescriptionThread::getDescriptionProcess()
 		}
 	}
 	
-	kdDebug() << "Description empty? m_descTmp.isEmpty()==\"" << m_descTmp.isEmpty() << "\"" << endl;
 	return m_descTmp;
 }
 
-//#endif
+#endif
 
 #include "altitemelement.moc"

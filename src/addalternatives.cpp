@@ -33,11 +33,13 @@
  #include <qstringlist.h> 
  #include <qstring.h> 
  #include <qregexp.h> 
+ #include <klocale.h>
+ #include <kmessagebox.h>
  
  using namespace std;
 
-AddAlternatives::AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt):
-QWidget(kalt,0, WDestructiveClose | WType_Modal),m_treeItem(treeItem), m_kalt(kalt)
+AddAlternatives::AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt, int countSlaves):
+QWidget(kalt,0, WDestructiveClose | WType_Modal),m_treeItem(treeItem), m_kalt(kalt), m_countSlave(countSlaves)
 {
 	AddAlternativesUi *addAlternativesUi = new AddAlternativesUi(this);
 	QGridLayout *AddAlternativesLayout = new QGridLayout( this, 1, 1, 11, 6, "AddAlternativesLayout"); 
@@ -96,6 +98,9 @@ void AddAlternatives::slotOkClicked()
 		
 		a->setPath(m_Path->text());
 		a->setPriority(m_Priority->value());
+		
+		int countSlave = 0;
+		
 		if (m_textSlave->text() != "")
 		{
 			QRegExp reg("\n");
@@ -104,41 +109,49 @@ void AddAlternatives::slotOkClicked()
 			for ( ; it != slaveList.end(); ++it ) 
 			{
 				a->addSlave(*it);
+				countSlave++;
 			}
 		}
 		
-		item->addAlternative(a);
-		
-		
-		AltItemElement *altItem = new AltItemElement(m_kalt->optionsList(), a);
-		
-		m_treeItem->getAltController()->addAltItem(altItem);
-		
-		
-		QString priority;
-		priority.setNum(a->getPriority());
-		
-		altItem->setText( 1, priority);
-		altItem->setText( 2, a->getPath());
-#ifdef DEBIAN
-		QString m_small_desc = altItem->getDescription();
-		
-		if (!(m_small_desc == ""))
+		if (countSlave == m_countSlave)
 		{
-			m_small_desc.truncate(m_small_desc.find("\n"));
-			altItem->setText( 3, m_small_desc);
+			item->addAlternative(a);
+		
+		
+			AltItemElement *altItem = new AltItemElement(m_kalt->optionsList(), a);
+		
+			m_treeItem->getAltController()->addAltItem(altItem);
+		
+		
+			QString priority;
+			priority.setNum(a->getPriority());
+		
+			altItem->setText( 1, priority);
+			altItem->setText( 2, a->getPath());
+#ifdef DEBIAN
+			QString m_small_desc = altItem->getDescription();
+		
+			if (!(m_small_desc == ""))
+			{
+				m_small_desc.truncate(m_small_desc.find("\n"));
+				altItem->setText( 3, m_small_desc);
+			}
+			else
+			{
+				altItem->searchDescription();
+			}
+#endif
+			m_treeItem->setNbrAltChanged(TRUE);
+			if(!m_kalt->applyIsEnabled() && m_kalt->isBisRoot())
+			{
+				m_kalt->applySetEnabled();
+			}
+			close();
 		}
 		else
 		{
-			altItem->searchDescription();
+			KMessageBox::sorry(this, i18n("the number of slaves is not good"), i18n("number of slaves"));
 		}
-#endif
-		m_treeItem->setNbrAltChanged(TRUE);
-		if(!m_kalt->applyIsEnabled() && m_kalt->isBisRoot())
-		{
-			m_kalt->applySetEnabled();
-		}
-		close();
 	}
 }
 
