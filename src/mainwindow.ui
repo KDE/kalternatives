@@ -116,9 +116,6 @@
                                 <property name="text">
                                     <string>&amp;Hide useless alternatives</string>
                                 </property>
-                                <property name="accel">
-                                    <string>Alt+H</string>
-                                </property>
                             </widget>
                         </grid>
                     </widget>
@@ -351,9 +348,6 @@
                                 <property name="text">
                                     <string>&amp;Add</string>
                                 </property>
-                                <property name="accel">
-                                    <string>Alt+A</string>
-                                </property>
                             </widget>
                             <widget class="KPushButton">
                                 <property name="name">
@@ -365,9 +359,6 @@
                                 <property name="text">
                                     <string>&amp;Properties</string>
                                 </property>
-                                <property name="accel">
-                                    <string>Alt+P</string>
-                                </property>
                             </widget>
                             <widget class="KPushButton">
                                 <property name="name">
@@ -378,9 +369,6 @@
                                 </property>
                                 <property name="text">
                                     <string>&amp;Delete</string>
-                                </property>
-                                <property name="accel">
-                                    <string>Alt+D</string>
                                 </property>
                             </widget>
                         </hbox>

@@ -170,9 +170,6 @@
                             <property name="text">
                                 <string>&amp;Add Slave</string>
                             </property>
-                            <property name="accel">
-                                <string>Alt+A</string>
-                            </property>
                         </widget>
                         <spacer>
                             <property name="name">
@@ -209,9 +206,6 @@
                             <property name="text">
                                 <string>&amp;OK</string>
                             </property>
-                            <property name="accel">
-                                <string>Alt+O</string>
-                            </property>
                         </widget>
                         <widget class="KPushButton">
                             <property name="name">
@@ -219,9 +213,6 @@
                             </property>
                             <property name="text">
                                 <string>&amp;Cancel</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+C</string>
                             </property>
                         </widget>
                     </hbox>
