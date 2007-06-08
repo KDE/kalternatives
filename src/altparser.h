@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Juanjo ¡lvarez                                  *
+ *   Copyright (C) 2004 by Juanjo √Ålvarez                                  *
  *   juanjux@yahoo.es                                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *   51 Franklin Steet, Fifth Floor, Boston, MA  02111-1307, USA.          *
  ***************************************************************************/
 
 #ifndef _ALTPARSER_H_
@@ -23,7 +23,7 @@
 
 
 //FIXME: Cosas pa mirar:
-//Comprobar entradas NULL y dem·s (sobre todo antes de los delete)
+//Comprobar entradas NULL y dem√°s (sobre todo antes de los delete)
 //
 //Quitar el stdio.h
 
