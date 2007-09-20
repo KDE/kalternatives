@@ -11,18 +11,27 @@ X-KDE-HasReadOnlyMode=true
 X-KDE-ParentApp=kcontrol
 
 Comment=Kalternatives - KDE Mandrake/Debian alternatives-system manager
-Comment[el]=Kalternatives - KDE Mandrake/Debian εναλλακτικά - διαχειριστής συστήματος
-Comment[es]=Kalternatives - Administradores de sistema alternativos de KDE para Mandrake/Debian
-Comment[ga]=Kalternatives - Bainisteoir córais ar mhalairtí Mandrake/Debian le haghaidh KDE
+Comment[da]=Alternative systemhåndteringer, Kalternatives for KDE Mandrake/Debian
+Comment[es]=Kalternatives - administrador alternativo del sistema KDE en Mandrake/Debian
+Comment[et]=Kalternatives - KDE Mandrake/Debiani alternatiivide süsteemi haldur
+Comment[fr]=KAlternatives - Un gestionnaire du système d'alternatives Mandrake / Debian pour KDE
+Comment[gl]=Kalternatives - Xestión do sistema de alternativas da Mandrake/Debian
+Comment[it]=Kalternatives - Gestione dei sistemi di alternative di Mandrake e Debian per KDE
 Comment[pt]=Kalternatives - Gestão de sistema de alternativas para Mandrake/Debian
 Comment[pt_BR]=Kalternatives - Gestão de sistema de alternativas para Mandrake/Debian
-Comment[x-test]=xxKalternatives - KDE Mandrake/Debian alternatives-system managerxx
-Comment[zh_TW]=Kalternatives - KDE Mandrake/Debian 程式別名系統管理者
+Comment[sv]=Kalternativ - KDE:s Mandrake och Debian alternativ systemhantering
+Comment[ta]=Kalternatives - கேடியி மாண்ட்ரேக்/டெபியன் மாற்றுகள் அமைப்பு மேலாளர்
+Comment[tr]=Kseçenekleri - KDE Mandarake/Debian seçenekleri sistem yöneticisi
+Comment[xx]=xxKalternatives - KDE Mandrake/Debian alternatives-system managerxx
 Keywords=Kalternatives,kalternatives
-Keywords[bg]=Keywords=Kalternatives,kalternatives
-Keywords[x-test]=xxKalternatives,kalternativesxx
+Keywords[fr]=Kalternatives,kalternatives,alternatives
+Keywords[sv]=Kalternativ,kalternativ
+Keywords[tr]=Kseçenekleri,kseçenekleri
+Keywords[xx]=xxKalternatives,kalternativesxx
 Name=Kalternatives
-Name[x-test]=xxKalternativesxx
+Name[ta]=Kமாற்றுகள்
+Name[tr]=Kseçenekleri
+Name[xx]=xxKalternativesxx
 
 
 Categories=Qt;KDE;X-KDE-settings-system;
