@@ -28,8 +28,8 @@
 #include <kdebug.h>
 /******************************* AltItemElement ********************/
 
-AltItemElement::AltItemElement(KListView *parent, Alternative *alternative)
-: QCheckListItem(parent, "", QCheckListItem::RadioButton),
+AltItemElement::AltItemElement(K3ListView *parent, Alternative *alternative)
+: Q3CheckListItem(parent, "", Q3CheckListItem::RadioButton),
   m_alt(alternative),
   m_parent(parent),
   m_bisBroken(alternative->isBroken()),
@@ -58,22 +58,22 @@ void AltItemElement::searchDescription()
 	
 	if (!exec.isEmpty())
 	{
-		KProcess *procdesc = new KProcess();
+		K3Process *procdesc = new K3Process();
 		*procdesc << "whatis";
 		*procdesc << exec;
 		
-		connect(procdesc, SIGNAL(receivedStdout(KProcess *, char *, int)), this,
-				SLOT(slotGetDescription(KProcess *, char *, int)));
-		//connect(procdesc, SIGNAL( receivedStderr(KProcess *, char *, int) ), this,
-			//	SLOT(slotGetDescription(KProcess *, char *, int)));
-		connect(procdesc, SIGNAL( processExited(KProcess *)), this,
-				SLOT(slotDescriptionTermined(KProcess *)));
-		procdesc->start(KProcess::NotifyOnExit,/*KProcess::Block,*/ KProcess::AllOutput);
+		connect(procdesc, SIGNAL(receivedStdout(K3Process *, char *, int)), this,
+				SLOT(slotGetDescription(K3Process *, char *, int)));
+		//connect(procdesc, SIGNAL( receivedStderr(K3Process *, char *, int) ), this,
+			//	SLOT(slotGetDescription(K3Process *, char *, int)));
+		connect(procdesc, SIGNAL( processExited(K3Process *)), this,
+				SLOT(slotDescriptionTermined(K3Process *)));
+		procdesc->start(K3Process::NotifyOnExit,/*K3Process::Block,*/ K3Process::AllOutput);
 	}
 }
 
 
-void AltItemElement::slotDescriptionTermined(KProcess *proc)
+void AltItemElement::slotDescriptionTermined(K3Process *proc)
 {
 	if (!proc->exitStatus()) 
 	{
@@ -108,7 +108,7 @@ void AltItemElement::slotDescriptionTermined(KProcess *proc)
 	setText( 3, m_desc);
 }
 
-void AltItemElement::slotGetDescription(KProcess *, char *buffer, int buflen)
+void AltItemElement::slotGetDescription(K3Process *, char *buffer, int buflen)
 {
 	m_desc += QString::fromLatin1(buffer, buflen);
 }

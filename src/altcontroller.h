@@ -21,12 +21,12 @@
 #ifndef _ALTCONTROLLER_H_
 #define _ALTCONTROLLER_H_
 
-#include <klistview.h>
-#include <qptrlist.h>
+#include <k3listview.h>
+#include <q3ptrlist.h>
 
 class AltItemElement;
 
-typedef QPtrList<AltItemElement> AltItemList;
+typedef Q3PtrList<AltItemElement> AltItemList;
 
 
 class AltController
@@ -37,7 +37,7 @@ public:
 	AltController();
 	~AltController();
 
-	void setBoutonOnOff(KListView *list, AltItemElement *altItem);
+	void setBoutonOnOff(K3ListView *list, AltItemElement *altItem);
 	void addAltItem(AltItemElement *altItem) {m_altItemslist->append(altItem);}
 	AltItemList *getAltItemList() {return m_altItemslist;}
 };

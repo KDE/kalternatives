@@ -41,7 +41,7 @@
 #include <qfile.h>
 #include <qtextstream.h>
 #include <kgenericfactory.h>
-#include <kstdguiitem.h>
+#include <kstandardguiitem.h>
 #include <kdeversion.h>
 
 typedef KGenericFactory<Kalternatives, QWidget> KalternativesFactory;
@@ -94,11 +94,11 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	connect(mainwindow->m_hideAlt, SIGNAL(clicked()), this,
 			SLOT(slotHideAlternativesClicked()));
 	
-	connect(mainwindow->m_altList, SIGNAL(selectionChanged( QListViewItem* )), this,
-			SLOT(slotSelectAlternativesClicked(QListViewItem *)));
+	connect(mainwindow->m_altList, SIGNAL(selectionChanged( Q3ListViewItem* )), this,
+			SLOT(slotSelectAlternativesClicked(Q3ListViewItem *)));
 	
-	connect(mainwindow->m_optionsList, SIGNAL(clicked(QListViewItem *)), 
-			this, SLOT(slotOptionClicked(QListViewItem *)));
+	connect(mainwindow->m_optionsList, SIGNAL(clicked(Q3ListViewItem *)), 
+			this, SLOT(slotOptionClicked(Q3ListViewItem *)));
 	connect(mainwindow->m_bAdd, SIGNAL(clicked()), this,
 			SLOT(slotAddClicked()));
 	connect(mainwindow->m_bDelete, SIGNAL(clicked()), this,
@@ -112,7 +112,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	m_statusCombo = mainwindow->m_statusCombo;
 	m_hideAlt = mainwindow->m_hideAlt;
 	
-	mainwindow->m_bDelete->setGuiItem(KStdGuiItem::del());
+	mainwindow->m_bDelete->setGuiItem(KStandardGuiItem::del());
 	mainwindow->m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "edit_add"));
 	mainwindow->m_bProperties->setGuiItem(KGuiItem( i18n( "&Properties" ), "configure"));
 	
@@ -186,10 +186,10 @@ void Kalternatives::load()
 
 
 
-void Kalternatives::clearList(KListView* list)
+void Kalternatives::clearList(K3ListView* list)
 {
-	QListViewItemIterator it( list );
-	QListViewItem *tmp;
+	Q3ListViewItemIterator it( list );
+	Q3ListViewItem *tmp;
 	while( (tmp=it.current()) )
 	{
 		it++;
@@ -198,7 +198,7 @@ void Kalternatives::clearList(KListView* list)
 }
 
 
-void Kalternatives::slotSelectAlternativesClicked(QListViewItem *alternative)
+void Kalternatives::slotSelectAlternativesClicked(Q3ListViewItem *alternative)
 {
 	clearList(m_optionsList);
 	TreeItemElement *treeItem;
@@ -243,9 +243,9 @@ void Kalternatives::slotHideAlternativesClicked()
 {
 	if (m_hideAlt->isChecked ())
 	{
-		QListViewItemIterator it( m_altList );
+		Q3ListViewItemIterator it( m_altList );
 		TreeItemElement *i;
-		QListViewItem *tmp;
+		Q3ListViewItem *tmp;
 		while ( it.current() )
 		{
 			if((i = dynamic_cast<TreeItemElement *>(it.current())))
@@ -269,7 +269,7 @@ void Kalternatives::slotHideAlternativesClicked()
 }
 
 
-void Kalternatives::slotOptionClicked(QListViewItem *option)
+void Kalternatives::slotOptionClicked(Q3ListViewItem *option)
 {
 	AltItemElement *altItem;
 	if((altItem = dynamic_cast<AltItemElement *>(option)))
@@ -332,7 +332,7 @@ void Kalternatives::slotPropertiesClicked()
 	{
 		QString text;
 		PropertiesWindow *prop = new PropertiesWindow(this);
-		prop->bClose->setGuiItem(KStdGuiItem::close());
+		prop->bClose->setGuiItem(KStandardGuiItem::close());
 		
 		Alternative *a = altItem->getAlternative();
 		
@@ -357,7 +357,7 @@ void Kalternatives::slotPropertiesClicked()
 
 void Kalternatives::save()
 {
-	QListViewItemIterator it( m_altList );
+	Q3ListViewItemIterator it( m_altList );
 	TreeItemElement *treeItem;
 	
 	while ( it.current() )

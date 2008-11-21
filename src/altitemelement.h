@@ -21,38 +21,38 @@
 #ifndef _ALTITEMELEMENT_H_
 #define _ALTITEMELEMENT_H_
 
-#include <qlistview.h>
-#include <klistview.h>
+#include <q3listview.h>
+#include <k3listview.h>
 #include <qstring.h>
-#include <kprocess.h>
+#include <k3process.h>
 
 class Alternative;
 class AltController;
 
-class AltItemElement :  public QObject, public QCheckListItem
+class AltItemElement :  public QObject, public Q3CheckListItem
 {
 	Q_OBJECT
 	
 	Alternative *m_alt;
-	KListView *m_parent;
+	K3ListView *m_parent;
 	bool m_bisBroken;
 	QString m_path;
 	QString m_desc;
 	
 public:
-    AltItemElement(KListView *parent, Alternative *alternative );
+    AltItemElement(K3ListView *parent, Alternative *alternative );
     ~AltItemElement();
 
     bool isBroken() const { return m_bisBroken; }
-    KListView *getParent() const { return m_parent; }
+    K3ListView *getParent() const { return m_parent; }
     Alternative *getAlternative() { return m_alt; }
 	QString getPath() const {return m_path; }
 	QString getDescription() const {return m_desc;}
 	void searchDescription();
 	
 private slots:
-	void slotDescriptionTermined(KProcess *);
-	void slotGetDescription(KProcess *proc, char *buffer, int buflen);
+	void slotDescriptionTermined(K3Process *);
+	void slotGetDescription(K3Process *proc, char *buffer, int buflen);
 };
 
 #endif //_ALTITEMELEMENT_H_

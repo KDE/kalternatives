@@ -33,9 +33,9 @@ AltController::~AltController()
 }
 
 
-void AltController::setBoutonOnOff(KListView *list, AltItemElement *altItem)
+void AltController::setBoutonOnOff(K3ListView *list, AltItemElement *altItem)
 {
-	QListViewItemIterator it( list );
+	Q3ListViewItemIterator it( list );
 	AltItemElement *alt;
 	while ( it.current() ) 
 	{
@@ -43,7 +43,7 @@ void AltController::setBoutonOnOff(KListView *list, AltItemElement *altItem)
 		{
 			if((alt!=altItem) && alt->isOn())
 			{
-    			alt->setState(QCheckListItem::Off);
+    			alt->setState(Q3CheckListItem::Off);
 			}
 		}
 		++it;

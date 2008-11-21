@@ -22,15 +22,15 @@
 #define _TREEITEMELEMENT_H_
 
 #include <qstring.h>
-#include <qptrlist.h>
-#include <qlistview.h>
-#include <klistview.h>
+#include <q3ptrlist.h>
+#include <q3listview.h>
+#include <k3listview.h>
 
 class AltController;
 class Item;
 
 
-class TreeItemElement : public QListViewItem
+class TreeItemElement : public Q3ListViewItem
 {
     Item   *m_item;
     QString m_name;
@@ -39,7 +39,7 @@ class TreeItemElement : public QListViewItem
 	AltController *m_altControl;
 	
 public:
-    TreeItemElement(KListView *parent, Item *itemarg, AltController *altControl);
+    TreeItemElement(K3ListView *parent, Item *itemarg, AltController *altControl);
     ~TreeItemElement();
 
     QString getName() const { return m_name; }

@@ -22,7 +22,7 @@
 #include "addalternatives.h"
 
 #include <klocale.h>
-#include <kstdguiitem.h>
+#include <kstandardguiitem.h>
 #include <kurlrequester.h>
 
 #include <iostream>
@@ -31,8 +31,8 @@ using namespace std;
 AddSlaves::AddSlaves(AddAlternatives *addAlternatives):
 AddSlavesUi(addAlternatives), m_addAlternatives(addAlternatives)
 {
-	m_bOk->setGuiItem(KStdGuiItem::ok());
-	m_bCancel->setGuiItem(KStdGuiItem::cancel());
+	m_bOk->setGuiItem(KStandardGuiItem::ok());
+	m_bCancel->setGuiItem(KStandardGuiItem::cancel());
 	
 	m_Path->setCaption( i18n( "Choose Slave" ) );
 	m_Path->setFilter( i18n( "*|All Files" ) );
@@ -47,7 +47,7 @@ void AddSlaves::slotOkClicked()
 {
 	if(!m_Path->url().isEmpty())
 	{
-		m_addAlternatives->addSlave(m_Path->url());
+		m_addAlternatives->addSlave(m_Path->url().toLocalFile());
 		close();
 	}
 }

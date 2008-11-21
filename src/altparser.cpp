@@ -249,7 +249,7 @@ void Item::addSlave(const QString &namearg, const QString &patharg)
 
 void Item::delSlave(const QString &namearg)
 {
-    QPtrListIterator<Slave> it(*m_itemSlaves);
+    Q3PtrListIterator<Slave> it(*m_itemSlaves);
 
     Slave *s;
     while( (s = it.current()) != 0)
@@ -264,7 +264,7 @@ void Item::delSlave(const QString &namearg)
 }
 void Item::delSlaveByPath(const QString &patharg)
 {
-    QPtrListIterator<Slave> it(*m_itemSlaves);
+    Q3PtrListIterator<Slave> it(*m_itemSlaves);
 
     Slave *s;
     while( (s = it.current()) != 0)
@@ -300,7 +300,7 @@ void Item::setAlternatives(AltsPtrList &alts)
 
 void Item::delAlternativeByPath(const QString &patharg)
 {
-    QPtrListIterator<Alternative> it(*m_itemAlts);
+    Q3PtrListIterator<Alternative> it(*m_itemAlts);
 
     Alternative *a;
     while( (a = it.current()) != 0)
@@ -316,7 +316,7 @@ void Item::delAlternativeByPath(const QString &patharg)
 
 void Item::delAlternativeByPriority(int priorityarg)
 {
-    QPtrListIterator<Alternative> it(*m_itemAlts);
+    Q3PtrListIterator<Alternative> it(*m_itemAlts);
 
     Alternative *a;
     while( (a = it.current()) != 0)
@@ -367,7 +367,7 @@ AltFilesManager::~AltFilesManager()
 
 Item* AltFilesManager::getItem(const QString &name) const
 {
-    QPtrListIterator<Item> it(*m_itemlist);
+    Q3PtrListIterator<Item> it(*m_itemlist);
     Item *i;
     while( (i = it.current()) !=  0)
     {
@@ -412,13 +412,14 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         lines.clear();
         while ( !altFile.atEnd() )
         {
-            if(!altFile.readLine(line, 9999))
+            QByteArray data(9999, '\0');
+            if(altFile.readLine(data.data(), data.count()))
             {
                 errorstr = altFile.errorString();
                 delete item;
                 return false;
             }
-            lines.append(line);
+            lines.append(QString(line));
         }
 
         line = lines[0];
@@ -511,7 +512,7 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
     return true;
 }
 
-//FIXME: This must be in a son of qptrlist!
+//FIXME: This must be in a son of Q3Ptrlist!
 /*
 int AltFilesManager::compareItems(Item i1, Item i2)
 {

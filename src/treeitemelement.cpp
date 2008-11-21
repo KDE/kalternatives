@@ -27,8 +27,8 @@
 #include <iostream>
 using namespace std;
  
-TreeItemElement::TreeItemElement(KListView *parent, Item *itemarg, AltController *altControl )
-: QListViewItem(parent, itemarg->getName()),
+TreeItemElement::TreeItemElement(K3ListView *parent, Item *itemarg, AltController *altControl )
+: Q3ListViewItem(parent, itemarg->getName()),
   m_item(itemarg),
   m_name(itemarg->getName()),
   m_changed(FALSE),
@@ -62,7 +62,7 @@ void TreeItemElement::paintCell( QPainter * p, const QColorGroup & cg, int colum
 	//our new color as color of text
 	_cg.setColor( QColorGroup::Text, color );
  
-	QListViewItem::paintCell( p, _cg, column, width, align );
+	Q3ListViewItem::paintCell( p, _cg, column, width, align );
  
 	// restoration of the pallet of "standard" colors
 	_cg.setColor( QColorGroup::Text, oldText );

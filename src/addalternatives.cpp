@@ -32,14 +32,14 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <knuminput.h>
-#include <kstdguiitem.h>
+#include <kstandardguiitem.h>
 #include <kurlrequester.h>
 
 AddAlternatives::AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt, int countSlaves):
 AddAlternativesUi(kalt),m_treeItem(treeItem), m_kalt(kalt), m_countSlave(countSlaves)
 {
-	m_bOk->setGuiItem(KStdGuiItem::ok());
-	m_bCancel->setGuiItem(KStdGuiItem::cancel());
+	m_bOk->setGuiItem(KStandardGuiItem::ok());
+	m_bCancel->setGuiItem(KStandardGuiItem::cancel());
 	m_bAddSlave->setGuiItem(KGuiItem(i18n("&Add Slave"), "edit_add"));
 	
 	m_Path->setCaption( i18n( "Choose Alternative" ) );
@@ -65,7 +65,7 @@ void AddAlternatives::slotOkClicked()
 		Item *item = m_treeItem->getItem();
 		Alternative *a = new Alternative(item);
 		
-		a->setPath(m_Path->url());
+		a->setPath(m_Path->url().toLocalFile());
 		a->setPriority(m_Priority->value());
 		
 		int countSlave = 0;

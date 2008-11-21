@@ -28,7 +28,7 @@
 //#include <config.h>
 //#endif
 
-#include <klistview.h>
+#include <k3listview.h>
 #include <kpushbutton.h> 
 #include <kcombobox.h> 
 #include <qwidget.h>
@@ -47,19 +47,19 @@ class Kalternatives : public KCModule
 
     bool m_bisRoot;
     AltFilesManager *m_mgr;
-	KListView* m_optionsList;
-	KListView* m_altList;
+	K3ListView* m_optionsList;
+	K3ListView* m_altList;
 	KComboBox* m_statusCombo;
 	QLabel* m_altTilte;
 	QCheckBox* m_hideAlt;
 	KAboutData *myAboutData;
 	
-	void clearList(KListView* list);
+	void clearList(K3ListView* list);
 	
 public:
     Kalternatives(QWidget *parent=0, const char *name=0, const QStringList& = QStringList() );
     virtual ~Kalternatives();
-	KListView *optionsList() const {return m_optionsList;}
+	K3ListView *optionsList() const {return m_optionsList;}
 	bool isBisRoot() const {return m_bisRoot;}
 	
 	virtual void load();
@@ -71,10 +71,10 @@ public slots:
 	void configChanged();
 
 private slots:
-	void slotSelectAlternativesClicked(QListViewItem *);
+	void slotSelectAlternativesClicked(Q3ListViewItem *);
 	void slotHideAlternativesClicked();
     void die();
-	void slotOptionClicked(QListViewItem *option);
+	void slotOptionClicked(Q3ListViewItem *option);
 	void slotAddClicked();
 	void slotDeleteClicked();
 	void slotPropertiesClicked();

@@ -29,7 +29,7 @@
 
 #include <qstring.h>
 #include <qobject.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qstringlist.h>
 
 #ifdef HAVE_CONFIG_H
@@ -66,15 +66,15 @@ public:
     void setSlaves(QStringList *m_altSlaves);
     void addSlave(const QString &slave) { m_altSlaves->append(slave); }
     uint countSlaves() const { return m_altSlaves->count(); }
-    QString getSlave(int pos) const { return *(m_altSlaves->at(pos)); }
+    QString getSlave(int pos) const { return m_altSlaves->at(pos); }
     bool isSelected() const;
     bool isBroken() const;
     bool select();
     QString getSelectError() const { return m_selectError; }
 };
 
-typedef QPtrList<Slave> SlaveList;
-typedef QPtrList<Alternative> AltsPtrList;
+typedef Q3PtrList<Slave> SlaveList;
+typedef Q3PtrList<Alternative> AltsPtrList;
 
 class Item
 {
@@ -113,7 +113,7 @@ public:
     bool isBroken() const;
 };
 
-typedef QPtrList<Item> ItemPtrList;
+typedef Q3PtrList<Item> ItemPtrList;
 
 class AltFilesManager
 {
