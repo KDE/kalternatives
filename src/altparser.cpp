@@ -413,13 +413,13 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         while ( !altFile.atEnd() )
         {
             QByteArray data(9999, '\0');
-            if(altFile.readLine(data.data(), data.count()))
+            if(!altFile.readLine(data.data(), data.count()))
             {
                 errorstr = altFile.errorString();
                 delete item;
                 return false;
             }
-            lines.append(QString(line));
+            lines.append(QString(data));
         }
 
         line = lines[0];
