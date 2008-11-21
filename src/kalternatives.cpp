@@ -33,7 +33,7 @@
 #include <qtimer.h>
 
 #include <kmessagebox.h>
-#include <kaboutdialog.h>
+#include <kaboutdata.h>
 #include <ktextedit.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -44,21 +44,13 @@
 #include <kstandardguiitem.h>
 #include <kdeversion.h>
 
-typedef KGenericFactory<Kalternatives, QWidget> KalternativesFactory;
-K_EXPORT_COMPONENT_FACTORY( kcm_kalternatives, KalternativesFactory("kcmkalternatives"))
+K_PLUGIN_FACTORY(KalternativesFactory, registerPlugin<Kalternatives>();)
+K_EXPORT_PLUGIN(KalternativesFactory("kcm_kalternatives"))
 
-extern "C"
+Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
+:KCModule(KalternativesFactory::componentData(), parent, args), myAboutData(0)
 {
-	KCModule *create_kalternatives(QWidget *parent, const char *name)
-	{
-		return new Kalternatives(parent, name); 
-	};
-}
-
-Kalternatives::Kalternatives(QWidget *parent, const char *name, const QStringList&)
-:KCModule(/*KalternativesFactory::instance(), */parent, name), myAboutData(0)
-{
-	setUseRootOnlyMsg(false);
+	setUseRootOnlyMessage(false);
 
 	int user = getuid();
 	
@@ -124,15 +116,15 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 		m_statusCombo->setEnabled(false);
 	}
 	
-	myAboutData = new KAboutData("kcmkalternatives", I18N_NOOP("Kalternatives"),
-	KALT_VERSION, I18N_NOOP("KDE Mandrake/Debian alternatives-system manager"),
-	KAboutData::License_GPL, I18N_NOOP("(c) 2004 Juanjo Alvarez Martinez\n"
+	myAboutData = new KAboutData("kcmkalternatives", 0, ki18n("Kalternatives"),
+	KALT_VERSION, ki18n("KDE Mandrake/Debian alternatives-system manager"),
+	KAboutData::License_GPL, ki18n("(c) 2004 Juanjo Alvarez Martinez\n"
 	                                   "(c) 2004 Mario Bensi"));
 
-	myAboutData->addAuthor("Juanjo Alvarez Martinez", 0, "juanjo@juanjoalvarez.net",
+	myAboutData->addAuthor(ki18n("Juanjo Alvarez Martinez"), KLocalizedString(), "juanjo@juanjoalvarez.net",
 		"http://juanjoalvarez.net");
-	myAboutData->addAuthor("Mario Bensi", 0, "nef@ipsquad.net", "http://ipsquad.net");
-	myAboutData->addAuthor("Pino Toscano", 0, "toscano.pino@tiscali.it");
+	myAboutData->addAuthor(ki18n("Mario Bensi"), KLocalizedString(), "nef@ipsquad.net", "http://ipsquad.net");
+	myAboutData->addAuthor(ki18n("Pino Toscano"), KLocalizedString(), "toscano.pino@tiscali.it");
 	
 #if KDE_IS_VERSION(3,2,90)
 	setAboutData( myAboutData );
@@ -161,7 +153,7 @@ void Kalternatives::die()
 void Kalternatives::load()
 {
 	clearList(m_altList);
-	QPtrList<Item> *itemslist = m_mgr->getGlobalAlternativeList();
+	Q3PtrList<Item> *itemslist = m_mgr->getGlobalAlternativeList();
 	Item *i;
 	TreeItemElement *treeit;
 	for(i = itemslist->first(); i; i = itemslist->next())
@@ -342,7 +334,7 @@ void Kalternatives::slotPropertiesClicked()
 		text += i18n( "Priority : %1\n" ).arg( a->getPriority() );
 		
 		QStringList* slavesList = a->getSlaves();
-		text += i18n( "Slave :", "Slaves :", slavesList->count() );
+		text += i18np( "Slave :", "Slaves :", slavesList->count() );
 		
 		for ( QStringList::Iterator it = slavesList->begin(); it != slavesList->end(); ++it ) 
 		{

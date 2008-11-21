@@ -1,14 +1,15 @@
 [Desktop Entry]
-Encoding=UTF-8
-Exec=kcmshell kalternatives
-Icon=misc
-Type=Application
+Exec=kcmshell4 kcm_alternatives
+Icon=configure
+Type=Service
 
 X-KDE-ModuleType=Library
-X-KDE-Library=kalternatives
-X-KDE-RootOnly=true
+X-KDE-Library=kcm_kalternatives
+#X-KDE-RootOnly=true
 X-KDE-HasReadOnlyMode=true
 X-KDE-ParentApp=kcontrol
+X-KDE-ServiceTypes=KCModule
+#X-KDE-System-Settings-Parent-Category=advanced-user-settings
 
 Comment=Kalternatives - KDE Mandrake/Debian alternatives-system manager
 Comment[da]=Alternative systemhåndteringer, Kalternatives for KDE Mandrake/Debian

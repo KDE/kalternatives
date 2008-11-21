@@ -57,7 +57,7 @@ class Kalternatives : public KCModule
 	void clearList(K3ListView* list);
 	
 public:
-    Kalternatives(QWidget *parent=0, const char *name=0, const QStringList& = QStringList() );
+    Kalternatives(QWidget *parent=0, const QVariantList& = QVariantList() );
     virtual ~Kalternatives();
 	K3ListView *optionsList() const {return m_optionsList;}
 	bool isBisRoot() const {return m_bisRoot;}
