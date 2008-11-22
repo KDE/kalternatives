@@ -80,7 +80,8 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	
 	QWidget *mainwidget = new QWidget(this);
 	m_ui.setupUi(mainwidget);
-	QBoxLayout *layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
+	QVBoxLayout *layout = new QVBoxLayout(this);
+	layout->setMargin(0);
 	layout->addWidget(mainwidget);
 	
 	m_ui.m_altList->setShowToolTips(1);
@@ -374,7 +375,7 @@ void Kalternatives::save()
 					origFile.remove();
 				}
 				
-				if( origFile.open( IO_WriteOnly )) 
+				if( origFile.open( QIODevice::WriteOnly ))
 				{
 					QTextStream stream( &origFile );
 				

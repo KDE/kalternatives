@@ -102,7 +102,9 @@ bool Alternative::select()
     }
 
     // Then we do the main link:
-    if(symlink(m_altPath.ascii(), parentPath.ascii()) == -1)
+    const QByteArray m_altPathAscii = m_altPath.toAscii();
+    const QByteArray parentPathAscii = parentPath.toAscii();
+    if(symlink(m_altPathAscii.constData(), parentPathAscii.constData()) == -1)
     {
         m_selectError = QString(strerror(errno));
         return false;
@@ -125,7 +127,9 @@ bool Alternative::select()
             m_selectError = QString("Could not delete slave alternative link %1: %2").arg(parstr).arg(parlink.errorString());
             return false;
         }
-        if(symlink( (*sl).ascii(), parstr.ascii()) == -1)
+        const QByteArray slAscii = (*sl).toAscii();
+        const QByteArray parstrAscii = parstr.toAscii();
+        if(symlink(slAscii.constData(), parstrAscii.constData()) == -1)
         {
             m_selectError = QString(strerror(errno));
             return false;
@@ -400,9 +404,9 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         }
 
         item->setName(*it);
-        altFile.setName(m_altdir+"/"+*it);
+        altFile.setFileName(m_altdir+"/"+*it);
 
-        if(!altFile.open( IO_ReadOnly ))
+        if(!altFile.open(QIODevice::ReadOnly))
         {
             errorstr = altFile.errorString();
             delete item;

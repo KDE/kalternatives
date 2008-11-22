@@ -54,7 +54,7 @@ void TreeItemElement::paintCell( QPainter * p, const QColorGroup & cg, int colum
 	 
 	// the pallet of colors is saved
 	QColorGroup _cg( cg );
-	QColor oldText=_cg.text();
+	QColor oldText=_cg.color(QPalette::Text);
  
 	// modification of the pallet of colors by defining 
 	//our new color as color of text
