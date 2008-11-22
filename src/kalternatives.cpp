@@ -41,6 +41,10 @@
 #include <qtextstream.h>
 #include <kgenericfactory.h>
 #include <kstandardguiitem.h>
+#include <k3listview.h>
+
+#include <unistd.h>
+#include <sys/types.h>
 
 K_PLUGIN_FACTORY(KalternativesFactory, registerPlugin<Kalternatives>();)
 K_EXPORT_PLUGIN(KalternativesFactory("kcm_kalternatives"))

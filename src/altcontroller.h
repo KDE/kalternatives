@@ -21,9 +21,9 @@
 #ifndef _ALTCONTROLLER_H_
 #define _ALTCONTROLLER_H_
 
-#include <k3listview.h>
 #include <q3ptrlist.h>
 
+class K3ListView;
 class AltItemElement;
 
 typedef Q3PtrList<AltItemElement> AltItemList;

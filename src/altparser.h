@@ -27,8 +27,6 @@
 //
 //Quitar el stdio.h
 
-#include <qstring.h>
-#include <qobject.h>
 #include <q3ptrlist.h>
 #include <qstringlist.h>
 

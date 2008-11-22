@@ -22,10 +22,9 @@
 #define _ALTITEMELEMENT_H_
 
 #include <q3listview.h>
-#include <k3listview.h>
-#include <qstring.h>
-#include <k3process.h>
 
+class K3ListView;
+class K3Process;
 class Alternative;
 class AltController;
 class TreeItemElement;

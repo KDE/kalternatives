@@ -21,11 +21,9 @@
 #ifndef _TREEITEMELEMENT_H_
 #define _TREEITEMELEMENT_H_
 
-#include <qstring.h>
-#include <q3ptrlist.h>
 #include <q3listview.h>
-#include <k3listview.h>
 
+class K3ListView;
 class AltController;
 class Item;
 

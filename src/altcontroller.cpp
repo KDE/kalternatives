@@ -22,6 +22,8 @@
 #include "altitemelement.h"
 #include "treeitemelement.h"
 
+#include <k3listview.h>
+
 AltController::AltController()
 {
 	m_altItemslist = new AltItemList;

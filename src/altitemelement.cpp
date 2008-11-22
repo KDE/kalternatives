@@ -27,6 +27,9 @@
 #include <qtimer.h> 
 #include <klocale.h>
 #include <kdebug.h>
+#include <k3listview.h>
+#include <k3process.h>
+
 /******************************* AltItemElement ********************/
 
 AltItemElement::AltItemElement(TreeItemElement *parent, Alternative *alternative)

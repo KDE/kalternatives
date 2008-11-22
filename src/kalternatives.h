@@ -28,12 +28,6 @@
 //#include <config.h>
 //#endif
 
-#include <k3listview.h>
-#include <kpushbutton.h> 
-#include <kcombobox.h> 
-#include <qwidget.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
 #include <kcmodule.h>
 
 #include "ui_mainwindow.h"

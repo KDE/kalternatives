@@ -23,10 +23,8 @@
 #include "altcontroller.h"
 #include <qfont.h> 
 #include <qpainter.h> 
+#include <k3listview.h>
 
-#include <iostream>
-using namespace std;
- 
 TreeItemElement::TreeItemElement(K3ListView *parent, Item *itemarg, AltController *altControl )
 : Q3ListViewItem(parent, itemarg->getName()),
   m_item(itemarg),
