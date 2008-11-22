@@ -28,7 +28,6 @@
 #include "altitemelement.h"
 #include "treeitemelement.h"
 #include "addalternatives.h"
-#include "mainwindow.h"
 
 #include <qtimer.h>
 
@@ -76,43 +75,43 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	#endif
 #endif
 	
-	MainWindow *mainwindow = new MainWindow(this);
+	QWidget *mainwidget = new QWidget(this);
+	m_ui.setupUi(mainwidget);
 	QBoxLayout *layout = new QVBoxLayout(this, 0, KDialog::spacingHint());
-	layout->addWidget( mainwindow );
-	layout->activate();
+	layout->addWidget(mainwidget);
 	
-	mainwindow->m_altList->setShowToolTips(1);
+	m_ui.m_altList->setShowToolTips(1);
 	
-	connect(mainwindow->m_hideAlt, SIGNAL(clicked()), this,
+	connect(m_ui.m_hideAlt, SIGNAL(clicked()), this,
 			SLOT(slotHideAlternativesClicked()));
 	
-	connect(mainwindow->m_altList, SIGNAL(selectionChanged( Q3ListViewItem* )), this,
+	connect(m_ui.m_altList, SIGNAL(selectionChanged( Q3ListViewItem* )), this,
 			SLOT(slotSelectAlternativesClicked(Q3ListViewItem *)));
 	
-	connect(mainwindow->m_optionsList, SIGNAL(clicked(Q3ListViewItem *)), 
+	connect(m_ui.m_optionsList, SIGNAL(clicked(Q3ListViewItem *)), 
 			this, SLOT(slotOptionClicked(Q3ListViewItem *)));
-	connect(mainwindow->m_bAdd, SIGNAL(clicked()), this,
+	connect(m_ui.m_bAdd, SIGNAL(clicked()), this,
 			SLOT(slotAddClicked()));
-	connect(mainwindow->m_bDelete, SIGNAL(clicked()), this,
+	connect(m_ui.m_bDelete, SIGNAL(clicked()), this,
 			SLOT(slotDeleteClicked()));
-	connect(mainwindow->m_bProperties, SIGNAL(clicked()), this,
+	connect(m_ui.m_bProperties, SIGNAL(clicked()), this,
 			SLOT(slotPropertiesClicked()));
 	
-	m_altList = mainwindow->m_altList;
-	m_optionsList = mainwindow->m_optionsList;
-	m_altTilte = mainwindow->m_altTilte;
-	m_statusCombo = mainwindow->m_statusCombo;
-	m_hideAlt = mainwindow->m_hideAlt;
+	m_altList = m_ui.m_altList;
+	m_optionsList = m_ui.m_optionsList;
+	m_altTilte = m_ui.m_altTilte;
+	m_statusCombo = m_ui.m_statusCombo;
+	m_hideAlt = m_ui.m_hideAlt;
 	
-	mainwindow->m_bDelete->setGuiItem(KStandardGuiItem::del());
-	mainwindow->m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "edit_add"));
-	mainwindow->m_bProperties->setGuiItem(KGuiItem( i18n( "&Properties" ), "configure"));
+	m_ui.m_bDelete->setGuiItem(KStandardGuiItem::del());
+	m_ui.m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "edit_add"));
+	m_ui.m_bProperties->setGuiItem(KGuiItem( i18n( "&Properties" ), "configure"));
 	
 	if(!m_bisRoot)
 	{
-		mainwindow->m_bDelete->setEnabled(false);
-		mainwindow->m_bAdd->setEnabled(false);
-		mainwindow->m_bProperties->setEnabled(false);
+		m_ui.m_bDelete->setEnabled(false);
+		m_ui.m_bAdd->setEnabled(false);
+		m_ui.m_bProperties->setEnabled(false);
 		m_statusCombo->setEnabled(false);
 	}
 	

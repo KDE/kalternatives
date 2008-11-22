@@ -37,6 +37,8 @@
 #include <kcmodule.h>
 #include <kaboutdata.h>
 
+#include "ui_mainwindow.h"
+
 #define KALT_VERSION "0.12"
 
 class AltFilesManager;
@@ -53,6 +55,7 @@ class Kalternatives : public KCModule
 	QLabel* m_altTilte;
 	QCheckBox* m_hideAlt;
 	KAboutData *myAboutData;
+	Ui::MainWindow m_ui;
 	
 	void clearList(K3ListView* list);
 	
