@@ -15,10 +15,10 @@ set(kcm_SRCS
 kde4_add_ui_files(kcm_SRCS
   addalternativesui.ui
   mainwindow.ui
+  propertieswindow.ui
 )
 kde4_add_ui3_files(kcm_SRCS
   addslavesui.ui
-  propertieswindow.ui
 )
 kde4_add_plugin(kcm_kalternatives ${kcm_SRCS})
 target_link_libraries(kcm_kalternatives ${KDE4_KDE3SUPPORT_LIBS})

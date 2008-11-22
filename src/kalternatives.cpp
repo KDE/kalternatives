@@ -23,11 +23,11 @@
 
 #include "kalternatives.h"
 #include "altparser.h"
-#include "propertieswindow.h"
 #include "altcontroller.h"
 #include "altitemelement.h"
 #include "treeitemelement.h"
 #include "addalternatives.h"
+#include "ui_propertieswindow.h"
 
 #include <qtimer.h>
 
@@ -323,15 +323,21 @@ void Kalternatives::slotPropertiesClicked()
 	if((altItem = dynamic_cast<AltItemElement *>(m_optionsList->selectedItem())))
 	{
 		QString text;
-		PropertiesWindow *prop = new PropertiesWindow(this);
-		prop->bClose->setGuiItem(KStandardGuiItem::close());
+		KDialog *prop = new KDialog(this);
+		prop->setCaption(i18n("Alternative Properties"));
+		prop->setButtons(KDialog::Close);
+		prop->showButtonSeparator(true);
+		Ui::PropertiesWindow propUi;
+		propUi.setupUi(prop->mainWidget());
+		prop->mainWidget()->layout()->setMargin(0);
+		connect(prop, SIGNAL(closeClicked()), prop, SLOT(deleteLater()));
 		
 		Alternative *a = altItem->getAlternative();
 		
 
-		text += i18n( "Description :\n%1\n" ).arg( altItem->getDescription() );
-		text += i18n( "Path : %1\n" ).arg( a->getPath() );
-		text += i18n( "Priority : %1\n" ).arg( a->getPriority() );
+		text += i18n("Description:\n%1\n", altItem->getDescription());
+		text += i18n("Path: %1\n", a->getPath());
+		text += i18n("Priority: %1\n", a->getPriority());
 		
 		QStringList* slavesList = a->getSlaves();
 		text += i18np( "Slave :", "Slaves :", slavesList->count() );
@@ -341,7 +347,7 @@ void Kalternatives::slotPropertiesClicked()
 			text += "\n\t";
 			text += *it;
 		}
-		prop->m_text->setText(text);
+		propUi.m_text->setText(text);
 		prop->show();
 	}
 }
