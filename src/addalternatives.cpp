@@ -26,7 +26,6 @@
 #include "altitemelement.h"
 #include "altparser.h"
 
-#include <qregexp.h>
 #include <qstringlist.h>
 
 #include <klocale.h>
@@ -42,7 +41,7 @@ AddAlternativesUi(kalt),m_treeItem(treeItem), m_kalt(kalt), m_countSlave(countSl
 	m_bCancel->setGuiItem(KStandardGuiItem::cancel());
 	m_bAddSlave->setGuiItem(KGuiItem(i18n("&Add Slave"), "edit_add"));
 	
-	m_Path->setCaption( i18n( "Choose Alternative" ) );
+	m_Path->setWindowTitle( i18n( "Choose Alternative" ) );
 	m_Path->setFilter( i18n( "*|All Files" ) );
 	m_Path->setMode( KFile::File | KFile::LocalOnly );
 }
@@ -70,10 +69,10 @@ void AddAlternatives::slotOkClicked()
 		
 		int countSlave = 0;
 		
-		if (!m_textSlave->text().isEmpty())
+		const QString text = m_textSlave->toPlainText();
+		if (!text.isEmpty())
 		{
-			QRegExp reg("\n");
-			QStringList slaveList = QStringList::split(reg, m_textSlave->text());
+			QStringList slaveList = text.split('\n', QString::SkipEmptyParts);
 			QStringList::Iterator it = slaveList.begin();
 			for ( ; it != slaveList.end(); ++it ) 
 			{

@@ -52,7 +52,7 @@ AltItemElement::~AltItemElement()
 void AltItemElement::searchDescription()
 {
 	QString exec = m_path;
-	int posSlash = exec.findRev("/");
+	int posSlash = exec.lastIndexOf('/');
 	
 	if (posSlash != -1)
 	{
@@ -80,25 +80,25 @@ void AltItemElement::slotDescriptionTermined(K3Process *proc)
 {
 	if (!proc->exitStatus()) 
 	{
-		int pos = m_desc.find("\n");
+		int pos = m_desc.indexOf('\n');
 		if (pos != -1)
 		{
 			m_desc.truncate(pos);
 		}
 		
-		pos = m_desc.find("]");
+		pos = m_desc.indexOf(']');
 		if (pos != -1)
 		{
 			m_desc.remove(0, pos+1);
 		}
 		
-		pos = m_desc.find(")");
+		pos = m_desc.indexOf(')');
 		if (pos != -1)
 		{
 			m_desc.remove(0, pos+1);
 		}
 		
-		pos = m_desc.find("-");
+		pos = m_desc.indexOf('-');
 		if (pos != -1)
 		{
 			m_desc.remove(0, pos+2);

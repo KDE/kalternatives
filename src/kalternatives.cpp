@@ -419,7 +419,7 @@ void Kalternatives::save()
 						Alternative *a = altItem->getAlternative();
 						if(!a->select())
 						{
-							kdDebug() << a->getSelectError() << endl;
+							kDebug() << a->getSelectError() << endl;
 						}
 					}
 				}

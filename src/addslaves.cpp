@@ -34,7 +34,7 @@ AddSlavesUi(addAlternatives), m_addAlternatives(addAlternatives)
 	m_bOk->setGuiItem(KStandardGuiItem::ok());
 	m_bCancel->setGuiItem(KStandardGuiItem::cancel());
 	
-	m_Path->setCaption( i18n( "Choose Slave" ) );
+	m_Path->setWindowTitle( i18n( "Choose Slave" ) );
 	m_Path->setFilter( i18n( "*|All Files" ) );
 	m_Path->setMode( KFile::File | KFile::LocalOnly );
 }
