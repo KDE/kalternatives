@@ -43,7 +43,6 @@ AltItemElement::AltItemElement(TreeItemElement *parent, Alternative *alternative
 
 AltItemElement::~AltItemElement()
 {
-	delete m_alt;
 }
 
 
