@@ -34,16 +34,21 @@
 #include <kstandardguiitem.h>
 #include <kurlrequester.h>
 
-AddAlternatives::AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt, int countSlaves):
-AddAlternativesUi(kalt),m_treeItem(treeItem), m_kalt(kalt), m_countSlave(countSlaves)
+AddAlternatives::AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt, int countSlaves)
+	: KDialog(kalt), m_treeItem(treeItem), m_kalt(kalt), m_countSlave(countSlaves)
 {
-	m_bOk->setGuiItem(KStandardGuiItem::ok());
-	m_bCancel->setGuiItem(KStandardGuiItem::cancel());
-	m_bAddSlave->setGuiItem(KGuiItem(i18n("&Add Slave"), "edit_add"));
+	setupUi(mainWidget());
+	
+	setButtons(Ok | Cancel | User1);
+	setButtonGuiItem(User1, KGuiItem(i18n("&Add Slave"), "list-add"));
+	setCaption(i18n("Add Alternative"));
+	showButtonSeparator(true);
 	
 	m_Path->setWindowTitle( i18n( "Choose Alternative" ) );
 	m_Path->setFilter( i18n( "*|All Files" ) );
 	m_Path->setMode( KFile::File | KFile::LocalOnly );
+	
+	connect(this, SIGNAL(user1Clicked()), this, SLOT(slotAddSlaveClicked()));
 }
 
 AddAlternatives::~AddAlternatives()
@@ -52,8 +57,8 @@ AddAlternatives::~AddAlternatives()
 
 void AddAlternatives::slotAddSlaveClicked()
 {
-	AddSlaves *addSlaves = new AddSlaves(this);
-	addSlaves->exec();
+	AddSlaves addSlaves(this);
+	addSlaves.exec();
 }
 
 void AddAlternatives::slotOkClicked()

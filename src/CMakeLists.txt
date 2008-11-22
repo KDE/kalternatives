@@ -13,10 +13,10 @@ set(kcm_SRCS
   treeitemelement.cpp
 )
 kde4_add_ui_files(kcm_SRCS
+  addalternativesui.ui
   mainwindow.ui
 )
 kde4_add_ui3_files(kcm_SRCS
-  addalternativesui.ui
   addslavesui.ui
   propertieswindow.ui
 )

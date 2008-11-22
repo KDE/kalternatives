@@ -21,14 +21,15 @@
 #ifndef _ADDALTERNATIVES_H_
 #define _ADDALTERNATIVES_H_
 
-#include "addalternativesui.h"
+#include "ui_addalternativesui.h"
 
+#include <kdialog.h>
 #include <ktextedit.h>
 
 class TreeItemElement;
 class Kalternatives;
 
-class AddAlternatives : public AddAlternativesUi
+class AddAlternatives : public KDialog, private Ui::AddAlternatives
 {
 	Q_OBJECT
 	
