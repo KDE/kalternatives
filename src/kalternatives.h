@@ -35,7 +35,6 @@
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <kcmodule.h>
-#include <kaboutdata.h>
 
 #include "ui_mainwindow.h"
 
@@ -54,7 +53,6 @@ class Kalternatives : public KCModule
 	KComboBox* m_statusCombo;
 	QLabel* m_altTilte;
 	QCheckBox* m_hideAlt;
-	KAboutData *myAboutData;
 	Ui::MainWindow m_ui;
 	
 	void clearList(K3ListView* list);
@@ -68,7 +66,6 @@ public:
 	virtual void load();
 	virtual void save();
 	virtual QString quickHelp() const;
-	virtual const KAboutData *aboutData()const { return myAboutData; };
 
 public slots:
 	void configChanged();

@@ -41,13 +41,12 @@
 #include <qtextstream.h>
 #include <kgenericfactory.h>
 #include <kstandardguiitem.h>
-#include <kdeversion.h>
 
 K_PLUGIN_FACTORY(KalternativesFactory, registerPlugin<Kalternatives>();)
 K_EXPORT_PLUGIN(KalternativesFactory("kcm_kalternatives"))
 
 Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
-:KCModule(KalternativesFactory::componentData(), parent, args), myAboutData(0)
+:KCModule(KalternativesFactory::componentData(), parent, args)
 {
 	setUseRootOnlyMessage(false);
 
@@ -115,7 +114,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 		m_statusCombo->setEnabled(false);
 	}
 	
-	myAboutData = new KAboutData("kcmkalternatives", 0, ki18n("Kalternatives"),
+	KAboutData *myAboutData = new KAboutData("kcmkalternatives", 0, ki18n("Kalternatives"),
 	KALT_VERSION, ki18n("KDE Mandrake/Debian alternatives-system manager"),
 	KAboutData::License_GPL, ki18n("(c) 2004 Juanjo Alvarez Martinez\n"
 	                                   "(c) 2004 Mario Bensi"));
@@ -125,9 +124,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	myAboutData->addAuthor(ki18n("Mario Bensi"), KLocalizedString(), "nef@ipsquad.net", "http://ipsquad.net");
 	myAboutData->addAuthor(ki18n("Pino Toscano"), KLocalizedString(), "toscano.pino@tiscali.it");
 	
-#if KDE_IS_VERSION(3,2,90)
 	setAboutData( myAboutData );
-#endif
 	
 	load();
 	m_hideAlt->setChecked(true);
