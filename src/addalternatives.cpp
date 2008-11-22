@@ -87,7 +87,7 @@ void AddAlternatives::slotOkClicked()
 			item->addAlternative(a);
 		
 		
-			AltItemElement *altItem = new AltItemElement(m_kalt->optionsList(), a);
+			AltItemElement *altItem = new AltItemElement(m_treeItem, a);
 		
 			m_treeItem->getAltController()->addAltItem(altItem);
 		

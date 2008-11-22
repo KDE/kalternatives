@@ -28,6 +28,7 @@
 
 class Alternative;
 class AltController;
+class TreeItemElement;
 
 class AltItemElement :  public QObject, public Q3CheckListItem
 {
@@ -40,7 +41,7 @@ class AltItemElement :  public QObject, public Q3CheckListItem
 	QString m_desc;
 	
 public:
-    AltItemElement(K3ListView *parent, Alternative *alternative );
+    AltItemElement(TreeItemElement *parent, Alternative *alternative );
     ~AltItemElement();
 
     bool isBroken() const { return m_bisBroken; }

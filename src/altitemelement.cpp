@@ -22,16 +22,17 @@
 #include "altitemelement.h"
 #include "altcontroller.h"
 #include "altparser.h"
+#include "treeitemelement.h"
 
 #include <qtimer.h> 
 #include <klocale.h>
 #include <kdebug.h>
 /******************************* AltItemElement ********************/
 
-AltItemElement::AltItemElement(K3ListView *parent, Alternative *alternative)
+AltItemElement::AltItemElement(TreeItemElement *parent, Alternative *alternative)
 : Q3CheckListItem(parent, "", Q3CheckListItem::RadioButton),
   m_alt(alternative),
-  m_parent(parent),
+  m_parent(qobject_cast<K3ListView*>(parent->listView())),
   m_bisBroken(alternative->isBroken()),
   m_path(alternative->getPath())
 {

@@ -168,7 +168,7 @@ void Kalternatives::load()
 		
 		for(; a; a=altList->next())
 		{
-			ael = new AltItemElement(m_optionsList, a);
+			ael = new AltItemElement(treeit, a);
 			if(!m_bisRoot) ael->setEnabled(false);
 			treeit->getAltController()->addAltItem(ael);
 		}
