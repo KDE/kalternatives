@@ -19,7 +19,6 @@
  ***************************************************************************/
 
 #include "addalternatives.h"
-#include "addslaves.h"
 #include "treeitemelement.h"
 #include "kalternatives.h"
 #include "altcontroller.h"
@@ -32,7 +31,7 @@
 #include <kmessagebox.h>
 #include <knuminput.h>
 #include <kstandardguiitem.h>
-#include <kurlrequester.h>
+#include <kurlrequesterdialog.h>
 
 AddAlternatives::AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt, int countSlaves)
 	: KDialog(kalt), m_treeItem(treeItem), m_kalt(kalt), m_countSlave(countSlaves)
@@ -57,8 +56,19 @@ AddAlternatives::~AddAlternatives()
 
 void AddAlternatives::slotAddSlaveClicked()
 {
-	AddSlaves addSlaves(this);
-	addSlaves.exec();
+	KUrlRequesterDialog d(QString(), i18n("Select the path to the new slave."), this);
+	d.setCaption(i18n("Add Slave"));
+	d.urlRequester()->setWindowTitle(i18n("Choose Slave"));
+	d.urlRequester()->setFilter(i18n("*|All Files"));
+	d.urlRequester()->setMode(KFile::File | KFile::LocalOnly);
+	if (d.exec() != QDialog::Accepted)
+		return;
+
+	const KUrl url = d.selectedUrl();
+	if (!url.isEmpty())
+	{
+		addSlave(url.toLocalFile());
+	}
 }
 
 void AddAlternatives::slotOkClicked()
