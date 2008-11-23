@@ -43,8 +43,9 @@ public:
 	
 	void addSlave(const QString& text){m_textSlave->append(text);}
 	
+public slots:
+	void accept();
 protected slots:
-	void slotOkClicked();
 	void slotAddSlaveClicked();	
 };
 

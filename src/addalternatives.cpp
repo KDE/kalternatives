@@ -71,7 +71,7 @@ void AddAlternatives::slotAddSlaveClicked()
 	}
 }
 
-void AddAlternatives::slotOkClicked()
+void AddAlternatives::accept()
 {
 	if(!m_Path->url().isEmpty())
 	{
@@ -123,7 +123,7 @@ void AddAlternatives::slotOkClicked()
 			}
 			m_treeItem->setNbrAltChanged(TRUE);
 			emit m_kalt->configChanged();
-			close();
+			KDialog::accept();
 		}
 		else
 		{
