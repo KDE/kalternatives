@@ -46,6 +46,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 
+#include <config-kalternatives.h>
+
 K_PLUGIN_FACTORY(KalternativesFactory, registerPlugin<Kalternatives>();)
 K_EXPORT_PLUGIN(KalternativesFactory("kcm_kalternatives"))
 
@@ -70,7 +72,7 @@ Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
 #ifdef MANDRAKE
 m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 #else
-	#ifdef DEBIAN
+	#ifdef DISTRO_DEBIAN
 	m_mgr = new AltFilesManager("/var/lib/dpkg/alternatives");
 	#else
 	KMessageBox::sorry(this, i18n("Kalternatives only work on Debian- or Mandrake-based systems"), i18n("Wrong System Type"));
