@@ -78,11 +78,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	#endif
 #endif
 	
-	QWidget *mainwidget = new QWidget(this);
-	m_ui.setupUi(mainwidget);
-	QVBoxLayout *layout = new QVBoxLayout(this);
-	layout->setMargin(0);
-	layout->addWidget(mainwidget);
+	m_ui.setupUi(this);
 	
 	m_ui.m_altList->setShowToolTips(1);
 	
@@ -108,7 +104,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	m_hideAlt = m_ui.m_hideAlt;
 	
 	m_ui.m_bDelete->setGuiItem(KStandardGuiItem::del());
-	m_ui.m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "edit_add"));
+	m_ui.m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "list-add"));
 	m_ui.m_bProperties->setGuiItem(KGuiItem( i18n( "&Properties" ), "configure"));
 	
 	if(!m_bisRoot)
