@@ -30,10 +30,6 @@
 #include <q3ptrlist.h>
 #include <qstringlist.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 class Item;
 
 struct Slave

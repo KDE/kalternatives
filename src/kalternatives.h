@@ -24,10 +24,6 @@
 #ifndef _KALTERNATIVES_H_
 #define _KALTERNATIVES_H_
 
-//#ifdef HAVE_CONFIG_H
-//#include <config.h>
-//#endif
-
 #include <kcmodule.h>
 
 #include "ui_mainwindow.h"
