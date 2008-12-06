@@ -34,6 +34,12 @@
       <layout class="QVBoxLayout" >
        <item>
         <widget class="QTreeView" name="m_altList" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="alternatingRowColors" >
           <bool>true</bool>
          </property>
@@ -43,20 +49,11 @@
         </widget>
        </item>
        <item>
-        <widget class="Q3GroupBox" name="groupBox3" >
+        <widget class="QGroupBox" name="groupBox3" >
          <property name="title" >
           <string/>
          </property>
-         <property name="frameShape" >
-          <enum>Q3GroupBox::GroupBoxPanel</enum>
-         </property>
-         <property name="frameShadow" >
-          <enum>Q3GroupBox::Sunken</enum>
-         </property>
-         <property name="lineWidth" >
-          <number>1</number>
-         </property>
-         <layout class="QGridLayout" >
+         <layout class="QGridLayout" name="_2" >
           <item row="0" column="0" >
            <widget class="QCheckBox" name="m_hideAlt" >
             <property name="sizePolicy" >
@@ -64,9 +61,6 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
-            </property>
-            <property name="acceptDrops" >
-             <bool>false</bool>
             </property>
             <property name="text" >
              <string>&amp;Hide useless alternatives</string>
@@ -99,7 +93,7 @@
               </font>
              </property>
              <property name="text" >
-              <string>status :</string>
+              <string>Status:</string>
              </property>
              <property name="wordWrap" >
               <bool>false</bool>
@@ -160,7 +154,7 @@
             </font>
            </property>
            <property name="text" >
-            <string>Automake</string>
+            <string comment="KDE::DoNotExtract" >Automake</string>
            </property>
            <property name="alignment" >
             <set>Qt::AlignCenter</set>
@@ -228,9 +222,6 @@
          </item>
          <item>
           <widget class="KPushButton" name="m_bProperties" >
-           <property name="enabled" >
-            <bool>true</bool>
-           </property>
            <property name="text" >
             <string>&amp;Properties</string>
            </property>
@@ -238,9 +229,6 @@
          </item>
          <item>
           <widget class="KPushButton" name="m_bDelete" >
-           <property name="enabled" >
-            <bool>true</bool>
-           </property>
            <property name="text" >
             <string>&amp;Delete</string>
            </property>
@@ -255,14 +243,7 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
-  <customwidget>
-   <class>Q3GroupBox</class>
-   <extends>QGroupBox</extends>
-   <header>Qt3Support/Q3GroupBox</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
