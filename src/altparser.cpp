@@ -24,6 +24,8 @@
 #include <qdir.h>
 #include <qstringlist.h>
 
+#include <klocale.h>
+
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
@@ -38,6 +40,7 @@ Alternative::Alternative(Item *parentarg) : m_parent(parentarg)
 Alternative::Alternative(const Alternative &alt) :
     m_altPath(alt.getPath()),
     m_priority(alt.getPriority()),
+    m_description(alt.getDescription()),
     m_parent(alt.getParent())
 {
     m_altSlaves = new QStringList( *(alt.m_altSlaves) );
@@ -55,6 +58,7 @@ Alternative& Alternative::operator=(const Alternative &alt)
         if(m_altSlaves)delete m_altSlaves;
         m_altPath = alt.getPath();
         m_priority = alt.getPriority();
+        m_description = alt.getDescription();
         m_parent = alt.getParent();
         m_altSlaves = new QStringList( *(alt.m_altSlaves) );
     }
@@ -137,6 +141,11 @@ bool Alternative::select()
         ++count;
     }
     return true;
+}
+
+QString Alternative::prettyDescription(Alternative *alt)
+{
+    return alt->getDescription().isEmpty() ? i18n("no description") : alt->getDescription();
 }
 
 

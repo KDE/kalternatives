@@ -43,6 +43,7 @@ class Alternative
     QString m_altPath;
     QString m_selectError;
     int m_priority;
+    QString m_description;
     Item *m_parent;
     QStringList *m_altSlaves;
 public:
@@ -55,6 +56,8 @@ public:
     QString getPath() const { return m_altPath; }
     void setPath(const QString &patharg) { m_altPath = patharg; }
     int getPriority() const { return m_priority; }
+    void setDescription(const QString &desc) { m_description = desc; }
+    QString getDescription() const { return m_description; }
     void setPriority(int priorityarg) { m_priority = priorityarg; }
     QStringList* getSlaves() const { return m_altSlaves; }
     void setSlaves(QStringList *m_altSlaves);
@@ -65,6 +68,8 @@ public:
     bool isBroken() const;
     bool select();
     QString getSelectError() const { return m_selectError; }
+
+    static QString prettyDescription(Alternative *);
 };
 
 typedef Q3PtrList<Slave> SlaveList;
