@@ -16,6 +16,7 @@
 
 #include <kdebug.h>
 #include <klocale.h>
+#include <kprocess.h>
 
 #include <algorithm>
 
@@ -418,6 +419,7 @@ public:
     virtual AltNode* root() const { return const_cast<AltItemNode *>(&m_root); }
 
     AltAlternativeNode* findHigherPriority(int *index) const;
+    void searchDescription(Alternative *alternative) const;
 
     AltFilesManager *altManager;
     AltItemNode m_root;
@@ -463,6 +465,48 @@ AltAlternativeNode* AlternativeAltModelPrivate::findHigherPriority(int *index) c
     return n;
 }
 
+void AlternativeAltModelPrivate::searchDescription(Alternative *alternative) const
+{
+    QString exec = alternative->getPath();
+    const int slashPos = exec.lastIndexOf('/');
+    if (slashPos != -1)
+        exec.remove(0, slashPos + 1);
+
+    KProcess proc;
+    proc.setProgram("whatis", QStringList() << exec);
+    proc.setOutputChannelMode(KProcess::SeparateChannels);
+    proc.setEnv("COLUMNS", QString::number(300));
+    proc.start();
+    proc.waitForStarted();
+    proc.waitForFinished();
+    if (proc.exitCode() == 0)
+    {
+        const QByteArray procOutput = proc.readAllStandardOutput();
+        QString output = QString::fromLatin1(procOutput.constData(), procOutput.count());
+        int pos = output.indexOf('\n');
+        if (pos != -1)
+        {
+            output.truncate(pos);
+        }
+        pos = output.indexOf(']');
+        if (pos != -1)
+        {
+            output.remove(0, pos + 1);
+        }
+        pos = output.indexOf(')');
+        if (pos != -1)
+        {
+            output.remove(0, pos + 1);
+        }
+        pos = output.indexOf('-');
+        if (pos != -1)
+        {
+            output.remove(0, pos + 2);
+        }
+        alternative->setDescription(output);
+    }
+}
+
 
 AlternativeAltModel::AlternativeAltModel(AltFilesManager *manager, bool readOnly, QObject *parent)
     : AlternativesBaseModel(*new AlternativeAltModelPrivate(manager, readOnly), parent)
@@ -484,6 +528,7 @@ QVariant AlternativeAltModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
+    Q_D(const AlternativeAltModel);
     AltNode *n = static_cast<AltNode *>(index.internalPointer());
     if (AltAlternativeNode *n_a = altnode_cast<AltAlternativeNode>(n))
     {
@@ -498,6 +543,8 @@ QVariant AlternativeAltModel::data(const QModelIndex &index, int role) const
                     case 1:
                         return n_a->alternative->getPriority();
                     case 2:
+                        if (n_a->alternative->getDescription().isEmpty())
+                            d->searchDescription(n_a->alternative);
                         return Alternative::prettyDescription(n_a->alternative);
                 }
                 break;
