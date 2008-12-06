@@ -27,6 +27,7 @@
 #include "alternativemodels.h"
 #include "ui_propertieswindow.h"
 
+#include <qheaderview.h>
 #include <qtimer.h>
 
 #include <kmessagebox.h>
@@ -79,9 +80,6 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	
 	m_ui.setupUi(this);
 	
-	connect(m_ui.m_hideAlt, SIGNAL(clicked()), this,
-			SLOT(slotHideAlternativesClicked()));
-	
 	connect(m_ui.m_altList, SIGNAL(activated(QModelIndex)),
 			this, SLOT(slotSelectAlternativesActivated(QModelIndex)));
 	
@@ -119,9 +117,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	
 	setAboutData( myAboutData );
 	
-	load();
 	m_hideAlt->setChecked(true);
-	slotHideAlternativesClicked();
 }
 
 Kalternatives::~Kalternatives()
@@ -137,9 +133,16 @@ void Kalternatives::die()
 void Kalternatives::load()
 {
 	m_itemProxyModel = new AlternativeItemProxyModel(m_ui.m_altList);
+	slotHideAlternativesClicked();
 	AlternativeItemsModel *itemModel = new AlternativeItemsModel(m_mgr, m_itemProxyModel);
 	m_itemProxyModel->setSourceModel(itemModel);
 	m_ui.m_altList->setModel(m_itemProxyModel);
+	
+	QHeaderView *h = m_ui.m_altList->header();
+	h->resizeSections(QHeaderView::Stretch);
+	h->resizeSection(0, h->sectionSizeHint(0));
+	connect(m_ui.m_hideAlt, SIGNAL(clicked()), this,
+			SLOT(slotHideAlternativesClicked()));
 	
 	m_altModel = new AlternativeAltModel(itemModel, !m_bisRoot, m_ui.m_optionsList);
 	m_ui.m_optionsList->setModel(m_altModel);
