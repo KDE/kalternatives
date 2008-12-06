@@ -335,6 +335,11 @@ QModelIndex AlternativeItemsModel::index(int row, int column, const QModelIndex 
     return parent.isValid() ? QModelIndex() : AlternativesBaseModel::index(row, column, parent);
 }
 
+int AlternativeItemsModel::rowCount(const QModelIndex &parent) const
+{
+    return parent.isValid() ? 0 : AlternativesBaseModel::rowCount(parent);
+}
+
 void AlternativeItemsModel::save()
 {
 #ifdef __GNUC__
@@ -626,6 +631,12 @@ QVariant AlternativeAltModel::headerData(int section, Qt::Orientation orientatio
             break;
     }
     return QVariant();
+}
+
+QModelIndex AlternativeAltModel::parent(const QModelIndex &index) const
+{
+    Q_UNUSED(index);
+    return QModelIndex();
 }
 
 bool AlternativeAltModel::setData(const QModelIndex &index, const QVariant &value, int role)
