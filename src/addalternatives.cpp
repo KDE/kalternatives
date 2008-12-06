@@ -19,10 +19,6 @@
  ***************************************************************************/
 
 #include "addalternatives.h"
-#include "treeitemelement.h"
-#include "kalternatives.h"
-#include "altcontroller.h"
-#include "altitemelement.h"
 #include "altparser.h"
 
 #include <qstringlist.h>

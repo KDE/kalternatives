@@ -5,12 +5,9 @@ add_definitions(-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
 set(kcm_SRCS
   addalternatives.cpp
-  altcontroller.cpp
-  altitemelement.cpp
   alternativemodels.cpp
   altparser.cpp
   kalternatives.cpp
-  treeitemelement.cpp
 )
 kde4_add_ui_files(kcm_SRCS
   addalternativesui.ui

@@ -23,9 +23,6 @@
 
 #include "kalternatives.h"
 #include "altparser.h"
-#include "altcontroller.h"
-#include "altitemelement.h"
-#include "treeitemelement.h"
 #include "addalternatives.h"
 #include "alternativemodels.h"
 #include "ui_propertieswindow.h"
@@ -42,7 +39,6 @@
 #include <qtextstream.h>
 #include <kgenericfactory.h>
 #include <kstandardguiitem.h>
-#include <k3listview.h>
 
 #include <unistd.h>
 #include <sys/types.h>
