@@ -90,9 +90,6 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	connect(m_ui.m_bProperties, SIGNAL(clicked()), this,
 			SLOT(slotPropertiesClicked()));
 	
-	m_statusCombo = m_ui.m_statusCombo;
-	m_hideAlt = m_ui.m_hideAlt;
-	
 	m_ui.m_bDelete->setGuiItem(KStandardGuiItem::del());
 	m_ui.m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "list-add"));
 	m_ui.m_bProperties->setGuiItem(KGuiItem( i18n( "&Properties" ), "configure"));
@@ -102,7 +99,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 		m_ui.m_bDelete->setEnabled(false);
 		m_ui.m_bAdd->setEnabled(false);
 		m_ui.m_bProperties->setEnabled(false);
-		m_statusCombo->setEnabled(false);
+		m_ui.m_statusCombo->setEnabled(false);
 	}
 	
 	KAboutData *myAboutData = new KAboutData("kcmkalternatives", 0, ki18n("Kalternatives"),
@@ -117,7 +114,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	
 	setAboutData( myAboutData );
 	
-	m_hideAlt->setChecked(true);
+	m_ui.m_hideAlt->setChecked(true);
 }
 
 Kalternatives::~Kalternatives()

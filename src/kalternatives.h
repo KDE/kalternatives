@@ -40,8 +40,6 @@ class Kalternatives : public KCModule
 
     bool m_bisRoot;
     AltFilesManager *m_mgr;
-	KComboBox* m_statusCombo;
-	QCheckBox* m_hideAlt;
 	Ui::MainWindow m_ui;
 	AlternativeItemProxyModel* m_itemProxyModel;
 	AlternativeAltModel* m_altModel;
