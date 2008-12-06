@@ -31,6 +31,8 @@
 #define KALT_VERSION "0.12"
 
 class AltFilesManager;
+class AlternativeItemProxyModel;
+class AlternativeAltModel;
 
 class Kalternatives : public KCModule
 {
@@ -38,19 +40,15 @@ class Kalternatives : public KCModule
 
     bool m_bisRoot;
     AltFilesManager *m_mgr;
-	K3ListView* m_optionsList;
-	K3ListView* m_altList;
 	KComboBox* m_statusCombo;
-	QLabel* m_altTilte;
 	QCheckBox* m_hideAlt;
 	Ui::MainWindow m_ui;
-	
-	void clearList(K3ListView* list);
+	AlternativeItemProxyModel* m_itemProxyModel;
+	AlternativeAltModel* m_altModel;
 	
 public:
     Kalternatives(QWidget *parent=0, const QVariantList& = QVariantList() );
     virtual ~Kalternatives();
-	K3ListView *optionsList() const {return m_optionsList;}
 	bool isBisRoot() const {return m_bisRoot;}
 	
 	virtual void load();
@@ -61,10 +59,9 @@ public slots:
 	void configChanged();
 
 private slots:
-	void slotSelectAlternativesClicked(Q3ListViewItem *);
+	void slotSelectAlternativesActivated(const QModelIndex &);
 	void slotHideAlternativesClicked();
     void die();
-	void slotOptionClicked(Q3ListViewItem *option);
 	void slotAddClicked();
 	void slotDeleteClicked();
 	void slotPropertiesClicked();

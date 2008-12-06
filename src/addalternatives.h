@@ -26,22 +26,24 @@
 #include <kdialog.h>
 #include <ktextedit.h>
 
-class TreeItemElement;
-class Kalternatives;
+class Alternative;
+class Item;
 
 class AddAlternatives : public KDialog, private Ui::AddAlternatives
 {
 	Q_OBJECT
 	
-	TreeItemElement *m_treeItem;
-	Kalternatives *m_kalt;
+	Item* m_item;
+	Alternative* m_alternative;
 	int m_countSlave;
 	
 public:
-	AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt, int countSlaves);
+	AddAlternatives(Item* item, int slaveCount, QWidget *parent = 0);
 	virtual ~AddAlternatives();
 	
 	void addSlave(const QString& text){m_textSlave->append(text);}
+	
+	Alternative* alternative() const { return m_alternative; }
 	
 public slots:
 	void accept();

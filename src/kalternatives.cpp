@@ -27,6 +27,7 @@
 #include "altitemelement.h"
 #include "treeitemelement.h"
 #include "addalternatives.h"
+#include "alternativemodels.h"
 #include "ui_propertieswindow.h"
 
 #include <qtimer.h>
@@ -82,16 +83,12 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	
 	m_ui.setupUi(this);
 	
-	m_ui.m_altList->setShowToolTips(1);
-	
 	connect(m_ui.m_hideAlt, SIGNAL(clicked()), this,
 			SLOT(slotHideAlternativesClicked()));
 	
-	connect(m_ui.m_altList, SIGNAL(selectionChanged( Q3ListViewItem* )), this,
-			SLOT(slotSelectAlternativesClicked(Q3ListViewItem *)));
+	connect(m_ui.m_altList, SIGNAL(activated(QModelIndex)),
+			this, SLOT(slotSelectAlternativesActivated(QModelIndex)));
 	
-	connect(m_ui.m_optionsList, SIGNAL(clicked(Q3ListViewItem *)), 
-			this, SLOT(slotOptionClicked(Q3ListViewItem *)));
 	connect(m_ui.m_bAdd, SIGNAL(clicked()), this,
 			SLOT(slotAddClicked()));
 	connect(m_ui.m_bDelete, SIGNAL(clicked()), this,
@@ -99,9 +96,6 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	connect(m_ui.m_bProperties, SIGNAL(clicked()), this,
 			SLOT(slotPropertiesClicked()));
 	
-	m_altList = m_ui.m_altList;
-	m_optionsList = m_ui.m_optionsList;
-	m_altTilte = m_ui.m_altTilte;
 	m_statusCombo = m_ui.m_statusCombo;
 	m_hideAlt = m_ui.m_hideAlt;
 	
@@ -137,11 +131,6 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 Kalternatives::~Kalternatives()
 {
 	if(m_mgr) delete m_mgr;
-	if(m_altList) delete m_altList;
-	if(m_optionsList) delete m_optionsList;
-	if(m_altTilte) delete m_altTilte;
-	if(m_statusCombo) delete m_statusCombo;
-	if(m_hideAlt) delete m_hideAlt;
 }
 
 void Kalternatives::die()
@@ -151,175 +140,61 @@ void Kalternatives::die()
 
 void Kalternatives::load()
 {
-	clearList(m_altList);
-	Q3PtrList<Item> *itemslist = m_mgr->getGlobalAlternativeList();
-	Item *i;
-	TreeItemElement *treeit;
-	for(i = itemslist->first(); i; i = itemslist->next())
-	{
-		AltController *altcontroller = new AltController();
-		treeit = new TreeItemElement(m_altList, i, altcontroller);
-		
-		AltsPtrList *altList = i->getAlternatives();
-		Alternative *a = altList->first();
-		
-		AltItemElement *ael;
-		
-		for(; a; a=altList->next())
-		{
-			ael = new AltItemElement(treeit, a);
-			if(!m_bisRoot) ael->setEnabled(false);
-			treeit->getAltController()->addAltItem(ael);
-		}
-    }
+	m_itemProxyModel = new AlternativeItemProxyModel(m_ui.m_altList);
+	AlternativeItemsModel *itemModel = new AlternativeItemsModel(m_mgr, m_itemProxyModel);
+	m_itemProxyModel->setSourceModel(itemModel);
+	m_ui.m_altList->setModel(m_itemProxyModel);
+	
+	m_altModel = new AlternativeAltModel(m_mgr, !m_bisRoot, m_ui.m_optionsList);
+	m_ui.m_optionsList->setModel(m_altModel);
+	connect(m_altModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)),
+	        this, SLOT(configChanged()));
+	connect(m_altModel, SIGNAL(itemChanged(Item *, int)),
+	        itemModel, SLOT(itemChanged(Item *, int)));
+	connect(m_altModel, SIGNAL(rowsInserted(QModelIndex, int, int)),
+	        this, SLOT(configChanged()));
 }
 
-
-
-
-void Kalternatives::clearList(K3ListView* list)
+void Kalternatives::slotSelectAlternativesActivated(const QModelIndex &index)
 {
-	Q3ListViewItemIterator it( list );
-	Q3ListViewItem *tmp;
-	while( (tmp=it.current()) )
-	{
-		it++;
-		list->takeItem(tmp);
-	}
+	Item *item = index.data(AltItemRole).value<Item *>();
+	m_altModel->setItem(item);
+	m_ui.m_altTilte->setText(item->getName());
+	m_ui.m_statusCombo->setCurrentItem(item->getMode());
 }
-
-
-void Kalternatives::slotSelectAlternativesClicked(Q3ListViewItem *alternative)
-{
-	clearList(m_optionsList);
-	TreeItemElement *treeItem;
-	if((treeItem = dynamic_cast<TreeItemElement *>(alternative)))
-	{
-		Item *item = treeItem->getItem();
-		
-		m_altTilte->setText(treeItem->getName());
-		m_statusCombo->setCurrentItem(item->getMode());
-		
-		AltItemList *altItemList = treeItem->getAltController()->getAltItemList();
-		
-		for( AltItemElement *altItem= altItemList->first(); altItem ; altItem = altItemList->next())
-		{
-			Alternative *a = altItem->getAlternative();
-			
-			QString priority;
-			priority.setNum(a->getPriority());
-			
-			m_optionsList->insertItem(altItem);
-			
-			altItem->setText( 1, priority);
-			altItem->setText( 2, a->getPath());
-			QString m_small_desc = altItem->getDescription();
-			
-			if (!m_small_desc.isEmpty())
-			{
-				altItem->setText( 3, m_small_desc);
-			}
-			else
-			{
-				altItem->searchDescription();
-			}
-		}
-	}
-	m_optionsList->setSelected(m_optionsList->firstChild(), 1);
-}
-
-
 
 void Kalternatives::slotHideAlternativesClicked()
 {
-	if (m_hideAlt->isChecked ())
-	{
-		Q3ListViewItemIterator it( m_altList );
-		TreeItemElement *i;
-		Q3ListViewItem *tmp;
-		while ( it.current() )
-		{
-			if((i = dynamic_cast<TreeItemElement *>(it.current())))
-			{
-				if ((i->getItem()->getAlternatives()->count()) <= 1)
-				{
-					tmp = it.current();
-					it++;
-					m_altList->takeItem(tmp);
-					continue;
-				}
-			}
-			it++;
-		}
-	}
-	else
-	{
-		load();
-	}
-	m_altList->setSelected(m_altList->firstChild (), 1);
-}
-
-
-void Kalternatives::slotOptionClicked(Q3ListViewItem *option)
-{
-	AltItemElement *altItem;
-	if((altItem = dynamic_cast<AltItemElement *>(option)))
-	{
-		if( !altItem->isOn())
-			return;
-		TreeItemElement *treeItem;
-		if((treeItem = dynamic_cast<TreeItemElement *>(m_altList->selectedItem())))
-		{
-			treeItem->getAltController()->setBoutonOnOff(m_optionsList, altItem);
-			treeItem->setChanged(TRUE);
-			emit changed(true);
-		}
-	}
+	m_itemProxyModel->setShowSingleAlternative(!m_ui.m_hideAlt->isChecked());
 }
 
 void Kalternatives::slotAddClicked()
 {
-	TreeItemElement *treeItem;
-	if((treeItem = dynamic_cast<TreeItemElement *>(m_altList->selectedItem())))
+	Alternative *alt = m_ui.m_optionsList->currentIndex().data(AltAlternativeRole).value<Alternative *>();
+	if (alt)
 	{
-		m_optionsList->setSelected(m_optionsList->firstChild(), 1);
-		
-		AltItemElement *altItem;
-		if((altItem = dynamic_cast<AltItemElement *>(m_optionsList->selectedItem())))
+		AddAlternatives addAlternatives(alt->getParent(), alt->countSlaves(), this);
+		addAlternatives.exec();
+		if (Alternative *a = addAlternatives.alternative())
 		{
-			int countSlave = altItem->getAlternative()->countSlaves();
-			AddAlternatives *addAlternatives = new AddAlternatives(treeItem, this, countSlave);
-			addAlternatives->show();
+			m_altModel->addAlternative(a);
 		}
 	}
 }
 void Kalternatives::slotDeleteClicked()
 {
-	TreeItemElement *treeItem;
-	if((treeItem = dynamic_cast<TreeItemElement *>(m_altList->selectedItem())))
+	Alternative *alt = m_ui.m_optionsList->currentIndex().data(AltAlternativeRole).value<Alternative *>();
+	if (alt)
 	{
-		AltItemElement *altItem;
-		if((altItem = dynamic_cast<AltItemElement *>(m_optionsList->selectedItem())))
-		{
-			treeItem->getItem()->delAlternativeByPath(altItem->getPath());
-			
-			AltItemList *altItemList = treeItem->getAltController()->getAltItemList();
-			
-			altItemList->remove(altItem);
-			m_optionsList->takeItem(altItem);
-			
-			treeItem->setNbrAltChanged(TRUE);
-			emit changed( TRUE );
-			m_optionsList->setSelected(m_optionsList->firstChild (), 1);
-		}
+		// TODO add confirm dialog
+		m_altModel->removeAlternative(alt);
 	}
 }
 
 void Kalternatives::slotPropertiesClicked()
 {
-	AltItemElement *altItem;
-	
-	if((altItem = dynamic_cast<AltItemElement *>(m_optionsList->selectedItem())))
+	Alternative *a = m_altModel->data(m_ui.m_optionsList->currentIndex(), AltAlternativeRole).value<Alternative *>();
+	if (a)
 	{
 		QString text;
 		KDialog *prop = new KDialog(this);
@@ -331,10 +206,7 @@ void Kalternatives::slotPropertiesClicked()
 		prop->mainWidget()->layout()->setMargin(0);
 		connect(prop, SIGNAL(closeClicked()), prop, SLOT(deleteLater()));
 		
-		Alternative *a = altItem->getAlternative();
-		
-
-		text += i18n("Description:\n%1\n", altItem->getDescription());
+		text += i18n("Description:\n%1\n", Alternative::prettyDescription(a));
 		text += i18n("Path: %1\n", a->getPath());
 		text += i18n("Priority: %1\n", a->getPriority());
 		
@@ -354,85 +226,8 @@ void Kalternatives::slotPropertiesClicked()
 
 void Kalternatives::save()
 {
-	Q3ListViewItemIterator it( m_altList );
-	TreeItemElement *treeItem;
-	
-	while ( it.current() )
-	{
-		if((treeItem = dynamic_cast<TreeItemElement *>(it.current())))
-		{
-			if(treeItem->isNbrAltChanged())
-			{
-				QString parentPath =  QString("%1/%2")
-										.arg(m_mgr->getAltDir())
-										.arg(treeItem->getName());
-				
-				QFile origFile(parentPath);
-				if(origFile.exists())
-				{
-					origFile.remove();
-				}
-				
-				if( origFile.open( QIODevice::WriteOnly ))
-				{
-					QTextStream stream( &origFile );
-				
-				
-					Item *item = treeItem->getItem();
-				
-					stream << item->getMode() << endl;
-					stream << item->getPath() << endl;
-					
-					SlaveList *slaveList = item->getSlaves();
-					Slave *slave = slaveList->first();
-					for(; slave; slave = slaveList->next())
-					{
-						stream << slave->slname << endl;
-						stream << slave->slpath << endl;
-					}
-					
-					stream << endl;
-					
-					AltItemList *altItemList = treeItem->getAltController()->getAltItemList();
-					AltItemElement *altItem= altItemList->first();
-					for( ; altItem ; altItem = altItemList->next())
-					{
-						Alternative *a = altItem->getAlternative();
-						
-						stream << a->getPath() << endl;
-						stream << a->getPriority() << endl;
-					
-						QStringList *slaveList = a->getSlaves();
-						QStringList::Iterator it = slaveList->begin();
-						for ( ; it != slaveList->end(); ++it )
-						{
-							stream << *it << endl;
-						}
-					}
-					origFile.close();
-				}
-				treeItem->setNbrAltChanged(FALSE);
-			}
-			if(treeItem->isChanged())
-			{
-				AltItemList *altItemList = treeItem->getAltController()->getAltItemList();
-				AltItemElement *altItem= altItemList->first();
-				for( ; altItem ; altItem = altItemList->next())
-				{
-					if( altItem->isOn() )
-					{
-						Alternative *a = altItem->getAlternative();
-						if(!a->select())
-						{
-							kDebug() << a->getSelectError() << endl;
-						}
-					}
-				}
-				treeItem->setChanged(FALSE);
-			}
-		}
-		it++;
-	}
+	AlternativeItemsModel *model = qobject_cast<AlternativeItemsModel *>(m_itemProxyModel->sourceModel());
+	model->save();
 	emit changed( false );
 }
 

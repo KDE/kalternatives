@@ -33,8 +33,8 @@
 #include <kstandardguiitem.h>
 #include <kurlrequesterdialog.h>
 
-AddAlternatives::AddAlternatives(TreeItemElement *treeItem, Kalternatives *kalt, int countSlaves)
-	: KDialog(kalt), m_treeItem(treeItem), m_kalt(kalt), m_countSlave(countSlaves)
+AddAlternatives::AddAlternatives(Item* item, int slaveCount, QWidget *parent)
+	: KDialog(parent), m_item(item), m_alternative(0), m_countSlave(slaveCount)
 {
 	setupUi(mainWidget());
 	
@@ -75,9 +75,7 @@ void AddAlternatives::accept()
 {
 	if(!m_Path->url().isEmpty())
 	{
-		
-		Item *item = m_treeItem->getItem();
-		Alternative *a = new Alternative(item);
+		Alternative *a = new Alternative(m_item);
 		
 		a->setPath(m_Path->url().toLocalFile());
 		a->setPriority(m_Priority->value());
@@ -98,31 +96,7 @@ void AddAlternatives::accept()
 		
 		if (countSlave == m_countSlave)
 		{
-			item->addAlternative(a);
-		
-		
-			AltItemElement *altItem = new AltItemElement(m_treeItem, a);
-		
-			m_treeItem->getAltController()->addAltItem(altItem);
-		
-		
-			QString priority;
-			priority.setNum(a->getPriority());
-		
-			altItem->setText( 1, priority);
-			altItem->setText( 2, a->getPath());
-			QString m_small_desc = altItem->getDescription();
-		
-			if (!m_small_desc.isEmpty())
-			{
-				altItem->setText( 3, m_small_desc);
-			}
-			else
-			{
-				altItem->searchDescription();
-			}
-			m_treeItem->setNbrAltChanged(TRUE);
-			emit m_kalt->configChanged();
+			m_alternative = a;
 			KDialog::accept();
 		}
 		else

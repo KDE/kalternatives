@@ -33,31 +33,17 @@
      <widget class="QWidget" name="layout6" >
       <layout class="QVBoxLayout" >
        <item>
-        <widget class="K3ListView" name="m_altList" >
-         <property name="resizeMode" >
-          <enum>Q3ListView::LastColumn</enum>
+        <widget class="QTreeView" name="m_altList" >
+         <property name="alternatingRowColors" >
+          <bool>true</bool>
          </property>
-         <column>
-          <property name="text" >
-           <string>Alternatives</string>
-          </property>
-          <property name="clickable" >
-           <bool>true</bool>
-          </property>
-          <property name="resizable" >
-           <bool>true</bool>
-          </property>
-         </column>
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="Q3GroupBox" name="groupBox3" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Minimum" hsizetype="Minimum" >
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
          <property name="title" >
           <string/>
          </property>
@@ -203,66 +189,16 @@
         </layout>
        </item>
        <item>
-        <widget class="K3ListView" name="m_optionsList" >
-         <property name="resizePolicy" >
-          <enum>Q3ScrollView::AutoOneFit</enum>
+        <widget class="QTreeView" name="m_optionsList" >
+         <property name="alternatingRowColors" >
+          <bool>true</bool>
          </property>
-         <property name="hScrollBarMode" >
-          <enum>Q3ScrollView::Auto</enum>
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
          </property>
          <property name="allColumnsShowFocus" >
           <bool>true</bool>
          </property>
-         <property name="resizeMode" >
-          <enum>Q3ListView::LastColumn</enum>
-         </property>
-         <property name="fullWidth" >
-          <bool>false</bool>
-         </property>
-         <column>
-          <property name="text" >
-           <string>Choice</string>
-          </property>
-          <property name="clickable" >
-           <bool>true</bool>
-          </property>
-          <property name="resizable" >
-           <bool>true</bool>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>Priority</string>
-          </property>
-          <property name="clickable" >
-           <bool>true</bool>
-          </property>
-          <property name="resizable" >
-           <bool>true</bool>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>Option</string>
-          </property>
-          <property name="clickable" >
-           <bool>true</bool>
-          </property>
-          <property name="resizable" >
-           <bool>true</bool>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>Description</string>
-          </property>
-          <property name="clickable" >
-           <bool>true</bool>
-          </property>
-          <property name="resizable" >
-           <bool>true</bool>
-          </property>
-         </column>
         </widget>
        </item>
        <item>
@@ -328,11 +264,6 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>K3ListView</class>
-   <extends>Q3ListView</extends>
-   <header>k3listview.h</header>
-  </customwidget>
-  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
@@ -344,9 +275,7 @@
   </customwidget>
  </customwidgets>
  <includes>
-  <include location="local" >k3listview.h</include>
   <include location="local" >kcombobox.h</include>
-  <include location="local" >k3listview.h</include>
   <include location="local" >kpushbutton.h</include>
   <include location="local" >kpushbutton.h</include>
   <include location="local" >kpushbutton.h</include>

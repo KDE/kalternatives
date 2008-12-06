@@ -7,6 +7,7 @@ set(kcm_SRCS
   addalternatives.cpp
   altcontroller.cpp
   altitemelement.cpp
+  alternativemodels.cpp
   altparser.cpp
   kalternatives.cpp
   treeitemelement.cpp
