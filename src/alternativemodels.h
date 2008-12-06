@@ -48,6 +48,8 @@ protected:
 class AlternativeItemsModel : public AlternativesBaseModel
 {
     Q_OBJECT
+
+    friend class AlternativeAltModelPrivate;
 public:
     AlternativeItemsModel(AltFilesManager *manager, QObject *parent = 0);
     ~AlternativeItemsModel();
@@ -55,13 +57,14 @@ public:
     // QAbstractItemModel interface
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
 
     void save();
 
 private:
     Q_DECLARE_PRIVATE(AlternativeItemsModel)
-    Q_PRIVATE_SLOT(d_func(), void itemChanged(Item*, int))
 };
 
 
@@ -75,7 +78,7 @@ public:
         AltNumItemChange,
     };
 
-    AlternativeAltModel(AltFilesManager *manager, bool readOnly, QObject *parent = 0);
+    AlternativeAltModel(AlternativeItemsModel *itemModel, bool readOnly, QObject *parent = 0);
     ~AlternativeAltModel();
 
     // QAbstractItemModel interface
@@ -88,9 +91,6 @@ public:
     void setItem(Item *item);
     void addAlternative(Alternative *alt);
     void removeAlternative(Alternative *alt);
-
-signals:
-    void itemChanged(Item *item, int);
 
 private:
     Q_DECLARE_PRIVATE(AlternativeAltModel)

@@ -141,12 +141,10 @@ void Kalternatives::load()
 	m_itemProxyModel->setSourceModel(itemModel);
 	m_ui.m_altList->setModel(m_itemProxyModel);
 	
-	m_altModel = new AlternativeAltModel(m_mgr, !m_bisRoot, m_ui.m_optionsList);
+	m_altModel = new AlternativeAltModel(itemModel, !m_bisRoot, m_ui.m_optionsList);
 	m_ui.m_optionsList->setModel(m_altModel);
 	connect(m_altModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)),
 	        this, SLOT(configChanged()));
-	connect(m_altModel, SIGNAL(itemChanged(Item *, int)),
-	        itemModel, SLOT(itemChanged(Item *, int)));
 	connect(m_altModel, SIGNAL(rowsInserted(QModelIndex, int, int)),
 	        this, SLOT(configChanged()));
 }

@@ -209,8 +209,8 @@ public:
 
     Q_DECLARE_PUBLIC(AlternativeItemsModel)
 
-    // slots
-    void itemChanged(Item *item, int);
+    void itemChanged(AltItemNode *node, int);
+    void loadItemNode(AltItemNode *node);
 
     AltFilesManager *altManager;
     AltRootNode m_root;
@@ -231,27 +231,34 @@ void AlternativeItemsModelPrivate::load()
     }
 }
 
-void AlternativeItemsModelPrivate::itemChanged(Item *item, int change)
+void AlternativeItemsModelPrivate::itemChanged(AltItemNode *node, int change)
 {
     Q_Q(AlternativeItemsModel);
     AlternativeAltModel::ItemChangeType changeType = (AlternativeAltModel::ItemChangeType)change;
-    Q_FOREACH (AltItemNode *node, m_root.m_children)
+    switch (changeType)
     {
-        if (node->item == item)
-        {
-            switch (changeType)
-            {
-                case AlternativeAltModel::SelectionItemChange:
-                    node->changed = true;
-                    break;
-                case AlternativeAltModel::AltNumItemChange:
-                    node->nbrAltChanged = true;
-                    break;
-            }
-            const QModelIndex index = indexForItem(node, 0);
-            emit q->dataChanged(index, index);
+        case AlternativeAltModel::SelectionItemChange:
+            node->changed = true;
             break;
-        }
+        case AlternativeAltModel::AltNumItemChange:
+            node->nbrAltChanged = true;
+            break;
+    }
+    const QModelIndex index = indexForItem(node, 0);
+    emit q->dataChanged(index, index);
+}
+
+void AlternativeItemsModelPrivate::loadItemNode(AltItemNode *node)
+{
+    if (!node->m_children.isEmpty())
+        return;
+
+    AltsPtrList *alts = node->item->getAlternatives();
+    Q_FOREACH (Alternative* a, *alts)
+    {
+        AltAlternativeNode *altnode = new AltAlternativeNode(a, node);
+        node->m_children.append(altnode);
+        altnode->selected = a->isSelected();
     }
 }
 
@@ -303,6 +310,11 @@ QVariant AlternativeItemsModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+bool AlternativeItemsModel::hasChildren(const QModelIndex &parent) const
+{
+    return parent.isValid() ? false : AlternativesBaseModel::hasChildren(parent);
+}
+
 QVariant AlternativeItemsModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation != Qt::Horizontal)
@@ -316,6 +328,11 @@ QVariant AlternativeItemsModel::headerData(int section, Qt::Orientation orientat
             break;
     }
     return QVariant();
+}
+
+QModelIndex AlternativeItemsModel::index(int row, int column, const QModelIndex &parent) const
+{
+    return parent.isValid() ? QModelIndex() : AlternativesBaseModel::index(row, column, parent);
 }
 
 void AlternativeItemsModel::save()
@@ -412,22 +429,24 @@ void AlternativeItemsModel::save()
 class AlternativeAltModelPrivate : public AlternativesBaseModelPrivate
 {
 public:
-    AlternativeAltModelPrivate(AltFilesManager *manager, bool readOnly);
+    AlternativeAltModelPrivate(AlternativeItemsModel *itemModel, bool readOnly);
     ~AlternativeAltModelPrivate();
 
     virtual void load();
-    virtual AltNode* root() const { return const_cast<AltItemNode *>(&m_root); }
+    virtual AltNode* root() const { return m_root; }
 
     AltAlternativeNode* findHigherPriority(int *index) const;
     void searchDescription(Alternative *alternative) const;
 
-    AltFilesManager *altManager;
-    AltItemNode m_root;
+    AlternativeItemsModelPrivate *parentModel;
+    AltItemNode m_nullRoot;
+    AltItemNode *m_root;
     bool m_readOnly;
 };
 
-AlternativeAltModelPrivate::AlternativeAltModelPrivate(AltFilesManager *manager, bool readOnly)
-    : AlternativesBaseModelPrivate(), altManager(manager), m_root(0, 0), m_readOnly(readOnly)
+AlternativeAltModelPrivate::AlternativeAltModelPrivate(AlternativeItemsModel *itemModel, bool readOnly)
+    : AlternativesBaseModelPrivate()
+    , parentModel(itemModel->d_func()), m_nullRoot(0, 0), m_root(&m_nullRoot), m_readOnly(readOnly)
 {
 }
 
@@ -441,7 +460,7 @@ void AlternativeAltModelPrivate::load()
 
 AltAlternativeNode* AlternativeAltModelPrivate::findHigherPriority(int *index) const
 {
-    const int num = m_root.m_children.count();
+    const int num = m_root->m_children.count();
     if (!num)
     {
         *index = 0;
@@ -449,11 +468,11 @@ AltAlternativeNode* AlternativeAltModelPrivate::findHigherPriority(int *index) c
     }
 
     int id = 0;
-    AltAlternativeNode* n = m_root.m_children.at(id);
+    AltAlternativeNode* n = m_root->m_children.at(id);
     int priority = n->alternative->getPriority();
     for (int i = 1; i < num; ++i)
     {
-        AltAlternativeNode* tmp = m_root.m_children.at(i);
+        AltAlternativeNode* tmp = m_root->m_children.at(i);
         if (tmp->alternative->getPriority() > priority)
         {
             id = i;
@@ -508,8 +527,8 @@ void AlternativeAltModelPrivate::searchDescription(Alternative *alternative) con
 }
 
 
-AlternativeAltModel::AlternativeAltModel(AltFilesManager *manager, bool readOnly, QObject *parent)
-    : AlternativesBaseModel(*new AlternativeAltModelPrivate(manager, readOnly), parent)
+AlternativeAltModel::AlternativeAltModel(AlternativeItemsModel *itemModel, bool readOnly, QObject *parent)
+    : AlternativesBaseModel(*new AlternativeAltModelPrivate(itemModel, readOnly), parent)
 {
 }
 
@@ -632,7 +651,7 @@ bool AlternativeAltModel::setData(const QModelIndex &index, const QVariant &valu
                 if (!n->selected)
                 {
                     QModelIndexList changedIndexes;
-                    Q_FOREACH (AltAlternativeNode* node, d->m_root.m_children)
+                    Q_FOREACH (AltAlternativeNode* node, d->m_root->m_children)
                     {
                         if (node->selected)
                         {
@@ -646,7 +665,7 @@ bool AlternativeAltModel::setData(const QModelIndex &index, const QVariant &valu
                     {
                         emit dataChanged(changedIndex, changedIndex);
                     }
-                    emit itemChanged(d->m_root.item, SelectionItemChange);
+                    d->parentModel->itemChanged(d->m_root, SelectionItemChange);
                     return true;
                 }
             }
@@ -659,18 +678,18 @@ bool AlternativeAltModel::setData(const QModelIndex &index, const QVariant &valu
 void AlternativeAltModel::setItem(Item *item)
 {
     Q_D(AlternativeAltModel);
-    qDeleteAll(d->m_root.m_children);
-    d->m_root.m_children.clear();
-    d->m_root.item = item;
-    if (d->m_root.item)
+    d->m_root = &d->m_nullRoot;
+    Q_FOREACH (AltItemNode *n, d->parentModel->m_root.m_children)
     {
-        AltsPtrList *alts = d->m_root.item->getAlternatives();
-        Q_FOREACH (Alternative* a, *alts)
+        if (n->item == item)
         {
-            AltAlternativeNode *node = new AltAlternativeNode(a, &d->m_root);
-            d->m_root.m_children.append(node);
-            node->selected = a->isSelected();
+            d->m_root = n;
+            break;
         }
+    }
+    if (d->m_root->item)
+    {
+        d->parentModel->loadItemNode(d->m_root);
     }
     reset();
 }
@@ -681,15 +700,15 @@ void AlternativeAltModel::addAlternative(Alternative *alt)
         return;
 
     Q_D(AlternativeAltModel);
-    if (alt->getParent() != d->m_root.item)
+    if (alt->getParent() != d->m_root->item)
         return;
 
-    const int childCount = d->m_root.m_children.count();
+    const int childCount = d->m_root->m_children.count();
     beginInsertRows(QModelIndex(), childCount, childCount);
-    d->m_root.item->addAlternative(alt);
-    d->m_root.m_children.append(new AltAlternativeNode(alt, &d->m_root));
+    d->m_root->item->addAlternative(alt);
+    d->m_root->m_children.append(new AltAlternativeNode(alt, d->m_root));
     endInsertRows();
-    emit itemChanged(d->m_root.item, AltNumItemChange);
+    d->parentModel->itemChanged(d->m_root, AltNumItemChange);
 }
 
 void AlternativeAltModel::removeAlternative(Alternative *alt)
@@ -698,26 +717,26 @@ void AlternativeAltModel::removeAlternative(Alternative *alt)
         return;
 
     Q_D(AlternativeAltModel);
-    if (alt->getParent() != d->m_root.item)
+    if (alt->getParent() != d->m_root->item)
         return;
 
     int altId = 0;
-    const int childCount = d->m_root.m_children.count();
+    const int childCount = d->m_root->m_children.count();
     for ( ; altId < childCount; ++altId)
     {
-        if (d->m_root.m_children.at(altId)->alternative == alt)
+        if (d->m_root->m_children.at(altId)->alternative == alt)
             break;
     }
     if (altId == childCount)
         return;
 
-    const bool wasSelected = d->m_root.m_children.at(altId)->selected;
+    const bool wasSelected = d->m_root->m_children.at(altId)->selected;
     beginRemoveRows(QModelIndex(), altId, altId);
-    d->m_root.item->delAlternativeByPath(alt->getPath());
-    delete d->m_root.m_children.at(altId);
-    d->m_root.m_children.removeAt(altId);
+    d->m_root->item->delAlternativeByPath(alt->getPath());
+    delete d->m_root->m_children.at(altId);
+    d->m_root->m_children.removeAt(altId);
     endRemoveRows();
-    if (wasSelected && !d->m_root.m_children.isEmpty())
+    if (wasSelected && !d->m_root->m_children.isEmpty())
     {
         int row = 0;
         AltAlternativeNode *node = d->findHigherPriority(&row);
@@ -725,7 +744,7 @@ void AlternativeAltModel::removeAlternative(Alternative *alt)
         const QModelIndex changedIndex = createIndex(row, 0, node);
         emit dataChanged(changedIndex, changedIndex);
     }
-    emit itemChanged(d->m_root.item, AltNumItemChange);
+    d->parentModel->itemChanged(d->m_root, AltNumItemChange);
 }
 
 
