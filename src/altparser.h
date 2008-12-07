@@ -70,7 +70,7 @@ public:
     static QString prettyDescription(Alternative *);
 };
 
-typedef Q3PtrList<Slave> SlaveList;
+typedef QList<Slave *> SlaveList;
 typedef Q3PtrList<Alternative> AltsPtrList;
 
 class Item

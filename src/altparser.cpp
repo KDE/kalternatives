@@ -119,7 +119,6 @@ bool Alternative::select(QString *selectError)
 
     // And finally the slaves
     SlaveList *parslaves = m_parent->getSlaves();
-    parslaves->setAutoDelete(1);
     if(parslaves->count() == 0 || m_altSlaves->count() == 0) return true;
     int count = 0;
     QStringList::iterator sl;
@@ -161,7 +160,6 @@ Item::Item()
     m_mode = "auto";
     m_itemSlaves = new SlaveList;
     m_itemAlts = new AltsPtrList;
-    m_itemSlaves->setAutoDelete(1);
     m_itemAlts->setAutoDelete(1);
 }
 
@@ -173,11 +171,10 @@ Item::Item(const Item &item) :
 {
     m_itemSlaves = new SlaveList;
     m_itemAlts = new AltsPtrList;
-    m_itemSlaves->setAutoDelete(1);
     m_itemAlts->setAutoDelete(1);
     Slave *slave;
     Slave *slavecopy;
-    for(slave = item.m_itemSlaves->first(); slave; slave = item.m_itemSlaves->next())
+    Q_FOREACH (slave, *item.m_itemSlaves)
     {
         slavecopy = new Slave;
         slavecopy->slname = slave->slname;
@@ -206,11 +203,10 @@ Item& Item::operator=(const Item &item)
         m_path = item.m_path;
         m_itemSlaves = new SlaveList;
         m_itemAlts = new AltsPtrList;
-        m_itemSlaves->setAutoDelete(1);
         m_itemAlts->setAutoDelete(1);
         Slave *slave;
         Slave *slavecopy;
-        for(slave = item.m_itemSlaves->first(); slave; slave = item.m_itemSlaves->next())
+        Q_FOREACH (slave, *item.m_itemSlaves)
         {
             slavecopy = new Slave;
             slavecopy->slname = slave->slname;
@@ -233,6 +229,7 @@ Item& Item::operator=(const Item &item)
 
 Item::~Item()
 {
+    qDeleteAll(*m_itemSlaves);
     if(m_itemSlaves)delete m_itemSlaves;
     if(m_itemAlts)delete m_itemAlts;
 }
@@ -253,6 +250,7 @@ Alternative *Item::getSelected() const
 
 void Item::setSlaves(SlaveList *slaves)
 {
+    qDeleteAll(*m_itemSlaves);
     if(this->m_itemSlaves)delete this->m_itemSlaves;
     this->m_itemSlaves = slaves;
 }
@@ -267,30 +265,30 @@ void Item::addSlave(const QString &namearg, const QString &patharg)
 
 void Item::delSlave(const QString &namearg)
 {
-    Q3PtrListIterator<Slave> it(*m_itemSlaves);
+    QMutableListIterator<Slave *> it(*m_itemSlaves);
 
     Slave *s;
-    while( (s = it.current()) != 0)
+    while (it.hasNext())
     {
-        ++it;
+        s = it.next();
         if(s->slname == namearg)
         {
-            m_itemSlaves->remove(s);
+            it.remove();
             break;
         }
     }
 }
 void Item::delSlaveByPath(const QString &patharg)
 {
-    Q3PtrListIterator<Slave> it(*m_itemSlaves);
+    QMutableListIterator<Slave *> it(*m_itemSlaves);
 
     Slave *s;
-    while( (s = it.current()) != 0)
+    while (it.hasNext())
     {
-        ++it;
+        s = it.next();
         if(s->slpath == patharg)
         {
-            m_itemSlaves->remove(s);
+            it.remove();
             break;
         }
     }
@@ -439,7 +437,6 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         line = lines[index];
         nslaves = 0;
         SlaveList *slaves = new SlaveList;
-        slaves->setAutoDelete(1);
 
         while(line != "\n")
         {

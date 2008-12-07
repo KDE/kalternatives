@@ -427,8 +427,7 @@ void AlternativeItemsModel::save()
                 stream << item->getPath() << endl;
 
                 SlaveList *slaveList = item->getSlaves();
-                Slave *slave = slaveList->first();
-                for (; slave; slave = slaveList->next())
+                Q_FOREACH (Slave *slave, *slaveList)
                 {
                     stream << slave->slname << endl;
                     stream << slave->slpath << endl;
