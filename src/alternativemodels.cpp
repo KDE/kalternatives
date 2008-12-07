@@ -587,7 +587,29 @@ void AlternativeAltModelPrivate::statusChanged(int index)
 
     const QString mode = combo->itemData(index, Qt::DisplayRole).toString(); // ### use a better id
     m_root->item->setMode(mode);
-    parentModel->itemChanged(m_root, ModeItemChange);
+    ItemChanges changes = ModeItemChange;
+    if (mode == "auto")
+    {
+        int selectedIndex = 0;
+        int higherPriorityIndex = 0;
+        AltAlternativeNode *selectedaltnode = parentModel->findSelectedAlternative(m_root, &selectedIndex);
+        AltAlternativeNode *newaltnode = findHigherPriority(&higherPriorityIndex);
+        if (selectedIndex != higherPriorityIndex)
+        {
+            QModelIndexList indexes;
+            selectedaltnode->selected = false;
+            indexes.append(q->createIndex(selectedIndex, 0, selectedaltnode));
+            newaltnode->selected = true;
+            indexes.append(q->createIndex(higherPriorityIndex, 0, newaltnode));
+            m_root->changed = true;
+            Q_FOREACH (const QModelIndex &index, indexes)
+            {
+                emit q->dataChanged(index, index);
+            }
+            changes |= SelectionItemChange;
+        }
+    }
+    parentModel->itemChanged(m_root, changes);
 }
 
 
@@ -735,9 +757,14 @@ bool AlternativeAltModel::setData(const QModelIndex &index, const QVariant &valu
                     {
                         emit dataChanged(changedIndex, changedIndex);
                     }
+                    ItemChanges changes = SelectionItemChange;
                     // when changing option, set the alternative to "manual" mode
-                    d->m_root->item->setMode("manual");
-                    d->parentModel->itemChanged(d->m_root, SelectionItemChange | ModeItemChange);
+                    if (d->m_root->item->getMode() == "auto")
+                    {
+                        d->m_root->item->setMode("manual");
+                        changes |= ModeItemChange;
+                    }
+                    d->parentModel->itemChanged(d->m_root, changes);
                     return true;
                 }
             }
