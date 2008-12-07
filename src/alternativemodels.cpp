@@ -20,6 +20,12 @@
 
 #include <algorithm>
 
+enum ItemChangeType
+{
+    SelectionItemChange,
+    AltNumItemChange,
+};
+
 namespace
 {
 
@@ -209,7 +215,7 @@ public:
 
     Q_DECLARE_PUBLIC(AlternativeItemsModel)
 
-    void itemChanged(AltItemNode *node, int);
+    void itemChanged(AltItemNode *node, ItemChangeType changeType);
     void loadItemNode(AltItemNode *node);
 
     AltFilesManager *altManager;
@@ -231,16 +237,15 @@ void AlternativeItemsModelPrivate::load()
     }
 }
 
-void AlternativeItemsModelPrivate::itemChanged(AltItemNode *node, int change)
+void AlternativeItemsModelPrivate::itemChanged(AltItemNode *node, ItemChangeType changeType)
 {
     Q_Q(AlternativeItemsModel);
-    AlternativeAltModel::ItemChangeType changeType = (AlternativeAltModel::ItemChangeType)change;
     switch (changeType)
     {
-        case AlternativeAltModel::SelectionItemChange:
+        case SelectionItemChange:
             node->changed = true;
             break;
-        case AlternativeAltModel::AltNumItemChange:
+        case AltNumItemChange:
             node->nbrAltChanged = true;
             break;
     }

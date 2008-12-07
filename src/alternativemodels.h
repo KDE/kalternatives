@@ -73,12 +73,6 @@ class AlternativeAltModel : public AlternativesBaseModel
 {
     Q_OBJECT
 public:
-    enum ItemChangeType
-    {
-        SelectionItemChange,
-        AltNumItemChange,
-    };
-
     AlternativeAltModel(AlternativeItemsModel *itemModel, bool readOnly, QObject *parent = 0);
     ~AlternativeAltModel();
 
