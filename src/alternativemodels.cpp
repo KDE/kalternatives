@@ -22,9 +22,11 @@
 
 enum ItemChangeType
 {
-    SelectionItemChange,
-    AltNumItemChange,
+    SelectionItemChange = 1,
+    AltNumItemChange = 2,
 };
+Q_DECLARE_FLAGS(ItemChanges, ItemChangeType)
+Q_DECLARE_OPERATORS_FOR_FLAGS(ItemChanges)
 
 namespace
 {
@@ -215,7 +217,7 @@ public:
 
     Q_DECLARE_PUBLIC(AlternativeItemsModel)
 
-    void itemChanged(AltItemNode *node, ItemChangeType changeType);
+    void itemChanged(AltItemNode *node, ItemChanges changes);
     void loadItemNode(AltItemNode *node);
 
     AltFilesManager *altManager;
@@ -237,17 +239,16 @@ void AlternativeItemsModelPrivate::load()
     }
 }
 
-void AlternativeItemsModelPrivate::itemChanged(AltItemNode *node, ItemChangeType changeType)
+void AlternativeItemsModelPrivate::itemChanged(AltItemNode *node, ItemChanges changes)
 {
     Q_Q(AlternativeItemsModel);
-    switch (changeType)
+    if (changes & SelectionItemChange)
     {
-        case SelectionItemChange:
-            node->changed = true;
-            break;
-        case AltNumItemChange:
-            node->nbrAltChanged = true;
-            break;
+        node->changed = true;
+    }
+    if (changes & AltNumItemChange)
+    {
+        node->nbrAltChanged = true;
     }
     const QModelIndex index = indexForItem(node, 0);
     emit q->dataChanged(index, index);
