@@ -445,6 +445,8 @@ public:
     virtual void load();
     virtual AltNode* root() const { return m_root; }
 
+    Q_DECLARE_PUBLIC(AlternativeAltModel)
+
     AltAlternativeNode* findHigherPriority(int *index) const;
     void searchDescription(Alternative *alternative) const;
 
