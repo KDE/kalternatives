@@ -90,6 +90,7 @@ public:
 
 private:
     Q_DECLARE_PRIVATE(AlternativeAltModel)
+    Q_PRIVATE_SLOT(d_func(), void statusChanged(int))
 };
 
 

@@ -134,6 +134,8 @@ void Kalternatives::load()
 	AlternativeItemsModel *itemModel = new AlternativeItemsModel(m_mgr, m_itemProxyModel);
 	m_itemProxyModel->setSourceModel(itemModel);
 	m_ui.m_altList->setModel(m_itemProxyModel);
+	connect(itemModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)),
+	        this, SLOT(slotUpdateStatusCombo()));
 	
 	QHeaderView *h = m_ui.m_altList->header();
 	h->resizeSections(QHeaderView::Stretch);
@@ -147,6 +149,8 @@ void Kalternatives::load()
 	        this, SLOT(configChanged()));
 	connect(m_altModel, SIGNAL(rowsInserted(QModelIndex, int, int)),
 	        this, SLOT(configChanged()));
+	connect(m_ui.m_statusCombo, SIGNAL(activated(int)),
+	        m_altModel, SLOT(statusChanged(int)));
 }
 
 void Kalternatives::slotSelectAlternativesActivated(const QModelIndex &index)
@@ -217,6 +221,15 @@ void Kalternatives::slotPropertiesClicked()
 	}
 }
 
+void Kalternatives::slotUpdateStatusCombo()
+{
+	Item *item = m_ui.m_altList->currentIndex().data(AltItemRole).value<Item *>();
+	if (item)
+	{
+		m_ui.m_statusCombo->setCurrentItem(item->getMode());
+		emit changed(true);
+	}
+}
 
 void Kalternatives::save()
 {

@@ -10,6 +10,7 @@
 #include "alternativemodels.h"
 #include "altparser.h"
 
+#include <QComboBox>
 #include <QFile>
 #include <QFont>
 #include <QList>
@@ -24,6 +25,7 @@ enum ItemChangeType
 {
     SelectionItemChange = 1,
     AltNumItemChange = 2,
+    ModeItemChange = 4
 };
 Q_DECLARE_FLAGS(ItemChanges, ItemChangeType)
 Q_DECLARE_OPERATORS_FOR_FLAGS(ItemChanges)
@@ -76,7 +78,9 @@ struct AltItemNode : public AltNode
     enum { Type = 2 };
 
     AltItemNode(Item *i, AltRootNode *p)
-        : AltNode(p, Type), item(i), changed(false), nbrAltChanged(false) {}
+        : AltNode(p, Type), item(i)
+        , changed(false), nbrAltChanged(false), modeChanged(false)
+    {}
 
     virtual QList<AltNode*> children() const
         {
@@ -91,6 +95,7 @@ struct AltItemNode : public AltNode
     QList<AltAlternativeNode*> m_children;
     bool changed : 1;
     bool nbrAltChanged : 1;
+    bool modeChanged : 1;
 };
 
 struct AltAlternativeNode : public AltNode
@@ -220,6 +225,8 @@ public:
     void itemChanged(AltItemNode *node, ItemChanges changes);
     void loadItemNode(AltItemNode *node);
 
+    bool isChanged(AltItemNode *node) const;
+
     AltFilesManager *altManager;
     AltRootNode m_root;
 };
@@ -250,6 +257,10 @@ void AlternativeItemsModelPrivate::itemChanged(AltItemNode *node, ItemChanges ch
     {
         node->nbrAltChanged = true;
     }
+    if (changes & ModeItemChange)
+    {
+        node->modeChanged = true;
+    }
     const QModelIndex index = indexForItem(node, 0);
     emit q->dataChanged(index, index);
 }
@@ -266,6 +277,11 @@ void AlternativeItemsModelPrivate::loadItemNode(AltItemNode *node)
         node->m_children.append(altnode);
         altnode->selected = a->isSelected();
     }
+}
+
+bool AlternativeItemsModelPrivate::isChanged(AltItemNode *node) const
+{
+    return node->changed || node->nbrAltChanged || node->modeChanged;
 }
 
 
@@ -289,6 +305,7 @@ QVariant AlternativeItemsModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
+    Q_D(const AlternativeItemsModel);
     AltNode *n = static_cast<AltNode *>(index.internalPointer());
     if (AltItemNode *n_i = altnode_cast<AltItemNode>(n))
     {
@@ -298,11 +315,11 @@ QVariant AlternativeItemsModel::data(const QModelIndex &index, int role) const
             case Qt::ToolTipRole:
                 return n_i->item->getName();
             case Qt::ForegroundRole:
-                if (n_i->changed || n_i->nbrAltChanged)
+                if (d->isChanged(n_i))
                     return Qt::red;
                 break;
             case Qt::FontRole:
-                if (n_i->changed || n_i->nbrAltChanged)
+                if (d->isChanged(n_i))
                 {
                     QFont f;
                     f.setBold(true);
@@ -451,6 +468,8 @@ public:
     AltAlternativeNode* findHigherPriority(int *index) const;
     void searchDescription(Alternative *alternative) const;
 
+    void statusChanged(int index);
+
     AlternativeItemsModelPrivate *parentModel;
     AltItemNode m_nullRoot;
     AltItemNode *m_root;
@@ -537,6 +556,21 @@ void AlternativeAltModelPrivate::searchDescription(Alternative *alternative) con
         }
         alternative->setDescription(output);
     }
+}
+
+void AlternativeAltModelPrivate::statusChanged(int index)
+{
+    if (m_root == &m_nullRoot)
+        return;
+
+    Q_Q(AlternativeAltModel);
+    QComboBox *combo = q->sender() ? qobject_cast<QComboBox *>(q->sender()) : 0;
+    if (!combo)
+        return;
+
+    const QString mode = combo->itemData(index, Qt::DisplayRole).toString(); // ### use a better id
+    m_root->item->setMode(mode);
+    parentModel->itemChanged(m_root, ModeItemChange);
 }
 
 
@@ -684,7 +718,9 @@ bool AlternativeAltModel::setData(const QModelIndex &index, const QVariant &valu
                     {
                         emit dataChanged(changedIndex, changedIndex);
                     }
-                    d->parentModel->itemChanged(d->m_root, SelectionItemChange);
+                    // when changing option, set the alternative to "manual" mode
+                    d->m_root->item->setMode("manual");
+                    d->parentModel->itemChanged(d->m_root, SelectionItemChange | ModeItemChange);
                     return true;
                 }
             }
