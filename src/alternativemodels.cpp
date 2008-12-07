@@ -382,9 +382,6 @@ int AlternativeItemsModel::rowCount(const QModelIndex &parent) const
 
 void AlternativeItemsModel::save()
 {
-#ifdef __GNUC__
-#warning fully implement saving
-#endif
     Q_D(AlternativeItemsModel);
     QModelIndexList changedIndexes;
     const int rows = d->m_root.m_children.count();
@@ -394,9 +391,21 @@ void AlternativeItemsModel::save()
         Item *item = node->item;
         bool itemChanged = false;
 
-        if (node->nbrAltChanged)
+        if (node->changed)
         {
-#if 0
+            int index = 0;
+            AltAlternativeNode* altnode = d->findSelectedAlternative(node, &index);
+            Q_ASSERT(altnode);
+            if (!altnode->alternative->select())
+            {
+                kDebug() << altnode->alternative->getSelectError() << endl;
+                return;
+            }
+            node->changed = false;
+            itemChanged = true;
+        }
+        if (node->nbrAltChanged || node->modeChanged)
+        {
             QString parentPath = d->altManager->getAltDir() + '/' + item->getName();
 
             QFile origFile(parentPath);
@@ -435,28 +444,13 @@ void AlternativeItemsModel::save()
                         stream << *it << endl;
                     }
                 }
+
+                stream << endl;
+
                 origFile.close();
             }
-#endif
             node->nbrAltChanged = false;
-            itemChanged = true;
-        }
-        if (node->changed)
-        {
-            AltsPtrList *altItemList = item->getAlternatives();
-            Q_FOREACH (Alternative *a, *altItemList)
-            {
-#if 0
-                if (altItem->isOn())
-                {
-                    if (!a->select())
-                    {
-                        kDebug() << a->getSelectError() << endl;
-                    }
-                }
-#endif
-            }
-            node->changed = false;
+            node->modeChanged = false;
             itemChanged = true;
         }
         if (itemChanged)
