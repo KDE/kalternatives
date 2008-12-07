@@ -1,9 +1,10 @@
 Source: kalternatives
 Section: admin
 Priority: optional
-Maintainer:  Mario Bensi <nef@ipsquad.net>
-Build-Depends: automake1.7, debhelper (>> 4.0.18), gettext, kdelibs4-dev
-Standards-Version: 3.2.1
+Maintainer: Pino Toscano <pino@kde.org>
+Build-Depends: cdbs (>= 0.4.51), debhelper (>= 6), cmake (>= 2.6.0),
+ pkg-kde-tools (>= 0.2), kdelibs5-dev (>= 4:4.1.0)
+Standards-Version: 3.8.0
 
 Package: kalternatives
 Architecture: any

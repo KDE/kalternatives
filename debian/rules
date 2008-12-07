@@ -1,12 +1,4 @@
 #!/usr/bin/make -f
 
+include /usr/share/pkg-kde-tools/makefiles/1/cdbs/kde.mk
 include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/class/kde.mk
-
-# These variables are used by debhelper.mk; we are telling it to
-# 1. dh_compress not to compress any files with the below extensions.
-# 2. dh_makeshlibs to create automatic conservative version dependencies
-# 3. dh_shlibdeps which directories to look in to resolve internal dependencies
-DEB_COMPRESS_EXCLUDE := .bz2 .css .dcl .docbook -license
-DEB_DH_MAKESHLIBS_ARGS := -V
-DEB_SHLIBDEPS_INCLUDE := debian/libartsc0/usr/lib debian/libarts1/usr/lib
