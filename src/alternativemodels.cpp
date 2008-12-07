@@ -226,6 +226,7 @@ public:
     void loadItemNode(AltItemNode *node);
 
     bool isChanged(AltItemNode *node) const;
+    AltAlternativeNode* findSelectedAlternative(AltItemNode *node, int *index) const;
 
     AltFilesManager *altManager;
     AltRootNode m_root;
@@ -282,6 +283,22 @@ void AlternativeItemsModelPrivate::loadItemNode(AltItemNode *node)
 bool AlternativeItemsModelPrivate::isChanged(AltItemNode *node) const
 {
     return node->changed || node->nbrAltChanged || node->modeChanged;
+}
+
+AltAlternativeNode* AlternativeItemsModelPrivate::findSelectedAlternative(AltItemNode *node, int *index) const
+{
+    const int num = node->m_children.count();
+    for (int i = 0; i < num; ++i)
+    {
+        AltAlternativeNode *altnode = node->m_children.at(i);
+        if (altnode->selected)
+        {
+            *index = i;
+            return altnode;
+        }
+    }
+    *index = -1;
+    return 0;
 }
 
 
