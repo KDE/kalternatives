@@ -354,7 +354,6 @@ AltFilesManager::AltFilesManager(const QString &altdirarg) :
     m_altdir(altdirarg)
 {
     m_itemlist = new ItemPtrList;
-    m_itemlist->setAutoDelete(1);
     m_parseOk = true;
     m_errorMsg = "";
     if(!parseAltFiles(m_errorMsg))
@@ -366,29 +365,17 @@ AltFilesManager::AltFilesManager(const QString &altdirarg) :
 
 AltFilesManager::~AltFilesManager()
 {
-    //delete m_itemlist;
-    /*
-    Item *item;
-    for(item = m_itemlist->first(); item; item = m_itemlist->next())
-    {
-        delete item;
-    }
-
+    qDeleteAll(*m_itemlist);
     delete m_itemlist;
-    */
 }
 
 Item* AltFilesManager::getItem(const QString &name) const
 {
-    Q3PtrListIterator<Item> it(*m_itemlist);
-    Item *i;
-    while( (i = it.current()) !=  0)
+    Q_FOREACH (Item *i, *m_itemlist)
     {
-        ++it;
         if(i->getName() == name)
         {
             return i;
-            break;
         }
     }
     return NULL;

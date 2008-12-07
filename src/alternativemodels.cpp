@@ -243,8 +243,8 @@ AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(AltFilesManager *mana
 
 void AlternativeItemsModelPrivate::load()
 {
-    Q3PtrList<Item> *itemslist = altManager->getGlobalAlternativeList();
-    for (Item *i = itemslist->first(); i; i = itemslist->next())
+    ItemPtrList *itemslist = altManager->getGlobalAlternativeList();
+    Q_FOREACH (Item *i, *itemslist)
     {
         AltItemNode *newItem = new AltItemNode(i, &m_root);
         m_root.m_children.append(newItem);

@@ -112,7 +112,7 @@ public:
     bool isBroken() const;
 };
 
-typedef Q3PtrList<Item> ItemPtrList;
+typedef QList<Item *> ItemPtrList;
 
 class AltFilesManager
 {
