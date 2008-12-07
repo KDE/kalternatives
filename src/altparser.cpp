@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Juanjo Álvarez                                  *
- *   juanjux@yahoo.es                                                      *
+ *   Copyright (C) 2004 by Juanjo Álvarez Martinez <juanjo@juanjoalvarez.net> *
+ *   Copyright (C) 2008 by Pino Toscano <pino@kde.org>                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
