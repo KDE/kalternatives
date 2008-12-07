@@ -143,8 +143,12 @@ void Kalternatives::load()
 	connect(m_ui.m_hideAlt, SIGNAL(clicked()), this,
 			SLOT(slotHideAlternativesClicked()));
 	
-	m_altModel = new AlternativeAltModel(itemModel, !m_bisRoot, m_ui.m_optionsList);
-	m_ui.m_optionsList->setModel(m_altModel);
+	QSortFilterProxyModel *altListSorter = new QSortFilterProxyModel(m_ui.m_optionsList);
+	altListSorter->setDynamicSortFilter(true);
+	m_altModel = new AlternativeAltModel(itemModel, !m_bisRoot, altListSorter);
+	altListSorter->setSourceModel(m_altModel);
+	m_ui.m_optionsList->setModel(altListSorter);
+	m_ui.m_optionsList->header()->setSortIndicator(0, Qt::AscendingOrder);
 	connect(m_altModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)),
 	        this, SLOT(configChanged()));
 	connect(m_altModel, SIGNAL(rowsInserted(QModelIndex, int, int)),
