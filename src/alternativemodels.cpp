@@ -60,6 +60,8 @@ struct AltRootNode : public AltNode
 
     AltRootNode()
         : AltNode(0, Type) {}
+    virtual ~AltRootNode()
+        { qDeleteAll(m_children); }
 
     virtual QList<AltNode*> children() const
         {
@@ -81,6 +83,8 @@ struct AltItemNode : public AltNode
         : AltNode(p, Type), item(i)
         , changed(false), nbrAltChanged(false), modeChanged(false)
     {}
+    virtual ~AltItemNode()
+        { qDeleteAll(m_children); }
 
     virtual QList<AltNode*> children() const
         {
