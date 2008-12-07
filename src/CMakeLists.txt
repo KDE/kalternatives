@@ -6,11 +6,13 @@ set(kcm_SRCS
   alternativemodels.cpp
   altparser.cpp
   kalternatives.cpp
+  slavewidget.cpp
 )
 kde4_add_ui_files(kcm_SRCS
   addalternativesui.ui
   mainwindow.ui
   propertieswindow.ui
+  slavewidget.ui
 )
 kde4_add_plugin(kcm_kalternatives ${kcm_SRCS})
 target_link_libraries(kcm_kalternatives ${KDE4_KIO_LIBS} ${QT_QT3SUPPORT_LIBRARY})

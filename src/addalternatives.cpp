@@ -20,22 +20,19 @@
 
 #include "addalternatives.h"
 #include "altparser.h"
-
-#include <qstringlist.h>
+#include "slavewidget.h"
 
 #include <klocale.h>
-#include <kmessagebox.h>
 #include <knuminput.h>
-#include <kstandardguiitem.h>
-#include <kurlrequesterdialog.h>
+#include <kseparator.h>
 
 AddAlternatives::AddAlternatives(Item* item, int slaveCount, QWidget *parent)
 	: KDialog(parent), m_item(item), m_alternative(0), m_countSlave(slaveCount)
 {
 	setupUi(mainWidget());
+	mainWidget()->layout()->setMargin(0);
 	
-	setButtons(Ok | Cancel | User1);
-	setButtonGuiItem(User1, KGuiItem(i18n("&Add Slave"), "list-add"));
+	setButtons(Ok | Cancel);
 	setCaption(i18n("Add Alternative"));
 	showButtonSeparator(true);
 	
@@ -43,62 +40,66 @@ AddAlternatives::AddAlternatives(Item* item, int slaveCount, QWidget *parent)
 	m_Path->setFilter( i18n( "*|All Files" ) );
 	m_Path->setMode( KFile::File | KFile::LocalOnly );
 	
-	connect(this, SIGNAL(user1Clicked()), this, SLOT(slotAddSlaveClicked()));
+	if (m_countSlave > 0)
+	{
+		SlaveList *slaves = item->getSlaves();
+		
+		QWidget *w = new QWidget;
+		QVBoxLayout *lay = new QVBoxLayout(w);
+		for (int i = 0; i < m_countSlave; ++i)
+		{
+			if (i > 0)
+				lay->addWidget(new KSeparator(Qt::Horizontal, w));
+			SlaveWidget *sw = new SlaveWidget(slaves->at(i), w);
+			lay->addWidget(sw);
+			m_slaveWidgets.append(sw);
+			connect(sw, SIGNAL(slaveChanged(QString)), this, SLOT(slotCheckSlaves()));
+		}
+		w->show();
+		m_slavesArea->setWidget(w);
+	}
+	else
+	{
+		m_slavesGroup->hide();
+	}
+	
+	enableButtonOk(false);
+	connect(m_Path, SIGNAL(textChanged(QString)), this, SLOT(slotCheckSlaves()));
+	connect(this, SIGNAL(okClicked()), this, SLOT(slotOkClicked()));
 }
 
 AddAlternatives::~AddAlternatives()
 {
 }
 
-void AddAlternatives::slotAddSlaveClicked()
+QSize AddAlternatives::sizeHint() const
 {
-	KUrlRequesterDialog d(QString(), i18n("Select the path to the new slave."), this);
-	d.setCaption(i18n("Add Slave"));
-	d.urlRequester()->setWindowTitle(i18n("Choose Slave"));
-	d.urlRequester()->setFilter(i18n("*|All Files"));
-	d.urlRequester()->setMode(KFile::File | KFile::LocalOnly);
-	if (d.exec() != QDialog::Accepted)
-		return;
-
-	const KUrl url = d.selectedUrl();
-	if (!url.isEmpty())
-	{
-		addSlave(url.toLocalFile());
-	}
+	return QSize(400, KDialog::sizeHint().height());
 }
 
-void AddAlternatives::accept()
+void AddAlternatives::slotCheckSlaves()
 {
-	if(!m_Path->url().isEmpty())
+	bool ok = !m_Path->url().isEmpty();
+	int i = 0;
+	while ((i < m_slaveWidgets.count()) && ok)
 	{
-		Alternative *a = new Alternative(m_item);
-		
-		a->setPath(m_Path->url().toLocalFile());
-		a->setPriority(m_Priority->value());
-		
-		int countSlave = 0;
-		
-		const QString text = m_textSlave->toPlainText();
-		if (!text.isEmpty())
-		{
-			QStringList slaveList = text.split('\n', QString::SkipEmptyParts);
-			QStringList::Iterator it = slaveList.begin();
-			for ( ; it != slaveList.end(); ++it ) 
-			{
-				a->addSlave(*it);
-				countSlave++;
-			}
-		}
-		
-		if (countSlave == m_countSlave)
-		{
-			m_alternative = a;
-			KDialog::accept();
-		}
-		else
-		{
-			KMessageBox::sorry(this, i18n("The number of slaves is not good."), i18n("Number Of Slaves"));
-		}
+		ok = !m_slaveWidgets.at(i)->slavePath().isEmpty();
+		++i;
+	}
+	
+	enableButtonOk(ok);
+}
+
+void AddAlternatives::slotOkClicked()
+{
+	m_alternative = new Alternative(m_item);
+	Q_ASSERT(!m_Path->url().toLocalFile().isEmpty());
+	m_alternative->setPath(m_Path->url().toLocalFile());
+	m_alternative->setPriority(m_Priority->value());
+	Q_FOREACH (SlaveWidget *sw, m_slaveWidgets)
+	{
+		Q_ASSERT(!sw->slavePath().isEmpty());
+		m_alternative->addSlave(sw->slavePath());
 	}
 }
 

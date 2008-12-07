@@ -23,11 +23,13 @@
 
 #include "ui_addalternativesui.h"
 
+#include <qlist.h>
+
 #include <kdialog.h>
-#include <ktextedit.h>
 
 class Alternative;
 class Item;
+class SlaveWidget;
 
 class AddAlternatives : public KDialog, private Ui::AddAlternatives
 {
@@ -36,19 +38,19 @@ class AddAlternatives : public KDialog, private Ui::AddAlternatives
 	Item* m_item;
 	Alternative* m_alternative;
 	int m_countSlave;
+	QList<SlaveWidget *> m_slaveWidgets;
 	
 public:
 	AddAlternatives(Item* item, int slaveCount, QWidget *parent = 0);
 	virtual ~AddAlternatives();
 	
-	void addSlave(const QString& text){m_textSlave->append(text);}
+	virtual QSize sizeHint() const;
 	
 	Alternative* alternative() const { return m_alternative; }
 	
-public slots:
-	void accept();
-protected slots:
-	void slotAddSlaveClicked();	
+private slots:
+	void slotCheckSlaves();
+	void slotOkClicked();
 };
 
 #endif //ADDALTERNATIVES_H_

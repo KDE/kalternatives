@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>440</width>
-    <height>200</height>
+    <width>386</width>
+    <height>193</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -15,10 +15,10 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" >
+  <layout class="QVBoxLayout" name="verticalLayout_2" >
    <item>
-    <layout class="QHBoxLayout" >
-     <item>
+    <layout class="QFormLayout" name="formLayout" >
+     <item row="0" column="0" >
       <widget class="QLabel" name="textLabel1" >
        <property name="text" >
         <string>Path:</string>
@@ -28,14 +28,10 @@
        </property>
       </widget>
      </item>
-     <item>
+     <item row="0" column="1" >
       <widget class="KUrlRequester" name="m_Path" />
      </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" >
-     <item>
+     <item row="1" column="0" >
       <widget class="QLabel" name="textLabel2" >
        <property name="text" >
         <string>Priority:</string>
@@ -45,7 +41,7 @@
        </property>
       </widget>
      </item>
-     <item>
+     <item row="1" column="1" >
       <widget class="KIntSpinBox" name="m_Priority" >
        <property name="value" >
         <number>20</number>
@@ -58,35 +54,38 @@
        </property>
       </widget>
      </item>
-     <item>
-      <spacer name="spacer8" >
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0" >
-        <size>
-         <width>80</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
     </layout>
    </item>
    <item>
-    <widget class="KTextEdit" name="m_textSlave" >
-     <property name="undoRedoEnabled" >
-      <bool>false</bool>
+    <widget class="QGroupBox" name="m_slavesGroup" >
+     <property name="title" >
+      <string>Slaves:</string>
      </property>
-     <property name="readOnly" >
-      <bool>true</bool>
-     </property>
-     <property name="acceptRichText" >
-      <bool>false</bool>
-     </property>
+     <layout class="QVBoxLayout" name="verticalLayout" >
+      <property name="margin" >
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QScrollArea" name="m_slavesArea" >
+        <property name="frameShape" >
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="widgetResizable" >
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents" >
+         <property name="geometry" >
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>364</width>
+           <height>90</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
@@ -99,18 +98,11 @@
    <header>knuminput.h</header>
   </customwidget>
   <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
   </customwidget>
  </customwidgets>
- <includes>
-  <include location="local" >kurlrequester.h</include>
-  <include location="local" >ktextedit.h</include>
- </includes>
+ <resources/>
+ <connections/>
 </ui>
