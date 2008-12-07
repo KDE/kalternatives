@@ -41,7 +41,6 @@ struct Slave
 class Alternative
 {
     QString m_altPath;
-    QString m_selectError;
     int m_priority;
     QString m_description;
     Item *m_parent;
@@ -66,8 +65,7 @@ public:
     QString getSlave(int pos) const { return m_altSlaves->at(pos); }
     bool isSelected() const;
     bool isBroken() const;
-    bool select();
-    QString getSelectError() const { return m_selectError; }
+    bool select(QString *selectError = 0);
 
     static QString prettyDescription(Alternative *);
 };

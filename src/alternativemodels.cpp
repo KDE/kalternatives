@@ -400,9 +400,10 @@ void AlternativeItemsModel::save()
             int index = 0;
             AltAlternativeNode* altnode = d->findSelectedAlternative(node, &index);
             Q_ASSERT(altnode);
-            if (!altnode->alternative->select())
+            QString selectError;
+            if (!altnode->alternative->select(&selectError))
             {
-                kDebug() << altnode->alternative->getSelectError() << endl;
+                kDebug() << selectError << endl;
                 return;
             }
             node->changed = false;

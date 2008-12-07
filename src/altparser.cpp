@@ -86,13 +86,14 @@ bool Alternative::isBroken() const
     return !QFile::exists(m_altPath);
 }
 
-bool Alternative::select()
+bool Alternative::select(QString *selectError)
 {
 // This method was 19 lines in Python in the original kalternatives :-D
     if(isSelected()) return true;
     if(isBroken())
     {
-        m_selectError = QString("Broken alternative: Unexisting path %1").arg(m_altPath);
+        if (selectError)
+            *selectError = QString("Broken alternative: Unexisting path %1").arg(m_altPath);
         return false;
     }
 
@@ -101,7 +102,8 @@ bool Alternative::select()
     QFile origlink(parentPath);
     if(!origlink.remove())
     {
-        m_selectError = QString("Could not delete alternative link %1: %2").arg(parentPath).arg(origlink.errorString());
+        if (selectError)
+            *selectError = QString("Could not delete alternative link %1: %2").arg(parentPath).arg(origlink.errorString());
         return false;
     }
 
@@ -110,7 +112,8 @@ bool Alternative::select()
     const QByteArray parentPathAscii = parentPath.toAscii();
     if(symlink(m_altPathAscii.constData(), parentPathAscii.constData()) == -1)
     {
-        m_selectError = QString(strerror(errno));
+        if (selectError)
+            *selectError = QString(strerror(errno));
         return false;
     }
 
@@ -128,14 +131,16 @@ bool Alternative::select()
         QFile parlink(parstr);
         if(!parlink.remove())
         {
-            m_selectError = QString("Could not delete slave alternative link %1: %2").arg(parstr).arg(parlink.errorString());
+            if (selectError)
+                *selectError = QString("Could not delete slave alternative link %1: %2").arg(parstr).arg(parlink.errorString());
             return false;
         }
         const QByteArray slAscii = (*sl).toAscii();
         const QByteArray parstrAscii = parstr.toAscii();
         if(symlink(slAscii.constData(), parstrAscii.constData()) == -1)
         {
-            m_selectError = QString(strerror(errno));
+            if (selectError)
+                *selectError = QString(strerror(errno));
             return false;
         }
         ++count;
