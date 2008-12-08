@@ -180,7 +180,7 @@ void Kalternatives::slotDeleteClicked()
 
 void Kalternatives::slotPropertiesClicked()
 {
-	Alternative *a = m_altModel->data(m_ui.m_optionsList->currentIndex(), AltAlternativeRole).value<Alternative *>();
+	Alternative *a = m_ui.m_optionsList->currentIndex().data(AltAlternativeRole).value<Alternative *>();
 	if (a)
 	{
 		QString text;
