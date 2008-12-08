@@ -354,6 +354,22 @@ QVariant AlternativeItemsModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+Qt::ItemFlags AlternativeItemsModel::flags(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return Qt::NoItemFlags;
+
+    AltNode *n = static_cast<AltNode *>(index.internalPointer());
+    if (AltItemNode *n_i = altnode_cast<AltItemNode>(n))
+    {
+        Qt::ItemFlags f = Qt::ItemIsSelectable;
+        if (!n_i->item->isBroken())
+            f |= Qt::ItemIsEnabled;
+        return f;
+    }
+    return Qt::NoItemFlags;
+}
+
 bool AlternativeItemsModel::hasChildren(const QModelIndex &parent) const
 {
     return parent.isValid() ? false : AlternativesBaseModel::hasChildren(parent);
