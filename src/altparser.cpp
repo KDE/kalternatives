@@ -514,34 +514,26 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
     return true;
 }
 
-//FIXME: This must be in a son of Q3Ptrlist!
-/*
-int AltFilesManager::compareItems(Item i1, Item i2)
-{
-    return i1.getPath().compare(i2.getPath());
-}
-*/
-
 /*
 void AltFilesManager::debugPrintAlts() const
 {
     printf("----------------------------------\n");
     Item *item;
-    for(item = m_itemlist->first(); item; item = m_itemlist->next())
+    Q_FOREACH (item, *m_itemlist)
     {
-        printf("\nItem: %s\n", item->getName().ascii());
-        printf("\tMode: %s\n", item->getMode().ascii());
-        printf("\tPath: %s\n", item->getPath().ascii());
+        printf("\nItem: %s\n", qPrintable(item->getName()));
+        printf("\tMode: %s\n", qPrintable(item->getMode()));
+        printf("\tPath: %s\n", qPrintable(item->getPath()));
         if(item->getSlaves()->count() == 0)
             printf("\tNo slaves\n");
         else
         {
             Slave *slave;
             SlaveList *slaves = item->getSlaves();
-            for(slave = slaves->first(); slave; slave = slaves->next())
+            Q_FOREACH (slave, *slaves)
             {
-                printf("\tSlave name: %s\n", slave->name.ascii());
-                printf("\tSlave path: %s\n", slave->path.ascii());
+                printf("\tSlave name: %s\n", qPrintable(slave->slname));
+                printf("\tSlave path: %s\n", qPrintable(slave->slpath));
             }
         }
         printf("\tAlternatives:\n");
@@ -551,9 +543,9 @@ void AltFilesManager::debugPrintAlts() const
         {
             Alternative *a;
             AltsPtrList *alts = item->getAlternatives();
-            for(a = alts->first(); a; a = alts->next())
+            Q_FOREACH (a, *alts)
             {
-                printf("\t\tPath: %s\n", a->getPath().ascii());
+                printf("\t\tPath: %s\n", qPrintable(a->getPath()));
                 printf("\t\tPriority: %d\n", a->getPriority());
                 printf("\t\tSlaves:\n");
                 if(a->getSlaves()->count() == 0)
@@ -564,7 +556,7 @@ void AltFilesManager::debugPrintAlts() const
                     QStringList::iterator sl;
                     for( sl = altslaves.begin(); sl != altslaves.end(); ++sl)
                     {
-                        printf("\t\t\t%s\n", (*sl).ascii());
+                        printf("\t\t\t%s\n", qPrintable(*sl));
                     }
                 }
             }
@@ -578,34 +570,35 @@ int main(int argc, char **argv)
 {
     AltFilesManager a("/var/lib/rpm/alternatives");
     if(!a.parsingOk())
-        printf("ERROR PARSING ALT FILES: %s\n", a.getErrorMsg().ascii());
+        printf("ERROR PARSING ALT FILES: %s\n", qPrintable(a.getErrorMsg()));
     else
         printf("\nOK, Finished parsing\n");
 
     Item *item= a.getItem("vi");
     if(item == NULL) return 0;
-    printf("Nombre item: %s\n", item->getName().ascii());
-    printf("Path item: %s\n", item->getPath().ascii());
+    printf("Item name: %s\n", qPrintable(item->getName()));
+    printf("Item path: %s\n", qPrintable(item->getPath()));
     Alternative *alt = item->getSelected();
     if(alt == NULL) return 0;
-    printf("Selected alt: %s\n", alt->getPath().ascii());
+    printf("Selected alt: %s\n", qPrintable(alt->getPath()));
 
     Alternative *vimminimal = item->getAlternative("/bin/vim-minimal");
     if(vimminimal == NULL) { printf("NULL!\n"); return 0; }
-    printf("Not selected alt: %s\n", vimminimal->getPath().ascii());
+    printf("Not selected alt: %s\n", qPrintable(vimminimal->getPath()));
 
     printf("Selecting vim-minimal instead of vim-enhanced as vi\n");
-    if(!vimminimal->select())
+    QString selectError;
+    if(!vimminimal->select(&selectError))
     {
-        printf("ERROR: %s\n", vimminimal->getSelectError().ascii());
+        printf("ERROR: %s\n", qPrintable(selectError));
     }
 
     printf("Now selecting vim-enhanced...\n");
     Alternative *vimen = item->getAlternative("/usr/bin/vim-enhanced");
     if(vimen == NULL) { printf("NULL!\n"); return 0; }
-    if(!vimen->select())
+    if(!vimen->select(&selectError))
     {
-        printf("ERROR: %s\n", alt->getSelectError().ascii());
+        printf("ERROR: %s\n", qPrintable(selectError));
     }
     return 0;
   }
