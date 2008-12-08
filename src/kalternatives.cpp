@@ -169,7 +169,7 @@ void Kalternatives::slotAddClicked()
 	Item *item = m_ui.m_altList->currentIndex().data(AltItemRole).value<Item *>();
 	if (item)
 	{
-		AddAlternatives addAlternatives(item, item->getSlaves()->count(), this);
+		AddAlternatives addAlternatives(item, this);
 		addAlternatives.exec();
 		if (Alternative *a = addAlternatives.alternative())
 		{

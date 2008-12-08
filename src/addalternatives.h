@@ -37,11 +37,10 @@ class AddAlternatives : public KDialog, private Ui::AddAlternatives
 	
 	Item* m_item;
 	Alternative* m_alternative;
-	int m_countSlave;
 	QList<SlaveWidget *> m_slaveWidgets;
 	
 public:
-	AddAlternatives(Item* item, int slaveCount, QWidget *parent = 0);
+	AddAlternatives(Item* item, QWidget *parent = 0);
 	virtual ~AddAlternatives();
 	
 	virtual QSize sizeHint() const;

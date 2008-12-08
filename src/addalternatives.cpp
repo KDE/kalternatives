@@ -25,8 +25,8 @@
 #include <klocale.h>
 #include <kseparator.h>
 
-AddAlternatives::AddAlternatives(Item* item, int slaveCount, QWidget *parent)
-	: KDialog(parent), m_item(item), m_alternative(0), m_countSlave(slaveCount)
+AddAlternatives::AddAlternatives(Item* item, QWidget *parent)
+	: KDialog(parent), m_item(item), m_alternative(0)
 {
 	setupUi(mainWidget());
 	mainWidget()->layout()->setMargin(0);
@@ -39,13 +39,14 @@ AddAlternatives::AddAlternatives(Item* item, int slaveCount, QWidget *parent)
 	m_Path->setFilter( i18n( "*|All Files" ) );
 	m_Path->setMode( KFile::File | KFile::LocalOnly );
 	
-	if (m_countSlave > 0)
+	const int slaveCount = item->getSlaves()->count();
+	if (slaveCount > 0)
 	{
 		SlaveList *slaves = item->getSlaves();
 		
 		QWidget *w = new QWidget;
 		QVBoxLayout *lay = new QVBoxLayout(w);
-		for (int i = 0; i < m_countSlave; ++i)
+		for (int i = 0; i < slaveCount; ++i)
 		{
 			if (i > 0)
 				lay->addWidget(new KSeparator(Qt::Horizontal, w));
