@@ -333,8 +333,15 @@ QVariant AlternativeItemsModel::data(const QModelIndex &index, int role) const
         switch (role)
         {
             case Qt::DisplayRole:
-            case Qt::ToolTipRole:
                 return n_i->item->getName();
+            case Qt::ToolTipRole:
+            {
+                QString tip = n_i->item->getName();
+                if (n_i->item->isBroken())
+                    tip += "\n\n";
+                    tip += i18n("Broken alternative group.");
+                return tip;
+            }
             case Qt::ForegroundRole:
                 if (d->isChanged(n_i))
                     return Qt::red;
@@ -655,18 +662,31 @@ QVariant AlternativeAltModel::data(const QModelIndex &index, int role) const
         {
             case Qt::DisplayRole:
             case Qt::ToolTipRole:
+            {
+                QString string;
                 switch (index.column())
                 {
                     case 0:
-                        return n_a->alternative->getPath();
+                        string = n_a->alternative->getPath();
+                        break;
                     case 1:
-                        return n_a->alternative->getPriority();
+                        if (role == Qt::DisplayRole)
+                            return n_a->alternative->getPriority();
+                        string.setNum(n_a->alternative->getPriority());
+                        break;
                     case 2:
                         if (n_a->alternative->getDescription().isEmpty())
                             d->searchDescription(n_a->alternative);
-                        return Alternative::prettyDescription(n_a->alternative);
+                        string = Alternative::prettyDescription(n_a->alternative);
+                        break;
                 }
-                break;
+                if (role == Qt::ToolTipRole && n_a->alternative->isBroken())
+                {
+                    string += "\n\n";
+                    string += i18n("Broken alternative.");
+                }
+                return string;
+            }
             case Qt::EditRole:
                 if (index.column() == 0)
                     return n_a->selected;
