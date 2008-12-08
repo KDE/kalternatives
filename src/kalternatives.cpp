@@ -24,6 +24,7 @@
 #include "addalternatives.h"
 #include "alternativemodels.h"
 #include "ui_propertieswindow.h"
+#include "aboutdata.h"
 
 #include <qheaderview.h>
 #include <qtimer.h>
@@ -41,7 +42,7 @@
 #include <config-kalternatives.h>
 
 K_PLUGIN_FACTORY(KalternativesFactory, registerPlugin<Kalternatives>();)
-K_EXPORT_PLUGIN(KalternativesFactory("kcm_kalternatives"))
+K_EXPORT_PLUGIN(KalternativesFactory(aboutData("kalternatives", I18N_NOOP("Kalternatives"))))
 
 Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
 :KCModule(KalternativesFactory::componentData(), parent, args)
@@ -96,17 +97,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 		m_ui.m_statusCombo->setEnabled(false);
 	}
 	
-	KAboutData *myAboutData = new KAboutData("kcmkalternatives", 0, ki18n("Kalternatives"),
-	KALT_VERSION, ki18n("KDE Mandrake/Debian alternatives-system manager"),
-	KAboutData::License_GPL, ki18n("(c) 2004 Juanjo Alvarez Martinez\n"
-	                                   "(c) 2004 Mario Bensi"));
-
-	myAboutData->addAuthor(ki18n("Juanjo Alvarez Martinez"), KLocalizedString(), "juanjo@juanjoalvarez.net",
-		"http://juanjoalvarez.net");
-	myAboutData->addAuthor(ki18n("Mario Bensi"), KLocalizedString(), "nef@ipsquad.net", "http://ipsquad.net");
-	myAboutData->addAuthor(ki18n("Pino Toscano"), KLocalizedString(), "toscano.pino@tiscali.it");
-	
-	setAboutData( myAboutData );
+	setAboutData(new KAboutData(*KalternativesFactory::componentData().aboutData()));
 	
 	m_ui.m_hideAlt->setChecked(true);
 }

@@ -26,8 +26,6 @@
 
 #include "ui_mainwindow.h"
 
-#define KALT_VERSION "0.12"
-
 class AltFilesManager;
 class AlternativeItemProxyModel;
 class AlternativeAltModel;
