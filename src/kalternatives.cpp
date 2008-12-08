@@ -75,7 +75,7 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 	
 	m_ui.setupUi(this);
 	
-	connect(m_ui.m_altList, SIGNAL(activated(QModelIndex)),
+	connect(m_ui.m_altList, SIGNAL(clicked(QModelIndex)),
 			this, SLOT(slotSelectAlternativesActivated(QModelIndex)));
 	
 	connect(m_ui.m_bAdd, SIGNAL(clicked()), this,
