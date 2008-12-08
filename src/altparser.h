@@ -71,7 +71,7 @@ public:
 };
 
 typedef QList<Slave *> SlaveList;
-typedef Q3PtrList<Alternative> AltsPtrList;
+typedef QList<Alternative *> AltsPtrList;
 
 class Item
 {

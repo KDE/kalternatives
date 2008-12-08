@@ -160,7 +160,6 @@ Item::Item()
     m_mode = "auto";
     m_itemSlaves = new SlaveList;
     m_itemAlts = new AltsPtrList;
-    m_itemAlts->setAutoDelete(1);
 }
 
 // Deep copy
@@ -171,7 +170,6 @@ Item::Item(const Item &item) :
 {
     m_itemSlaves = new SlaveList;
     m_itemAlts = new AltsPtrList;
-    m_itemAlts->setAutoDelete(1);
     Slave *slave;
     Slave *slavecopy;
     Q_FOREACH (slave, *item.m_itemSlaves)
@@ -184,7 +182,7 @@ Item::Item(const Item &item) :
 
     Alternative *alt;
     Alternative *altcopy;
-    for(alt = item.m_itemAlts->first(); alt; alt = item.m_itemAlts->next())
+    Q_FOREACH (alt, *item.m_itemAlts)
     {
         // The Alternative class already has a deep copy constructor:
         altcopy = new Alternative( (*alt) );
@@ -203,7 +201,6 @@ Item& Item::operator=(const Item &item)
         m_path = item.m_path;
         m_itemSlaves = new SlaveList;
         m_itemAlts = new AltsPtrList;
-        m_itemAlts->setAutoDelete(1);
         Slave *slave;
         Slave *slavecopy;
         Q_FOREACH (slave, *item.m_itemSlaves)
@@ -216,7 +213,7 @@ Item& Item::operator=(const Item &item)
 
         Alternative *alt;
         Alternative *altcopy;
-        for(alt = item.m_itemAlts->first(); alt; alt = item.m_itemAlts->next())
+        Q_FOREACH (alt, *item.m_itemAlts)
         {
             altcopy = new Alternative( (*alt) );
             m_itemAlts->append(altcopy);
@@ -231,18 +228,18 @@ Item::~Item()
 {
     qDeleteAll(*m_itemSlaves);
     if(m_itemSlaves)delete m_itemSlaves;
+    qDeleteAll(*m_itemAlts);
     if(m_itemAlts)delete m_itemAlts;
 }
 
 Alternative *Item::getSelected() const
 {
     Alternative *a;
-    for(a = m_itemAlts->first(); a; a = m_itemAlts->next())
+    Q_FOREACH (a, *m_itemAlts)
     {
         if(a->isSelected())
         {
             return a;
-            break;
         }
     }
     return NULL;
@@ -297,12 +294,11 @@ void Item::delSlaveByPath(const QString &patharg)
 Alternative *Item::getAlternative(const QString &altpath)
 {
     Alternative *a;
-    for(a = m_itemAlts->first(); a; a = m_itemAlts->next())
+    Q_FOREACH (a, *m_itemAlts)
     {
         if(a->getPath() == altpath)
         {
             return a;
-            break;
         }
     }
     return NULL;
@@ -310,21 +306,22 @@ Alternative *Item::getAlternative(const QString &altpath)
 
 void Item::setAlternatives(AltsPtrList &alts)
 {
+    qDeleteAll(*m_itemAlts);
     if(this->m_itemAlts)delete this->m_itemAlts;
     this->m_itemAlts = &alts;
 }
 
 void Item::delAlternativeByPath(const QString &patharg)
 {
-    Q3PtrListIterator<Alternative> it(*m_itemAlts);
+    QMutableListIterator<Alternative *> it(*m_itemAlts);
 
     Alternative *a;
-    while( (a = it.current()) != 0)
+    while (it.hasNext())
     {
-        ++it;
+        a = it.next();
         if(a->getPath() == patharg)
         {
-            m_itemAlts->remove(a);
+            it.remove();
             break;
         }
     }
@@ -332,15 +329,15 @@ void Item::delAlternativeByPath(const QString &patharg)
 
 void Item::delAlternativeByPriority(int priorityarg)
 {
-    Q3PtrListIterator<Alternative> it(*m_itemAlts);
+    QMutableListIterator<Alternative *> it(*m_itemAlts);
 
     Alternative *a;
-    while( (a = it.current()) != 0)
+    while (it.hasNext())
     {
-        ++it;
+        a = it.next();
         if(a->getPriority() == priorityarg)
         {
-            m_itemAlts->remove(a);
+            it.remove();
             break;
         }
     }
