@@ -271,6 +271,7 @@ void Item::delSlave(const QString &namearg)
         if(s->slname == namearg)
         {
             it.remove();
+            delete s;
             break;
         }
     }
@@ -286,6 +287,7 @@ void Item::delSlaveByPath(const QString &patharg)
         if(s->slpath == patharg)
         {
             it.remove();
+            delete s;
             break;
         }
     }
@@ -322,6 +324,7 @@ void Item::delAlternativeByPath(const QString &patharg)
         if(a->getPath() == patharg)
         {
             it.remove();
+            delete a;
             break;
         }
     }
@@ -338,6 +341,7 @@ void Item::delAlternativeByPriority(int priorityarg)
         if(a->getPriority() == priorityarg)
         {
             it.remove();
+            delete a;
             break;
         }
     }
