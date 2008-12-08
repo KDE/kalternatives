@@ -27,7 +27,6 @@
 //
 //Quitar el stdio.h
 
-#include <q3ptrlist.h>
 #include <qstringlist.h>
 
 class Item;
