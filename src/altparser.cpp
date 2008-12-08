@@ -387,7 +387,7 @@ Item* AltFilesManager::getItem(const QString &name) const
 bool AltFilesManager::parseAltFiles(QString &errorstr)
 {
     QDir d(m_altdir);
-    QStringList fileList = d.entryList();
+    QStringList fileList = d.entryList(QDir::Files | QDir::NoDotAndDotDot);
     QStringList lines;
     QFile altFile;
     QString line, tmp;
@@ -397,11 +397,6 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
     for( QStringList::Iterator it = fileList.begin(); it != fileList.end(); ++it)
     {
         Item *item = new Item;
-        if(*it == "." || *it == "..") {
-            delete item;
-            continue;
-        }
-
         item->setName(*it);
         altFile.setFileName(m_altdir+"/"+*it);
 
