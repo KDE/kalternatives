@@ -23,7 +23,6 @@
 #include "slavewidget.h"
 
 #include <klocale.h>
-#include <knuminput.h>
 #include <kseparator.h>
 
 AddAlternatives::AddAlternatives(Item* item, int slaveCount, QWidget *parent)

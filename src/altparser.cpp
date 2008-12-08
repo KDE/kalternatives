@@ -22,7 +22,6 @@
 #include <qfileinfo.h>
 #include <qfile.h>
 #include <qdir.h>
-#include <qstringlist.h>
 
 #include <klocale.h>
 

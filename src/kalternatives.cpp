@@ -30,12 +30,8 @@
 
 #include <kmessagebox.h>
 #include <kaboutdata.h>
-#include <ktextedit.h>
 #include <kdebug.h>
 #include <klocale.h>
-#include <qlayout.h>
-#include <qfile.h>
-#include <qtextstream.h>
 #include <kgenericfactory.h>
 #include <kstandardguiitem.h>
 
