@@ -198,7 +198,7 @@ void Kalternatives::slotPropertiesClicked()
 		text += i18n("Priority: %1\n", a->getPriority());
 		
 		QStringList* slavesList = a->getSlaves();
-		text += i18np( "Slave :", "Slaves :", slavesList->count() );
+		text += i18n("Slaves:");
 		
 		for ( QStringList::Iterator it = slavesList->begin(); it != slavesList->end(); ++it ) 
 		{
