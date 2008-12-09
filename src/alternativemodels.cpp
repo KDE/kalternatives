@@ -24,6 +24,8 @@
 
 #include <algorithm>
 
+#include <config-kalternatives.h>
+
 enum ItemChangeType
 {
     SelectionItemChange = 1,
@@ -222,7 +224,8 @@ int AlternativesBaseModel::rowCount(const QModelIndex &parent) const
 class AlternativeItemsModelPrivate : public AlternativesBaseModelPrivate
 {
 public:
-    AlternativeItemsModelPrivate(AltFilesManager *manager, const KComponentData &cd);
+    AlternativeItemsModelPrivate(const KComponentData &cd);
+    ~AlternativeItemsModelPrivate();
 
     virtual void load();
     virtual AltNode* root() const { return const_cast<AltRootNode *>(&m_root); }
@@ -242,15 +245,28 @@ public:
     KIcon brokenAltIcon;
 };
 
-AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(AltFilesManager *manager, const KComponentData &cd)
-    : AlternativesBaseModelPrivate(), altManager(manager)
+AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(const KComponentData &cd)
+    : AlternativesBaseModelPrivate(), altManager(0)
     , componentData(cd), iconLoader(new KIconLoader(componentData))
     , brokenAltIcon("alternative-broken", iconLoader)
 {
+#if defined(DISTRO_DEBIAN)
+    altManager = new AltFilesManager("/var/lib/dpkg/alternatives");
+#elif defined(DISTRO_MANDRIVA)
+    altManager = new AltFilesManager("/var/lib/rpm/alternatives");
+#endif
+}
+
+AlternativeItemsModelPrivate::~AlternativeItemsModelPrivate()
+{
+    delete altManager;
 }
 
 void AlternativeItemsModelPrivate::load()
 {
+    if (!altManager)
+        return;
+
     ItemPtrList *itemslist = altManager->getGlobalAlternativeList();
     Q_FOREACH (Item *i, *itemslist)
     {
@@ -314,8 +330,8 @@ AltAlternativeNode* AlternativeItemsModelPrivate::findSelectedAlternative(AltIte
 }
 
 
-AlternativeItemsModel::AlternativeItemsModel(AltFilesManager *manager, const KComponentData &cd, QObject *parent)
-    : AlternativesBaseModel(*new AlternativeItemsModelPrivate(manager, cd), parent)
+AlternativeItemsModel::AlternativeItemsModel(const KComponentData &cd, QObject *parent)
+    : AlternativesBaseModel(*new AlternativeItemsModelPrivate(cd), parent)
 {
     Q_D(AlternativeItemsModel);
     d->iconLoader->setParent(this);
@@ -426,6 +442,9 @@ int AlternativeItemsModel::rowCount(const QModelIndex &parent) const
 void AlternativeItemsModel::save()
 {
     Q_D(AlternativeItemsModel);
+    if (!d->altManager)
+        return;
+
     QModelIndexList changedIndexes;
     const int rows = d->m_root.m_children.count();
     for (int i = 0; i < rows; ++i)
@@ -505,6 +524,12 @@ void AlternativeItemsModel::save()
     {
         emit dataChanged(index, index);
     }
+}
+
+bool AlternativeItemsModel::isSupported() const
+{
+    Q_D(const AlternativeItemsModel);
+    return d->altManager;
 }
 
 

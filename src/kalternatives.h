@@ -26,7 +26,6 @@
 
 #include "ui_mainwindow.h"
 
-class AltFilesManager;
 class AlternativeItemProxyModel;
 class AlternativeAltModel;
 
@@ -35,7 +34,6 @@ class Kalternatives : public KCModule
     Q_OBJECT
 
     bool m_bisRoot;
-    AltFilesManager *m_mgr;
 	Ui::MainWindow m_ui;
 	AlternativeItemProxyModel* m_itemProxyModel;
 	AlternativeAltModel* m_altModel;

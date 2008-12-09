@@ -39,8 +39,6 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-#include <config-kalternatives.h>
-
 K_PLUGIN_FACTORY(KalternativesFactory, registerPlugin<Kalternatives>();)
 K_EXPORT_PLUGIN(KalternativesFactory(aboutData("kalternatives", I18N_NOOP("Kalternatives"))))
 
@@ -61,17 +59,6 @@ Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
 		m_bisRoot = false;
 		setButtons(Help);
 	}
-
-#ifdef MANDRAKE
-m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
-#else
-	#ifdef DISTRO_DEBIAN
-	m_mgr = new AltFilesManager("/var/lib/dpkg/alternatives");
-	#else
-	KMessageBox::sorry(this, i18n("Kalternatives only work on Debian- or Mandrake-based systems"), i18n("Wrong System Type"));
-	QTimer::singleShot(0, this, SLOT(die()));
-	#endif
-#endif
 	
 	m_ui.setupUi(this);
 	
@@ -104,7 +91,6 @@ m_mgr = new AltFilesManager("/var/lib/rpm/alternatives");
 
 Kalternatives::~Kalternatives()
 {
-	if(m_mgr) delete m_mgr;
 }
 
 void Kalternatives::die()
@@ -116,7 +102,7 @@ void Kalternatives::load()
 {
 	m_itemProxyModel = new AlternativeItemProxyModel(m_ui.m_altList);
 	slotHideAlternativesClicked();
-	AlternativeItemsModel *itemModel = new AlternativeItemsModel(m_mgr, componentData(), m_itemProxyModel);
+	AlternativeItemsModel *itemModel = new AlternativeItemsModel(componentData(), m_itemProxyModel);
 	m_itemProxyModel->setSourceModel(itemModel);
 	m_ui.m_altList->setModel(m_itemProxyModel);
 	connect(itemModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)),

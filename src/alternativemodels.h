@@ -52,7 +52,7 @@ class AlternativeItemsModel : public AlternativesBaseModel
 
     friend class AlternativeAltModelPrivate;
 public:
-    AlternativeItemsModel(AltFilesManager *manager, const KComponentData &cd, QObject *parent = 0);
+    AlternativeItemsModel(const KComponentData &cd, QObject *parent = 0);
     ~AlternativeItemsModel();
 
     // QAbstractItemModel interface
@@ -65,6 +65,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
     void save();
+    bool isSupported() const;
 
 private:
     Q_DECLARE_PRIVATE(AlternativeItemsModel)
