@@ -348,8 +348,10 @@ QVariant AlternativeItemsModel::data(const QModelIndex &index, int role) const
             {
                 QString tip = n_i->item->getName();
                 if (n_i->item->isBroken())
+                {
                     tip += "\n\n";
                     tip += i18n("Broken alternative group.");
+                }
                 return tip;
             }
             case Qt::ForegroundRole:
