@@ -677,31 +677,29 @@ QVariant AlternativeAltModel::data(const QModelIndex &index, int role) const
         switch (role)
         {
             case Qt::DisplayRole:
-            case Qt::ToolTipRole:
             {
-                QString string;
                 switch (index.column())
                 {
                     case 0:
-                        string = n_a->alternative->getPath();
-                        break;
+                        return n_a->alternative->getPath();
                     case 1:
-                        if (role == Qt::DisplayRole)
-                            return n_a->alternative->getPriority();
-                        string.setNum(n_a->alternative->getPriority());
-                        break;
+                        return n_a->alternative->getPriority();
                     case 2:
                         if (n_a->alternative->getDescription().isEmpty())
                             d->searchDescription(n_a->alternative);
-                        string = Alternative::prettyDescription(n_a->alternative);
-                        break;
+                        return Alternative::prettyDescription(n_a->alternative);
                 }
-                if (role == Qt::ToolTipRole && n_a->alternative->isBroken())
+                break;
+            }
+            case Qt::ToolTipRole:
+            {
+                QString tip = n_a->alternative->getPath();
+                if (n_a->alternative->isBroken())
                 {
-                    string += "\n\n";
-                    string += i18n("Broken alternative.");
+                    tip += "\n\n";
+                    tip += i18n("Broken alternative.");
                 }
-                return string;
+                return tip;
             }
             case Qt::EditRole:
                 if (index.column() == 0)
