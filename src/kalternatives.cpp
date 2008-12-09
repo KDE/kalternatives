@@ -116,7 +116,7 @@ void Kalternatives::load()
 {
 	m_itemProxyModel = new AlternativeItemProxyModel(m_ui.m_altList);
 	slotHideAlternativesClicked();
-	AlternativeItemsModel *itemModel = new AlternativeItemsModel(m_mgr, m_itemProxyModel);
+	AlternativeItemsModel *itemModel = new AlternativeItemsModel(m_mgr, componentData(), m_itemProxyModel);
 	m_itemProxyModel->setSourceModel(itemModel);
 	m_ui.m_altList->setModel(m_itemProxyModel);
 	connect(itemModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)),

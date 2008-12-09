@@ -15,7 +15,10 @@
 #include <QFont>
 #include <QList>
 
+#include <kcomponentdata.h>
 #include <kdebug.h>
+#include <kicon.h>
+#include <kiconloader.h>
 #include <klocale.h>
 #include <kprocess.h>
 
@@ -219,7 +222,7 @@ int AlternativesBaseModel::rowCount(const QModelIndex &parent) const
 class AlternativeItemsModelPrivate : public AlternativesBaseModelPrivate
 {
 public:
-    AlternativeItemsModelPrivate(AltFilesManager *manager);
+    AlternativeItemsModelPrivate(AltFilesManager *manager, const KComponentData &cd);
 
     virtual void load();
     virtual AltNode* root() const { return const_cast<AltRootNode *>(&m_root); }
@@ -234,10 +237,15 @@ public:
 
     AltFilesManager *altManager;
     AltRootNode m_root;
+    KComponentData componentData;
+    KIconLoader *iconLoader;
+    KIcon brokenAltIcon;
 };
 
-AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(AltFilesManager *manager)
+AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(AltFilesManager *manager, const KComponentData &cd)
     : AlternativesBaseModelPrivate(), altManager(manager)
+    , componentData(cd), iconLoader(new KIconLoader(componentData))
+    , brokenAltIcon("alternative-broken", iconLoader)
 {
 }
 
@@ -306,9 +314,11 @@ AltAlternativeNode* AlternativeItemsModelPrivate::findSelectedAlternative(AltIte
 }
 
 
-AlternativeItemsModel::AlternativeItemsModel(AltFilesManager *manager, QObject *parent)
-    : AlternativesBaseModel(*new AlternativeItemsModelPrivate(manager), parent)
+AlternativeItemsModel::AlternativeItemsModel(AltFilesManager *manager, const KComponentData &cd, QObject *parent)
+    : AlternativesBaseModel(*new AlternativeItemsModelPrivate(manager, cd), parent)
 {
+    Q_D(AlternativeItemsModel);
+    d->iconLoader->setParent(this);
 }
 
 AlternativeItemsModel::~AlternativeItemsModel()
@@ -353,6 +363,10 @@ QVariant AlternativeItemsModel::data(const QModelIndex &index, int role) const
                     f.setBold(true);
                     return f;
                 }
+                break;
+            case Qt::DecorationRole:
+                if (n_i->item->isBroken())
+                    return d->brokenAltIcon;
                 break;
             case AltItemRole:
                 return qVariantFromValue(n_i->item);
@@ -694,6 +708,10 @@ QVariant AlternativeAltModel::data(const QModelIndex &index, int role) const
             case Qt::CheckStateRole:
                 if (index.column() == 0)
                     return n_a->selected ? Qt::Checked : Qt::Unchecked;
+                break;
+            case Qt::DecorationRole:
+                if (index.column() == 0 && n_a->alternative->isBroken())
+                    return d->parentModel->brokenAltIcon;
                 break;
             case AltAlternativeRole:
                 return qVariantFromValue(n_a->alternative);
