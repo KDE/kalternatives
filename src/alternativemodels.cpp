@@ -252,6 +252,8 @@ AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(const KComponentData 
 {
 #if defined(DISTRO_DEBIAN)
     altManager = new AltFilesManager("/var/lib/dpkg/alternatives");
+#elif defined(DISTRO_FEDORA)
+    altManager = new AltFilesManager("/var/lib/alternatives");
 #elif defined(DISTRO_MANDRIVA)
     altManager = new AltFilesManager("/var/lib/rpm/alternatives");
 #endif

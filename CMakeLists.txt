@@ -11,6 +11,8 @@ string(TOLOWER "${KALTERNATIVES_DISTRO}" _distro)
 set(ABOUT_SUBDIR ${_distro})
 if (_distro STREQUAL "debian")
    set(DISTRO_DEBIAN TRUE)
+elseif (_distro STREQUAL "fedora")
+   set(DISTRO_FEDORA TRUE)
 endif (_distro STREQUAL "debian")
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config-kalternatives.h.cmake
