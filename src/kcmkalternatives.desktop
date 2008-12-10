@@ -1,0 +1,18 @@
+[Desktop Entry]
+Exec=kcmshell4 alternatives
+Icon=configure
+Type=Service
+
+X-KDE-ModuleType=Library
+X-KDE-Library=kcm_kalternatives
+#X-KDE-RootOnly=true
+X-KDE-HasReadOnlyMode=true
+X-KDE-ParentApp=kcontrol
+X-KDE-ServiceTypes=KCModule
+X-KDE-System-Settings-Parent-Category=system
+
+Name=Kalternatives
+GenericName=Alternatives Configuration
+Comment=Debian/Fedora alternatives-system manager
+Keywords=Kalternatives,kalternatives,alternatives,alternative,debian,fedora
+Categories=Qt;KDE;X-KDE-settings-system;
