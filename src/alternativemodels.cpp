@@ -501,11 +501,9 @@ void AlternativeItemsModel::save()
                     stream << a->getPath() << endl;
                     stream << a->getPriority() << endl;
 
-                    QStringList *slaveList = a->getSlaves();
-                    QStringList::Iterator it = slaveList->begin();
-                    for ( ; it != slaveList->end(); ++it )
+                    Q_FOREACH (const QString &slave, a->getSlaves())
                     {
-                        stream << *it << endl;
+                        stream << slave << endl;
                     }
                 }
 

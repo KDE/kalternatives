@@ -32,7 +32,6 @@
 Alternative::Alternative(Item *parentarg) : m_parent(parentarg)
 {
     m_priority = 1;
-    m_altSlaves = new QStringList;
 }
 
 // Copy constructor
@@ -40,33 +39,30 @@ Alternative::Alternative(const Alternative &alt) :
     m_altPath(alt.getPath()),
     m_priority(alt.getPriority()),
     m_description(alt.getDescription()),
-    m_parent(alt.getParent())
+    m_parent(alt.getParent()),
+    m_altSlaves(alt.getSlaves())
 {
-    m_altSlaves = new QStringList( *(alt.m_altSlaves) );
 }
 
 Alternative::~Alternative()
 {
-    if(m_altSlaves)delete m_altSlaves;
 }
 
 Alternative& Alternative::operator=(const Alternative &alt)
 {
     if(this != &alt)
     {
-        if(m_altSlaves)delete m_altSlaves;
         m_altPath = alt.getPath();
         m_priority = alt.getPriority();
         m_description = alt.getDescription();
         m_parent = alt.getParent();
-        m_altSlaves = new QStringList( *(alt.m_altSlaves) );
+        m_altSlaves = alt.m_altSlaves;
     }
     return (*this);
 }
 
-void Alternative::setSlaves(QStringList *slaves)
+void Alternative::setSlaves(const QStringList &slaves)
 {
-    if(m_altSlaves) delete m_altSlaves;
     m_altSlaves = slaves;
 }
 
@@ -118,11 +114,11 @@ bool Alternative::select(QString *selectError)
 
     // And finally the slaves
     SlaveList *parslaves = m_parent->getSlaves();
-    if(parslaves->count() == 0 || m_altSlaves->count() == 0) return true;
+    if(parslaves->count() == 0 || m_altSlaves.isEmpty()) return true;
     int count = 0;
     QStringList::iterator sl;
     Slave *parsl;
-    for( sl = m_altSlaves->begin(); sl != m_altSlaves->end(); ++sl)
+    for( sl = m_altSlaves.begin(); sl != m_altSlaves.end(); ++sl)
     {
         parsl = parslaves->at(count);
         QString parstr = QString("/etc/alternatives/%1").arg(parsl->slname);

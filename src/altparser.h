@@ -43,7 +43,7 @@ class Alternative
     int m_priority;
     QString m_description;
     Item *m_parent;
-    QStringList *m_altSlaves;
+    QStringList m_altSlaves;
 public:
     Alternative(Item *parentarg);
     Alternative(const Alternative &alt);
@@ -57,11 +57,11 @@ public:
     void setDescription(const QString &desc) { m_description = desc; }
     QString getDescription() const { return m_description; }
     void setPriority(int priorityarg) { m_priority = priorityarg; }
-    QStringList* getSlaves() const { return m_altSlaves; }
-    void setSlaves(QStringList *m_altSlaves);
-    void addSlave(const QString &slave) { m_altSlaves->append(slave); }
-    uint countSlaves() const { return m_altSlaves->count(); }
-    QString getSlave(int pos) const { return m_altSlaves->at(pos); }
+    QStringList getSlaves() const { return m_altSlaves; }
+    void setSlaves(const QStringList &slaves);
+    void addSlave(const QString &slave) { m_altSlaves.append(slave); }
+    uint countSlaves() const { return m_altSlaves.count(); }
+    QString getSlave(int pos) const { return m_altSlaves.at(pos); }
     bool isSelected() const;
     bool isBroken() const;
     bool select(QString *selectError = 0);

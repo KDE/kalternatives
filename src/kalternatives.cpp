@@ -183,13 +183,13 @@ void Kalternatives::slotPropertiesClicked()
 		text += i18n("Path: %1\n", a->getPath());
 		text += i18n("Priority: %1\n", a->getPriority());
 		
-		QStringList* slavesList = a->getSlaves();
+		const QStringList slavesList = a->getSlaves();
 		text += i18n("Slaves:");
 		
-		for ( QStringList::Iterator it = slavesList->begin(); it != slavesList->end(); ++it ) 
+		Q_FOREACH (const QString &slave, slavesList)
 		{
 			text += "\n\t";
-			text += *it;
+			text += slave;
 		}
 		propUi.m_text->setText(text);
 		prop->show();
