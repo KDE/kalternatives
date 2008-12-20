@@ -223,7 +223,8 @@ void Kalternatives::configChanged()
 QString Kalternatives::quickHelp() const
 {
 	return i18n("<h1>Kalternatives</h1>\n"
-	            "A Mandrake/Debian alternatives-system manager.");
+	            "Kalternatives allows you to configure the system alternatives in "
+	            "Debian/Fedora distributions.");
 }
 
 

@@ -21,7 +21,7 @@ inline KAboutData aboutData(const char* name, const char* iname)
         "kalternatives",
         ki18n(iname),
         KALT_VERSION,
-        ki18n("KDE Manager for the Debian/Mandrake alternatives system"),
+        ki18n("KDE manager for the Debian/Fedora alternatives system"),
         KAboutData::License_GPL,
         ki18n("(c) 2004 Juanjo Alvarez Martinez\n"
               "(c) 2004 Mario Bensi\n"
