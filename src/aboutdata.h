@@ -23,9 +23,9 @@ inline KAboutData aboutData(const char* name, const char* iname)
         KALT_VERSION,
         ki18n("KDE manager for the Debian/Fedora alternatives system"),
         KAboutData::License_GPL,
-        ki18n("(c) 2004 Juanjo Alvarez Martinez\n"
-              "(c) 2004 Mario Bensi\n"
-              "(C) 2008 Pino Toscano")
+        ki18n("© 2004 Juanjo Álvarez Martinez\n"
+              "© 2004 Mario Bensi\n"
+              "© 2008 Pino Toscano")
     );
 
     about.addAuthor(ki18n("Pino Toscano"), ki18n("Current maintainer"), "pino@kde.org");
