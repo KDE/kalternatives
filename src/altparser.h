@@ -21,12 +21,6 @@
 #ifndef _ALTPARSER_H_
 #define _ALTPARSER_H_
 
-
-//FIXME: Cosas pa mirar:
-//Comprobar entradas NULL y demás (sobre todo antes de los delete)
-//
-//Quitar el stdio.h
-
 #include <qstringlist.h>
 
 class Item;
@@ -130,7 +124,5 @@ public:
     //FIXME: Put in a #ifdef
     void debugPrintAlts() const;
 	QString getAltDir() { return m_altdir ;}
-//protected:
-    //virtual int compareItems(Item i1, Item i2);
 };
 #endif // _KALTERNATIVES_H_

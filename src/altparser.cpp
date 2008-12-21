@@ -75,7 +75,6 @@ bool Alternative::isSelected() const
     return 0;
 }
 
-
 bool Alternative::isBroken() const
 {
     return !QFile::exists(m_altPath);
@@ -217,8 +216,6 @@ Item& Item::operator=(const Item &item)
     return (*this);
 }
 
-
-
 Item::~Item()
 {
     qDeleteAll(*m_itemSlaves);
@@ -271,6 +268,7 @@ void Item::delSlave(const QString &namearg)
         }
     }
 }
+
 void Item::delSlaveByPath(const QString &patharg)
 {
     QMutableListIterator<Slave *> it(*m_itemSlaves);

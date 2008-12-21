@@ -93,11 +93,6 @@ Kalternatives::~Kalternatives()
 {
 }
 
-void Kalternatives::die()
-{
-	delete this;
-}
-
 void Kalternatives::load()
 {
 	m_itemProxyModel = new AlternativeItemProxyModel(m_ui.m_altList);
@@ -154,6 +149,7 @@ void Kalternatives::slotAddClicked()
 		}
 	}
 }
+
 void Kalternatives::slotDeleteClicked()
 {
 	Alternative *alt = m_ui.m_optionsList->currentIndex().data(AltAlternativeRole).value<Alternative *>();
@@ -213,12 +209,10 @@ void Kalternatives::save()
 	emit changed( false );
 }
 
-
 void Kalternatives::configChanged()
 {
 	emit changed(true);
 }
-
 
 QString Kalternatives::quickHelp() const
 {
@@ -226,7 +220,5 @@ QString Kalternatives::quickHelp() const
 	            "Kalternatives allows you to configure the system alternatives in "
 	            "Debian/Fedora distributions.");
 }
-
-
 
 #include "kalternatives.moc"

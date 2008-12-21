@@ -53,7 +53,6 @@ public slots:
 private slots:
 	void slotSelectAlternativesActivated(const QModelIndex &);
 	void slotHideAlternativesClicked();
-    void die();
 	void slotAddClicked();
 	void slotDeleteClicked();
 	void slotPropertiesClicked();
