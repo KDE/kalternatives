@@ -718,13 +718,16 @@ QVariant AlternativeAltModel::data(const QModelIndex &index, int role) const
             }
             case Qt::ToolTipRole:
             {
-                QString tip = n_a->alternative->getPath();
-                if (n_a->alternative->isBroken())
-                {
-                    tip += "\n\n";
-                    tip += i18n("Broken alternative.");
-                }
-                return tip;
+                if (n_a->alternative->getDescription().isEmpty())
+                    d->searchDescription(n_a->alternative);
+                KLocalizedString tip = n_a->alternative->isBroken()
+                                     ? ki18nc("%1 is the alternative path, %2 its description",
+                                              "%1\n(broken)\n\n%2")
+                                     : ki18nc("%1 is the alternative path, %2 its description",
+                                              "%1\n\n%2");
+                return tip.subs(n_a->alternative->getPath())
+                          .subs(Alternative::prettyDescription(n_a->alternative))
+                          .toString();
             }
             case Qt::EditRole:
                 if (index.column() == 0)
