@@ -601,6 +601,34 @@ AltAlternativeNode* AlternativeAltModelPrivate::findHigherPriority(int *index) c
     return n;
 }
 
+static bool extractDescriptionFor(const QString &outputLine, const QString &name, QString *desc)
+{
+    QString output = outputLine;
+    int pos = output.indexOf('(');
+    // look for the name of the search result, and discard it
+    // in case it is not exactly what we requested
+    if (pos == -1 || (output.left(pos -1) != name))
+        return false;
+
+    pos = output.indexOf(']');
+    if (pos != -1)
+    {
+        output.remove(0, pos + 1);
+    }
+    pos = output.indexOf(')');
+    if (pos != -1)
+    {
+        output.remove(0, pos + 1);
+    }
+    pos = output.indexOf('-');
+    if (pos != -1)
+    {
+        output.remove(0, pos + 2);
+    }
+    *desc = output;
+    return true;
+}
+
 void AlternativeAltModelPrivate::searchDescription(Alternative *alternative) const
 {
     QString exec = alternative->getPath();
@@ -618,28 +646,16 @@ void AlternativeAltModelPrivate::searchDescription(Alternative *alternative) con
     if (proc.exitCode() == 0)
     {
         const QByteArray procOutput = proc.readAllStandardOutput();
-        QString output = QString::fromLatin1(procOutput.constData(), procOutput.count());
-        int pos = output.indexOf('\n');
-        if (pos != -1)
+        const QStringList outputLines = QString::fromLocal8Bit(procOutput.constData()).split('\n', QString::SkipEmptyParts);
+        Q_FOREACH (const QString &outLine, outputLines)
         {
-            output.truncate(pos);
+            QString description;
+            if (extractDescriptionFor(outLine, exec, &description))
+            {
+                alternative->setDescription(description);
+                break;
+            }
         }
-        pos = output.indexOf(']');
-        if (pos != -1)
-        {
-            output.remove(0, pos + 1);
-        }
-        pos = output.indexOf(')');
-        if (pos != -1)
-        {
-            output.remove(0, pos + 1);
-        }
-        pos = output.indexOf('-');
-        if (pos != -1)
-        {
-            output.remove(0, pos + 2);
-        }
-        alternative->setDescription(output);
     }
 }
 
