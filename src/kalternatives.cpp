@@ -25,6 +25,7 @@
 #include "alternativemodels.h"
 #include "ui_propertieswindow.h"
 #include "aboutdata.h"
+#include "slavemodel.h"
 
 #include <qheaderview.h>
 #include <qtimer.h>
@@ -180,19 +181,22 @@ void Kalternatives::slotPropertiesClicked()
 		prop->mainWidget()->layout()->setMargin(0);
 		connect(prop, SIGNAL(closeClicked()), prop, SLOT(deleteLater()));
 		
-		text += i18n("Description:\n%1\n", Alternative::prettyDescription(a));
-		text += i18n("Path: %1\n", a->getPath());
-		text += i18n("Priority: %1\n", a->getPriority());
+		propUi.labelPath->setText(a->getPath());
+		propUi.labelDescription->setText(Alternative::prettyDescription(a));
+		propUi.labelPriority->setText(QString::number(a->getPriority()));
 		
-		const QStringList slavesList = a->getSlaves();
-		text += i18n("Slaves:");
-		
-		Q_FOREACH (const QString &slave, slavesList)
+		if (a->countSlaves() > 0)
 		{
-			text += "\n\t";
-			text += slave;
+			SlaveModel *sm = new SlaveModel(propUi.slaveView);
+			sm->setItem(a->getParent());
+			sm->setAlternative(a);
+			propUi.slaveView->setModel(sm);
 		}
-		propUi.m_text->setText(text);
+		else
+		{
+			propUi.slavesGroup->hide();
+		}
+		
 		prop->show();
 	}
 }

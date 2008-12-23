@@ -5,36 +5,100 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>532</width>
-    <height>407</height>
+    <width>391</width>
+    <height>225</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Alternative Properties</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" >
+  <layout class="QVBoxLayout" name="verticalLayout_2" >
    <item>
-    <widget class="KTextEdit" name="m_text" >
-     <property name="readOnly" >
-      <bool>true</bool>
+    <layout class="QFormLayout" name="formLayout" >
+     <item row="0" column="0" >
+      <widget class="QLabel" name="label" >
+       <property name="text" >
+        <string>Path:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" >
+      <widget class="QLabel" name="labelPath" >
+       <property name="text" >
+        <string comment="KDE::DoNotExtract" >/usr/bin/kde</string>
+       </property>
+       <property name="textInteractionFlags" >
+        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" >
+      <widget class="QLabel" name="label_2" >
+       <property name="text" >
+        <string>Description:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" >
+      <widget class="KSqueezedTextLabel" name="labelDescription" >
+       <property name="text" >
+        <string comment="KDE::DoNotExtract" >KSqueezedTextLabel</string>
+       </property>
+       <property name="textInteractionFlags" >
+        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" >
+      <widget class="QLabel" name="label_3" >
+       <property name="text" >
+        <string>Priority:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" >
+      <widget class="QLabel" name="labelPriority" >
+       <property name="text" >
+        <string comment="KDE::DoNotExtract" >100</string>
+       </property>
+       <property name="textInteractionFlags" >
+        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="slavesGroup" >
+     <property name="title" >
+      <string>Slaves</string>
      </property>
-     <property name="acceptRichText" >
-      <bool>false</bool>
-     </property>
+     <layout class="QVBoxLayout" name="verticalLayout" >
+      <item>
+       <widget class="QTreeView" name="slaveView" >
+        <property name="alternatingRowColors" >
+         <bool>true</bool>
+        </property>
+        <property name="rootIsDecorated" >
+         <bool>false</bool>
+        </property>
+        <property name="allColumnsShowFocus" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
+   <class>KSqueezedTextLabel</class>
+   <extends>QLabel</extends>
+   <header>ksqueezedtextlabel.h</header>
   </customwidget>
  </customwidgets>
- <includes>
-  <include location="local" >ktextedit.h</include>
- </includes>
  <resources/>
  <connections/>
 </ui>
