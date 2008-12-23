@@ -6,6 +6,7 @@ set(kcm_SRCS
   alternativemodels.cpp
   altparser.cpp
   kalternatives.cpp
+  slavemodel.cpp
   slavewidget.cpp
 )
 kde4_add_ui_files(kcm_SRCS
