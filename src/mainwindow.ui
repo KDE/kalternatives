@@ -108,16 +108,6 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <item>
-              <property name="text" >
-               <string>auto</string>
-              </property>
-             </item>
-             <item>
-              <property name="text" >
-               <string>manual</string>
-              </property>
-             </item>
             </widget>
            </item>
           </layout>

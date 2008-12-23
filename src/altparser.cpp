@@ -151,7 +151,7 @@ QString Alternative::prettyDescription(Alternative *alt)
 
 Item::Item()
 {
-    m_mode = "auto";
+    m_mode = AutoMode;
     m_itemSlaves = new SlaveList;
     m_itemAlts = new AltsPtrList;
 }
@@ -416,7 +416,15 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
 
         line = lines[0];
         tmp = line.left(line.length()-1);
-        item->setMode(tmp);
+        if (tmp == QLatin1String("auto"))
+            item->setMode(Item::AutoMode);
+        else if (tmp == QLatin1String("manual"))
+            item->setMode(Item::ManualMode);
+        else
+        {
+            errorstr = QString("Unrecognized mode '%1'").arg(tmp);
+            item->setMode(Item::AutoMode);
+        }
 
         line = lines[1];
         tmp = line.left(line.length()-1);

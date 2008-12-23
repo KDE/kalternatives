@@ -76,6 +76,9 @@ Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
 	m_ui.m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "list-add"));
 	m_ui.m_bProperties->setGuiItem(KGuiItem( i18n( "&Properties" ), "configure"));
 	
+	m_ui.m_statusCombo->addItem(i18nc("Automatic alternative choice", "Automatic"), Item::AutoMode);
+	m_ui.m_statusCombo->addItem(i18nc("Manual alternative choice", "Manual"), Item::ManualMode);
+	
 	if(!m_bisRoot)
 	{
 		m_ui.m_bDelete->setEnabled(false);
@@ -128,7 +131,9 @@ void Kalternatives::slotSelectAlternativesActivated(const QModelIndex &index)
 	Item *item = index.data(AltItemRole).value<Item *>();
 	m_altModel->setItem(item);
 	m_ui.m_altTilte->setText(item->getName());
-	m_ui.m_statusCombo->setCurrentItem(item->getMode());
+	const int statusIndex = m_ui.m_statusCombo->findData(item->getMode());
+	Q_ASSERT(statusIndex != -1);
+	m_ui.m_statusCombo->setCurrentIndex(statusIndex);
 }
 
 void Kalternatives::slotHideAlternativesClicked()
@@ -197,7 +202,9 @@ void Kalternatives::slotUpdateStatusCombo()
 	Item *item = m_ui.m_altList->currentIndex().data(AltItemRole).value<Item *>();
 	if (item)
 	{
-		m_ui.m_statusCombo->setCurrentItem(item->getMode());
+		const int statusIndex = m_ui.m_statusCombo->findData(item->getMode());
+		Q_ASSERT(statusIndex != -1);
+		m_ui.m_statusCombo->setCurrentIndex(statusIndex);
 		emit changed(true);
 	}
 }

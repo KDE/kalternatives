@@ -21,6 +21,7 @@
 #ifndef _ALTPARSER_H_
 #define _ALTPARSER_H_
 
+#include <qmetatype.h>
 #include <qstringlist.h>
 
 class Item;
@@ -68,8 +69,15 @@ typedef QList<Alternative *> AltsPtrList;
 
 class Item
 {
+public:
+    enum ItemMode
+    {
+        AutoMode,
+        ManualMode
+    };
+private:
     QString m_name;
-    QString m_mode;
+    ItemMode m_mode;
     QString m_path;
     SlaveList *m_itemSlaves;
     AltsPtrList *m_itemAlts;
@@ -83,9 +91,8 @@ public:
     Alternative* getSelected() const;
     QString getName() const { return m_name; }
     void setName(const QString &namearg) { m_name = namearg; }
-    QString getMode() const { return m_mode; }
-    //Check the input (FIXME)
-    void setMode(const QString &modearg) { m_mode = modearg; }
+    ItemMode getMode() const { return m_mode; }
+    void setMode(ItemMode modearg) { m_mode = modearg; }
     QString getPath() const { return m_path; }
     void setPath(const QString &patharg) { m_path = patharg; }
     SlaveList *getSlaves() const { return m_itemSlaves; }
@@ -125,4 +132,7 @@ public:
     void debugPrintAlts() const;
 	QString getAltDir() { return m_altdir ;}
 };
+
+Q_DECLARE_METATYPE(Item::ItemMode)
+
 #endif // _KALTERNATIVES_H_

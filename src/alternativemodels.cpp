@@ -647,10 +647,10 @@ void AlternativeAltModelPrivate::statusChanged(int index)
     if (!combo)
         return;
 
-    const QString mode = combo->itemData(index, Qt::DisplayRole).toString(); // ### use a better id
+    const Item::ItemMode mode = combo->itemData(index).value<Item::ItemMode>();
     m_root->item->setMode(mode);
     ItemChanges changes = ModeItemChange;
-    if (mode == "auto")
+    if (mode == Item::AutoMode)
     {
         int selectedIndex = 0;
         int higherPriorityIndex = 0;
@@ -838,9 +838,9 @@ bool AlternativeAltModel::setData(const QModelIndex &index, const QVariant &valu
                     }
                     ItemChanges changes = SelectionItemChange;
                     // when changing option, set the alternative to "manual" mode
-                    if (d->m_root->item->getMode() == "auto")
+                    if (d->m_root->item->getMode() == Item::AutoMode)
                     {
-                        d->m_root->item->setMode("manual");
+                        d->m_root->item->setMode(Item::ManualMode);
                         changes |= ModeItemChange;
                     }
                     d->parentModel->itemChanged(d->m_root, changes);
