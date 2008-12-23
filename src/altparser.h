@@ -55,7 +55,7 @@ public:
     QStringList getSlaves() const { return m_altSlaves; }
     void setSlaves(const QStringList &slaves);
     void addSlave(const QString &slave) { m_altSlaves.append(slave); }
-    uint countSlaves() const { return m_altSlaves.count(); }
+    int slavesCount() const { return m_altSlaves.count(); }
     QString getSlave(int pos) const { return m_altSlaves.at(pos); }
     bool isSelected() const;
     bool isBroken() const;

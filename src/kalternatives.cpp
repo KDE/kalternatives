@@ -185,7 +185,7 @@ void Kalternatives::slotPropertiesClicked()
 		propUi.labelDescription->setText(Alternative::prettyDescription(a));
 		propUi.labelPriority->setText(QString::number(a->getPriority()));
 		
-		if (a->countSlaves() > 0)
+		if (a->slavesCount() > 0)
 		{
 			SlaveModel *sm = new SlaveModel(propUi.slaveView);
 			sm->setItem(a->getParent());

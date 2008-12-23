@@ -105,11 +105,11 @@ void SlaveModel::setItem(Item *item)
 void SlaveModel::setAlternative(Alternative *alt)
 {
     if (!alt || !m_item || (alt->getParent() != m_item)
-        || (alt->countSlaves() != m_item->getSlaves()->count()))
+        || (alt->slavesCount() != m_item->getSlaves()->count()))
         return;
 
     m_alt = alt;
-    emit dataChanged(createIndex(0, 1), createIndex(m_alt->countSlaves() - 1, 1));
+    emit dataChanged(createIndex(0, 1), createIndex(m_alt->slavesCount() - 1, 1));
 }
 
 #include "slavemodel.moc"
