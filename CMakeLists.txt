@@ -13,6 +13,8 @@ if (_distro STREQUAL "debian")
    set(DISTRO_DEBIAN TRUE)
 elseif (_distro STREQUAL "fedora")
    set(DISTRO_FEDORA TRUE)
+elseif (_distro STREQUAL "mandriva")
+   set(DISTRO_MANDRIVA TRUE)
 endif (_distro STREQUAL "debian")
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config-kalternatives.h.cmake
