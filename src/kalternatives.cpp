@@ -28,6 +28,7 @@
 #include "slavemodel.h"
 
 #include <qheaderview.h>
+#include <qitemselectionmodel.h>
 #include <qtimer.h>
 
 #include <kmessagebox.h>
@@ -80,11 +81,11 @@ Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
 	m_ui.m_statusCombo->addItem(i18nc("Automatic alternative choice", "Automatic"), Item::AutoMode);
 	m_ui.m_statusCombo->addItem(i18nc("Manual alternative choice", "Manual"), Item::ManualMode);
 	
+	m_ui.m_bDelete->setEnabled(false);
+	m_ui.m_bAdd->setEnabled(false);
+	m_ui.m_bProperties->setEnabled(false);
 	if(!m_bisRoot)
 	{
-		m_ui.m_bDelete->setEnabled(false);
-		m_ui.m_bAdd->setEnabled(false);
-		m_ui.m_bProperties->setEnabled(false);
 		m_ui.m_statusCombo->setEnabled(false);
 	}
 	
@@ -125,6 +126,11 @@ void Kalternatives::load()
 	        this, SLOT(configChanged()));
 	connect(m_ui.m_statusCombo, SIGNAL(activated(int)),
 	        m_altModel, SLOT(statusChanged(int)));
+
+	connect(m_ui.m_altList->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+	        this, SLOT(slotUpdateButtons()));
+	connect(m_ui.m_optionsList->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+	        this, SLOT(slotUpdateButtons()));
 }
 
 void Kalternatives::slotSelectAlternativesActivated(const QModelIndex &index)
@@ -135,6 +141,7 @@ void Kalternatives::slotSelectAlternativesActivated(const QModelIndex &index)
 	const int statusIndex = m_ui.m_statusCombo->findData(item->getMode());
 	Q_ASSERT(statusIndex != -1);
 	m_ui.m_statusCombo->setCurrentIndex(statusIndex);
+	slotUpdateButtons();
 }
 
 void Kalternatives::slotHideAlternativesClicked()
@@ -210,6 +217,21 @@ void Kalternatives::slotUpdateStatusCombo()
 		Q_ASSERT(statusIndex != -1);
 		m_ui.m_statusCombo->setCurrentIndex(statusIndex);
 		emit changed(true);
+	}
+}
+
+void Kalternatives::slotUpdateButtons()
+{
+	if (m_bisRoot)
+	{
+		const bool altSelected = m_ui.m_altList->selectionModel()->hasSelection();
+		m_ui.m_bAdd->setEnabled(altSelected);
+	}
+	const bool altChoiceSelected = m_ui.m_optionsList->selectionModel()->currentIndex().isValid();
+	m_ui.m_bProperties->setEnabled(altChoiceSelected);
+	if (m_bisRoot)
+	{
+		m_ui.m_bDelete->setEnabled(altChoiceSelected);
 	}
 }
 

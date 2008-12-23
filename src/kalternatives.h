@@ -57,6 +57,7 @@ private slots:
 	void slotDeleteClicked();
 	void slotPropertiesClicked();
 	void slotUpdateStatusCombo();
+	void slotUpdateButtons();
 };
 
 #endif // _KALTERNATIVES_H_
