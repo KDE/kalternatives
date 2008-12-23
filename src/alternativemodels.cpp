@@ -257,6 +257,12 @@ AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(const KComponentData 
 #elif defined(DISTRO_MANDRIVA)
     altManager = new AltFilesManager("/var/lib/rpm/alternatives");
 #endif
+    if (altManager && !altManager->parsingOk())
+    {
+        kDebug() << altManager->getErrorMsg();
+        delete altManager;
+        altManager = 0;
+    }
 }
 
 AlternativeItemsModelPrivate::~AlternativeItemsModelPrivate()
