@@ -20,5 +20,5 @@ GenericName[pt_BR]=Configuração de Alternativas
 GenericName[sv]=Alternativ inställning
 GenericName[uk]=Налаштування варіантів
 Comment=Debian/Fedora/Mandriva alternatives-system manager
-Keywords=Kalternatives,kalternatives,alternatives,alternative,debian,fedora,mandriva
+X-KDE-Keywords=Kalternatives,kalternatives,alternatives,alternative,debian,fedora,mandriva
 Categories=Qt;KDE;X-KDE-settings-system;
