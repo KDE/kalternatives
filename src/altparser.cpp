@@ -386,7 +386,7 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
     QFile altFile;
     QString line, tmp;
     int nslaves;
-    unsigned int index, slavesend;
+    int index, slavesend;
 
     for( QStringList::Iterator it = fileList.begin(); it != fileList.end(); ++it)
     {
