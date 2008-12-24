@@ -1,16 +1,26 @@
-What you need:
+Kalternatives is a KDE 4 application, so you need KDE 4 to run it.
 
-- KDE >= 3.2
-- Qt
-- All development packages for KDE (kdelibs & qt)
+To build Kalternatives, you need a KDE 4 development environment.
+If you are using a distribution, please refer to its packages for the task.
+In any case, take a look at http://techbase.kde.org/Getting_Started
+for generic build instructions.
 
-To install configure the program with the correct prefix for
-your KDE installation (like /usr or /opt/kde3 or similar)
+Kalternatives requires kdelibs >= 4.1 (but should work also with KDE 4.0,
+please contact me in case).
 
-./configure --prefix=...
+To build it, you can do:
+$ mkdir build
+$ cd build
+$ cmake -DCMAKE_INSTALL_PREFIX=$(kde4-config --prefix) ..
+$ make
 
-And finally:
+To install, either do one of:
+$ sudo make install
+$ su -c "make install"
+$ make install
+depending on how you installed KDE.
 
-make install
-
-Now you should be able to run the "kalternatives" command.
+To run Kalternatives, you must run it as root, so either
+$ sudo kcmshell4 kalternatives
+$ su -c "kcmshell4 kalternatives"
+will do it.
