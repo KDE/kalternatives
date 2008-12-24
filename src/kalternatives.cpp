@@ -251,7 +251,8 @@ QString Kalternatives::quickHelp() const
 {
 	return i18n("<h1>Kalternatives</h1>\n"
 	            "Kalternatives allows you to configure the system alternatives in "
-	            "Debian/Fedora distributions.");
+	            "Debian/Fedora/Mandriva distributions.");
+
 }
 
 #include "kalternatives.moc"
