@@ -15,6 +15,8 @@ elseif (_distro STREQUAL "fedora")
    set(DISTRO_FEDORA TRUE)
 elseif (_distro STREQUAL "mandriva")
    set(DISTRO_MANDRIVA TRUE)
+else(_distro STREQUAL "debian")
+   message(STATUS "KAlternatives does only support Debian, Fedora and Mandriva. Please define KALTERNATIVES_DISTRO if you want to compile for one of these distributions.")
 endif (_distro STREQUAL "debian")
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config-kalternatives.h.cmake

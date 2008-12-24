@@ -256,6 +256,8 @@ AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(const KComponentData 
     altManager = new AltFilesManager("/var/lib/alternatives");
 #elif defined(DISTRO_MANDRIVA)
     altManager = new AltFilesManager("/var/lib/rpm/alternatives");
+#else
+    kError() << "Unsupported distribution for KAlternatives.";
 #endif
     if (altManager && !altManager->parsingOk())
     {
