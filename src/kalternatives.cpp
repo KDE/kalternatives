@@ -168,8 +168,11 @@ void Kalternatives::slotDeleteClicked()
 	Alternative *alt = m_ui.m_optionsList->currentIndex().data(AltAlternativeRole).value<Alternative *>();
 	if (alt)
 	{
-		// TODO add confirm dialog
-		m_altModel->removeAlternative(alt);
+		const QString messageText = i18n("Are you really sure you want to delete the alternative '%1'?", alt->getPath());
+		if (KMessageBox::warningYesNo(this, messageText, i18n("Delete Alternative")) == KMessageBox::Yes)
+		{
+			m_altModel->removeAlternative(alt);
+		}
 	}
 }
 
