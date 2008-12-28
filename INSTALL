@@ -11,8 +11,19 @@ please contact me in case).
 To build it, you can do:
 $ mkdir build
 $ cd build
-$ cmake -DCMAKE_INSTALL_PREFIX=$(kde4-config --prefix) ..
+$ cmake -DCMAKE_INSTALL_PREFIX=$(kde4-config --prefix) -DKALTERNATIVES_DISTRO=type ..
 $ make
+
+The 'type' for the KALTERNATIVES_DISTRO variable depends on the target
+distribution:
+* dpkg
+  - Debian
+  - Ubuntu and derivates
+* rpm
+  - Mandriva
+  - openSUSE
+* rpm_2
+  - Fedora
 
 To install, either do one of:
 $ sudo make install

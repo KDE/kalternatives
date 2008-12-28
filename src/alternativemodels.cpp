@@ -250,11 +250,11 @@ AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(const KComponentData 
     , componentData(cd), iconLoader(new KIconLoader(componentData))
     , brokenAltIcon("alternative-broken", iconLoader)
 {
-#if defined(DISTRO_DEBIAN)
+#if defined(DISTRO_DPKG)
     altManager = new AltFilesManager("/var/lib/dpkg/alternatives");
-#elif defined(DISTRO_FEDORA)
+#elif defined(DISTRO_RPM_2)
     altManager = new AltFilesManager("/var/lib/alternatives");
-#elif defined(DISTRO_MANDRIVA)
+#elif defined(DISTRO_RPM)
     altManager = new AltFilesManager("/var/lib/rpm/alternatives");
 #else
     kError() << "Unsupported distribution for KAlternatives.";
