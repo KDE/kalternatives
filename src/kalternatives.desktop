@@ -12,6 +12,7 @@ X-KDE-ServiceTypes=KCModule
 X-KDE-System-Settings-Parent-Category=system
 
 Name=Kalternatives
+Name[de]=Alternativen
 Name[pa]=ਕੇ-ਅਲਟਰਨੇਟਿਵ
 Name[x-test]=xxKalternativesxx
 GenericName=Alternatives Configuration
