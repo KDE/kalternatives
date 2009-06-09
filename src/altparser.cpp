@@ -392,7 +392,7 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
     {
         Item *item = new Item;
         item->setName(*it);
-        altFile.setFileName(m_altdir+"/"+*it);
+        altFile.setFileName(m_altdir+'/'+*it);
 
         if(!altFile.open(QIODevice::ReadOnly))
         {
