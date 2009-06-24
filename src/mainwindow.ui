@@ -26,7 +26,7 @@
   </property>
   <layout class="QGridLayout" >
    <item row="0" column="0" >
-    <widget class="QSplitter" name="splitter2" >
+    <widget class="QSplitter" name="m_mainSplitter" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>

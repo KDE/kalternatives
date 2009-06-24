@@ -63,6 +63,7 @@ Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
 	}
 	
 	m_ui.setupUi(this);
+	m_ui.m_mainSplitter->setStretchFactor(1, 5);
 	
 	connect(m_ui.m_altList, SIGNAL(clicked(QModelIndex)),
 			this, SLOT(slotSelectAlternativesActivated(QModelIndex)));
