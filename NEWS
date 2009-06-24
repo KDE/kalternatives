@@ -1,7 +1,9 @@
-0.12
-[Mario]
+0.12 (2009-06-24)
+[Pino]
 
-* KCM Module
+* Ported to KDE 4
+* Converted into a System Settings module
+* Improved the "Add Alternative" dialog
 
 0.11
 [Mario]
