@@ -90,8 +90,6 @@ Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
 	}
 	
 	setAboutData(new KAboutData(*KalternativesFactory::componentData().aboutData()));
-	
-	m_ui.m_hideAlt->setChecked(true);
 }
 
 Kalternatives::~Kalternatives()
