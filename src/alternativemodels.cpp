@@ -433,7 +433,7 @@ QVariant AlternativeItemsModel::headerData(int section, Qt::Orientation orientat
     {
         case Qt::DisplayRole:
             if (section == 0)
-                return i18n("Alternatives");
+                return i18nc("Groups of alternatives", "Groups");
             break;
     }
     return QVariant();

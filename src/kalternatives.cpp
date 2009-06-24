@@ -76,8 +76,11 @@ Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
 			SLOT(slotPropertiesClicked()));
 	
 	m_ui.m_bDelete->setGuiItem(KStandardGuiItem::del());
-	m_ui.m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "list-add"));
-	m_ui.m_bProperties->setGuiItem(KGuiItem( i18n( "&Properties" ), "configure"));
+	m_ui.m_bDelete->setWhatsThis(i18n("Removes the selected alternative from the current group."));
+	m_ui.m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "list-add",
+	                        i18n("Adds a new alternative for the selected group.")));
+	m_ui.m_bProperties->setGuiItem(KGuiItem(i18n("&Properties"), "configure",
+	                               i18n("Shows the properties (path, priority, and slaves) of the selected alternative.")));
 	
 	m_ui.m_statusCombo->addItem(i18nc("Automatic alternative choice", "Automatic"), Item::AutoMode);
 	m_ui.m_statusCombo->addItem(i18nc("Manual alternative choice", "Manual"), Item::ManualMode);
@@ -251,9 +254,9 @@ void Kalternatives::configChanged()
 
 QString Kalternatives::quickHelp() const
 {
-	return i18n("<h1>Kalternatives</h1>\n"
-	            "Kalternatives allows you to configure the system alternatives in "
-	            "Debian/Fedora/Mandriva distributions.");
+	return i18n("<h1>Alternatives Configuration</h1>\n"
+	            "This modules allows you to configure the system alternatives in "
+	            "Debian/Fedora/Mandriva/openSUSE/Ubuntu distributions.");
 
 }
 
