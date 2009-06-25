@@ -118,7 +118,7 @@
              <property name="whatsThis">
               <string>&lt;qt&gt;The status of the current alternative:
 &lt;ul&gt;
-&lt;li&gt;Automatic: the alternative system will always choose the alternative with the higher priority, updating it when an alternative is installed or removed&lt;/li&gt;
+&lt;li&gt;Automatic: the alternative system will always choose the alternative with the highest priority, updating it (if necessary) when an alternative is installed or removed&lt;/li&gt;
 &lt;li&gt;Manual: the choice is done manually, updated by the alternative system only when it is uninstalled&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/qt&gt;
