@@ -4,6 +4,8 @@
 * Ported to KDE 4
 * Converted into a System Settings module
 * Improved the "Add Alternative" dialog
+* Note: no translations with this release (mostly a testing release);
+  they will come with the next release
 
 0.11
 [Mario]
