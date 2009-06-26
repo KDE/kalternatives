@@ -12,6 +12,10 @@ X-KDE-ServiceTypes=KCModule
 X-KDE-System-Settings-Parent-Category=system
 
 Name=Alternatives Configuration
+Name[sv]=Alternativ inställning
+Name[uk]=Налаштування варіантів
 Comment=Distribution alternatives system manager
+Comment[sv]=Alternativ systemhantering för distributioner
+Comment[uk]=Інструмент керування системою варіантів
 X-KDE-Keywords=Kalternatives,kalternatives,alternatives,alternative,debian,fedora,mandriva
 Categories=Qt;KDE;X-KDE-settings-system;
