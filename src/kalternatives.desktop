@@ -5,7 +5,7 @@ Type=Service
 
 X-KDE-ModuleType=Library
 X-KDE-Library=kcm_kalternatives
-#X-KDE-RootOnly=true
+X-KDE-RootOnly=true
 X-KDE-HasReadOnlyMode=true
 X-KDE-ParentApp=kcontrol
 X-KDE-ServiceTypes=KCModule
