@@ -13,6 +13,7 @@ X-KDE-System-Settings-Parent-Category=system
 
 Name=Alternatives Configuration
 Name[es]=Configuración de alternativas
+Name[et]=Alternatiivide seadistamine
 Name[pt]=Configuração das Alternativas
 Name[pt_BR]=Configuração das Alternativas
 Name[sv]=Alternativ inställning
@@ -20,6 +21,7 @@ Name[uk]=Налаштування варіантів
 Name[x-test]=xxAlternatives Configurationxx
 Comment=Distribution alternatives system manager
 Comment[es]=Sistema de gestión de alternativas de la distribución
+Comment[et]=Distributsioonide alternatiivide süsteemi haldur
 Comment[pt]=Gestor do sistema de alternativas das distribuições
 Comment[pt_BR]=Gestor do sistema de alternativas das distribuições
 Comment[sv]=Alternativ systemhantering för distributioner
