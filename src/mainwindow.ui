@@ -22,9 +22,6 @@
     <height>0</height>
    </size>
   </property>
-  <property name="windowTitle">
-   <string/>
-  </property>
   <layout class="QGridLayout">
    <item row="0" column="0">
     <widget class="QSplitter" name="m_mainSplitter">
