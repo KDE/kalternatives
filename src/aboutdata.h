@@ -12,7 +12,7 @@
 
 #include <kaboutdata.h>
 
-#define KALT_VERSION "0.12"
+#define KALT_VERSION "0.13"
 
 inline KAboutData aboutData(const char* name, const char* iname)
 {
