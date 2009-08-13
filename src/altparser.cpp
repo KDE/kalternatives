@@ -25,6 +25,8 @@
 
 #include <klocale.h>
 
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
@@ -91,20 +93,26 @@ bool Alternative::select(QString *selectError)
         return false;
     }
 
+    struct stat info;
+
     // Remove the current link:
-    QString parentPath = QString("/etc/alternatives/%1").arg(m_parent->getName());
-    QFile origlink(parentPath);
-    if(!origlink.remove())
+    QByteArray parentPath = QFile::encodeName(QString::fromLatin1("/etc/alternatives/") + m_parent->getName());
+    if (lstat(parentPath, &info) != -1 && S_ISLNK(info.st_mode))
     {
-        if (selectError)
-            *selectError = QString("Could not delete alternative link %1: %2").arg(parentPath).arg(origlink.errorString());
-        return false;
+        if (unlink(parentPath) == -1)
+        {
+            if (selectError)
+            {
+                QString e("Could not delete alternative link %1: %2");
+                *selectError = e.arg(QFile::decodeName(parentPath)).arg(QString::fromLocal8Bit(strerror(errno)));
+            }
+            return false;
+        }
     }
 
     // Then we do the main link:
-    const QByteArray m_altPathAscii = m_altPath.toAscii();
-    const QByteArray parentPathAscii = parentPath.toAscii();
-    if(symlink(m_altPathAscii.constData(), parentPathAscii.constData()) == -1)
+    const QByteArray m_altPathAscii = QFile::encodeName(m_altPath);
+    if (symlink(m_altPathAscii.constData(), parentPath) == -1)
     {
         if (selectError)
             *selectError = QString(strerror(errno));
@@ -120,17 +128,21 @@ bool Alternative::select(QString *selectError)
     for( sl = m_altSlaves.begin(); sl != m_altSlaves.end(); ++sl)
     {
         parsl = parslaves->at(count);
-        QString parstr = QString("/etc/alternatives/%1").arg(parsl->slname);
-        QFile parlink(parstr);
-        if(!parlink.remove())
+        QByteArray parstr = QFile::encodeName(QString::fromLatin1("/etc/alternatives/") + parsl->slname);
+        if ((lstat(parstr, &info) == 0) && S_ISLNK(info.st_mode))
         {
-            if (selectError)
-                *selectError = QString("Could not delete slave alternative link %1: %2").arg(parstr).arg(parlink.errorString());
-            return false;
+            if (unlink(parstr) == -1)
+            {
+                if (selectError)
+                {
+                    QString e("Could not delete slave alternative link %1: %2");
+                    *selectError = e.arg(QFile::decodeName(parstr)).arg(QString::fromLocal8Bit(strerror(errno)));
+                }
+                return false;
+            }
         }
-        const QByteArray slAscii = (*sl).toAscii();
-        const QByteArray parstrAscii = parstr.toAscii();
-        if(symlink(slAscii.constData(), parstrAscii.constData()) == -1)
+        const QByteArray slAscii = QFile::encodeName(*sl);
+        if (!sl->isEmpty() && (symlink(slAscii.constData(), parstr) == -1))
         {
             if (selectError)
                 *selectError = QString(strerror(errno));
