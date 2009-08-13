@@ -671,7 +671,7 @@ void AlternativeAltModelPrivate::statusChanged(int index)
     if (!combo)
         return;
 
-    const Item::ItemMode mode = combo->itemData(index).value<Item::ItemMode>();
+    const Item::ItemMode mode = static_cast<Item::ItemMode>(combo->itemData(index).toInt());
     m_root->item->setMode(mode);
     ItemChanges changes = ModeItemChange;
     if (mode == Item::AutoMode)
