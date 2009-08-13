@@ -399,7 +399,7 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
     QFile altFile;
     QString line, tmp;
     int nslaves;
-    int index, slavesend;
+    int index;
 
     for( QStringList::Iterator it = fileList.begin(); it != fileList.end(); ++it)
     {
@@ -466,55 +466,35 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         item->setSlaves(slaves);
 
         ++index;
-        while(index < lines.count()-1)
+        if ((lines.count() - index - 1) % (nslaves + 2))
         {
-            line = lines[index];
+            errorstr = "Mismatch in numer of lines left for the alternatives declarations";
+            delete item;
+            return false;
+        }
+        const int altCount = (lines.count() - index - 1) / (nslaves + 2);
+        for (int i = 0; i < altCount; ++i)
+        {
             Alternative *a = new Alternative(item);
+
+            line = lines[index];
             tmp = line.left(line.length()-1);
             a->setPath(tmp);
-
-            if(line=="\n") {
-                //File end (with a \n)
-                delete a;
-                break;
-            }
-
-            if(++index == lines.count())
-            {
-                item->addAlternative(a);
-                break;
-            }
-
+            ++index;
 
             line = lines[index];
             tmp = line.left(line.length()-1);
             a->setPriority(tmp.toInt());
+            ++index;
 
-            if(++index == lines.count())
+            for (int j = 0; j < nslaves; ++j)
             {
-                item->addAlternative(a);
-                break;
+                line = lines[index];
+                tmp = line.left(line.length()-1);
+                a->addSlave(tmp);
+                ++index;
             }
 
-            line = lines[index];
-            if(line != "\n" and nslaves > 0)
-            {
-                slavesend = index+nslaves;
-                while(index < slavesend)
-                {
-                    line = lines[index];
-                    tmp = line.left(line.length()-1);
-                    a->addSlave(tmp);
-                    ++index;
-                }
-            }
-			else
-			{
-				if (nslaves >0)
-				{
-					++index;
-				}
-			}
             item->addAlternative(a);
         }
         m_itemlist->append(item);
@@ -532,7 +512,7 @@ void AltFilesManager::debugPrintAlts() const
     Q_FOREACH (item, *m_itemlist)
     {
         printf("\nItem: %s\n", qPrintable(item->getName()));
-        printf("\tMode: %s\n", qPrintable(item->getMode()));
+        printf("\tMode: %s\n", qPrintable(Item::modeString(item->getMode())));
         printf("\tPath: %s\n", qPrintable(item->getPath()));
         if(item->getSlaves()->count() == 0)
             printf("\tNo slaves\n");
@@ -558,11 +538,11 @@ void AltFilesManager::debugPrintAlts() const
                 printf("\t\tPath: %s\n", qPrintable(a->getPath()));
                 printf("\t\tPriority: %d\n", a->getPriority());
                 printf("\t\tSlaves:\n");
-                if(a->getSlaves()->count() == 0)
+                if(a->getSlaves().count() == 0)
                     printf("\t\t\tNo slaves\n");
                 else
                 {
-                    QStringList altslaves = *(a->getSlaves());
+                    QStringList altslaves = a->getSlaves();
                     QStringList::iterator sl;
                     for( sl = altslaves.begin(); sl != altslaves.end(); ++sl)
                     {
