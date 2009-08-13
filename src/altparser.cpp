@@ -414,21 +414,11 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
             return false;
         }
 
-        lines.clear();
-        while ( !altFile.atEnd() )
-        {
-            QByteArray data(9999, '\0');
-            if(!altFile.readLine(data.data(), data.count()))
-            {
-                errorstr = altFile.errorString();
-                delete item;
-                return false;
-            }
-            lines.append(QString(data));
-        }
+        // read the file and split it in lines, keeping empty ones
+        lines = QString::fromLocal8Bit(altFile.readAll()).split('\n', QString::KeepEmptyParts);
 
         line = lines[0];
-        tmp = line.left(line.length()-1);
+        tmp = line;
         if (tmp == QLatin1String("auto"))
             item->setMode(Item::AutoMode);
         else if (tmp == QLatin1String("manual"))
@@ -440,7 +430,7 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         }
 
         line = lines[1];
-        tmp = line.left(line.length()-1);
+        tmp = line;
         item->setPath(tmp);
 
         index = 2;
@@ -448,15 +438,15 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         nslaves = 0;
         SlaveList *slaves = new SlaveList;
 
-        while(line != "\n")
+        while(!line.isEmpty())
         {
-            tmp = line.left(line.length()-1);
+            tmp = line;
             Slave *slave = new Slave;
             nslaves++;
             slave->slname = tmp;
 
             line = lines[++index];
-            tmp = line.left(line.length()-1);
+            tmp = line;
             slave->slpath = tmp;
 
             slaves->append(slave);
@@ -466,9 +456,10 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         item->setSlaves(slaves);
 
         ++index;
-        if ((lines.count() - index - 1) % (nslaves + 2))
+        const int remLines = (lines.count() - index - 1) % (nslaves + 2);
+        if (remLines != 0 && !lines.at(lines.count() - remLines).isEmpty())
         {
-            errorstr = "Mismatch in numer of lines left for the alternatives declarations";
+            errorstr = QString::fromLatin1("Mismatch in numer of lines left for the alternatives declarations for %1").arg(*it);
             delete item;
             return false;
         }
@@ -478,19 +469,19 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
             Alternative *a = new Alternative(item);
 
             line = lines[index];
-            tmp = line.left(line.length()-1);
+            tmp = line;
             a->setPath(tmp);
             ++index;
 
             line = lines[index];
-            tmp = line.left(line.length()-1);
+            tmp = line;
             a->setPriority(tmp.toInt());
             ++index;
 
             for (int j = 0; j < nslaves; ++j)
             {
                 line = lines[index];
-                tmp = line.left(line.length()-1);
+                tmp = line;
                 a->addSlave(tmp);
                 ++index;
             }
