@@ -345,6 +345,19 @@ bool Item::isBroken() const
     return !QFile::exists(m_path);
 }
 
+QString Item::modeString(Item::ItemMode mode)
+{
+    switch (mode)
+    {
+        case AutoMode:
+            return QString::fromLatin1("auto");
+        case ManualMode:
+            return QString::fromLatin1("manual");
+    }
+    Q_ASSERT(false);
+    return QString();
+}
+
 /********************** AltFIlesManager ************/
 
 AltFilesManager::AltFilesManager(const QString &altdirarg) :

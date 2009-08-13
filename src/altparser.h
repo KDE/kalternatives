@@ -108,6 +108,8 @@ public:
     void delAlternativeByPriority(int priorityarg);
     void addAlternative(Alternative *altarg) { m_itemAlts->append(altarg); }
     bool isBroken() const;
+
+    static QString modeString(ItemMode mode);
 };
 
 typedef QList<Item *> ItemPtrList;

@@ -491,7 +491,7 @@ void AlternativeItemsModel::save()
             {
                 QTextStream stream(&origFile);
 
-                stream << item->getMode() << endl;
+                stream << Item::modeString(item->getMode()) << endl;
                 stream << item->getPath() << endl;
 
                 SlaveList *slaveList = item->getSlaves();
