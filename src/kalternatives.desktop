@@ -12,6 +12,7 @@ X-KDE-ServiceTypes=KCModule
 X-KDE-System-Settings-Parent-Category=system
 
 Name=Alternatives Configuration
+Name[bg]=Настройки на alternatives
 Name[es]=Configuración de alternativas
 Name[et]=Alternatiivide seadistamine
 Name[fr]=Configuration des alternatives
