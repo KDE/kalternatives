@@ -10,6 +10,7 @@ X-KDE-HasReadOnlyMode=true
 X-KDE-ParentApp=kcontrol
 X-KDE-ServiceTypes=KCModule
 X-KDE-System-Settings-Parent-Category=system
+X-KDE-System-Settings-Parent-Category-V2=system-administration
 
 Name=Alternatives Configuration
 Name[bg]=Настройки на alternatives
