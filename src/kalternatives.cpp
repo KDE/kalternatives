@@ -255,7 +255,7 @@ void Kalternatives::configChanged()
 QString Kalternatives::quickHelp() const
 {
 	return i18n("<h1>Alternatives Configuration</h1>\n"
-	            "This modules allows you to configure the system alternatives in "
+	            "This module allows you to configure the system alternatives in "
 	            "Debian/Fedora/Mandriva/openSUSE/Ubuntu distributions.");
 
 }
