@@ -1,7 +1,9 @@
 /***************************************************************************
  *   Copyright (C) 2004 by Juanjo Álvarez Martinez <juanjo@juanjoalvarez.net> *
  *   Copyright (C) 2004 by Mario Bensi <nef@ipsquad.net>                   *
- *   Copyright (C) 2008 by Pino Toscano <pino@kde.org>                     *
+ *   Copyright (C) 2004 by Kevin Ottens <ervin@kde.org>                    *
+ *   Copyright (C) 2004, 2008-2009 by Pino Toscano <pino@kde.org>          *
+ *   Copyright (C) 2008 by Armin Berres <armin@space-based.de>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
