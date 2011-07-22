@@ -33,6 +33,7 @@ Name[tr]=Alternatives Yapılandırması
 Name[uk]=Налаштування варіантів
 Name[x-test]=xxAlternatives Configurationxx
 Comment=Distribution alternatives system manager
+Comment[bg]=Управление на системните алтернативи (alternatives)
 Comment[ca]=Gestor del sistema d'alternatives de la distribució
 Comment[ca@valencia]=Gestor del sistema d'alternatives de la distribució
 Comment[en_GB]=Distribution alternatives system manager
