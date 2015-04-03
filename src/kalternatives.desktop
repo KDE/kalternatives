@@ -13,6 +13,7 @@ X-KDE-System-Settings-Parent-Category=system
 X-KDE-System-Settings-Parent-Category-V2=system-administration
 
 Name=Alternatives Configuration
+Name[ast]=Configuración d'alternatives
 Name[bg]=Настройки на alternatives
 Name[bs]=Konfiguracija alternativa
 Name[ca]=Configuració d'alternatives
