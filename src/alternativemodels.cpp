@@ -382,7 +382,7 @@ QVariant AlternativeItemsModel::data(const QModelIndex &index, int role) const
             }
             case Qt::ForegroundRole:
                 if (d->isChanged(n_i))
-                    return Qt::red;
+                    return QColor(Qt::red);
                 break;
             case Qt::FontRole:
                 if (d->isChanged(n_i))
