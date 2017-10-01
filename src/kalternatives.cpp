@@ -76,12 +76,12 @@ Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
 	connect(m_ui.m_bProperties, SIGNAL(clicked()), this,
 			SLOT(slotPropertiesClicked()));
 	
-	m_ui.m_bDelete->setGuiItem(KStandardGuiItem::del());
+	KStandardGuiItem::assign(m_ui.m_bDelete, KStandardGuiItem::Delete);
 	m_ui.m_bDelete->setWhatsThis(i18n("Removes the selected alternative from the current group."));
-	m_ui.m_bAdd->setGuiItem(KGuiItem(i18n("&Add"), "list-add",
-	                        i18n("Adds a new alternative for the selected group.")));
-	m_ui.m_bProperties->setGuiItem(KGuiItem(i18n("&Properties"), "configure",
-	                               i18n("Shows the properties (path, priority, and slaves) of the selected alternative.")));
+	KGuiItem::assign(m_ui.m_bAdd, KGuiItem(i18n("&Add"), "list-add",
+	                                       i18n("Adds a new alternative for the selected group.")));
+	KGuiItem::assign(m_ui.m_bProperties, KGuiItem(i18n("&Properties"), "configure",
+	                                              i18n("Shows the properties (path, priority, and slaves) of the selected alternative.")));
 	
 	m_ui.m_statusCombo->addItem(i18nc("Automatic alternative choice", "Automatic"), Item::AutoMode);
 	m_ui.m_statusCombo->addItem(i18nc("Manual alternative choice", "Manual"), Item::ManualMode);
