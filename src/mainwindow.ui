@@ -105,7 +105,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KComboBox" name="m_statusCombo">
+            <widget class="QComboBox" name="m_statusCombo">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -252,13 +252,6 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
- </customwidgets>
  <includes>
   <include location="local">kcombobox.h</include>
   <include location="local">kpushbutton.h</include>
