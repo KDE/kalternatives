@@ -878,6 +878,7 @@ bool AlternativeAltModel::setData(const QModelIndex &index, const QVariant &valu
 void AlternativeAltModel::setItem(Item *item)
 {
     Q_D(AlternativeAltModel);
+    beginResetModel();
     d->m_root = &d->m_nullRoot;
     Q_FOREACH (AltItemNode *n, d->parentModel->m_root.m_children)
     {
@@ -891,7 +892,7 @@ void AlternativeAltModel::setItem(Item *item)
     {
         d->parentModel->loadItemNode(d->m_root);
     }
-    reset();
+    endResetModel();
 }
 
 void AlternativeAltModel::addAlternative(Alternative *alt)

@@ -97,9 +97,10 @@ void SlaveModel::setItem(Item *item)
     if (item == m_item)
         return;
 
+    beginResetModel();
     m_item = item;
     m_alt = 0;
-    reset();
+    endResetModel();
 }
 
 void SlaveModel::setAlternative(Alternative *alt)
