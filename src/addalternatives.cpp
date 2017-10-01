@@ -22,7 +22,7 @@
 #include "altparser.h"
 #include "slavewidget.h"
 
-#include <klocale.h>
+#include <klocalizedstring.h>
 #include <kseparator.h>
 
 AddAlternatives::AddAlternatives(Item* item, QWidget *parent)

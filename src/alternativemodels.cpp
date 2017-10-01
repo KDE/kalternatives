@@ -19,7 +19,7 @@
 #include <kdebug.h>
 #include <kicon.h>
 #include <kiconloader.h>
-#include <klocale.h>
+#include <klocalizedstring.h>
 #include <kprocess.h>
 
 #include <algorithm>

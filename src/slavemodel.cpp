@@ -11,7 +11,7 @@
 #include "altparser.h"
 
 #include <kdebug.h>
-#include <klocale.h>
+#include <klocalizedstring.h>
 
 SlaveModel::SlaveModel(QObject *parent)
     : QAbstractItemModel(parent)

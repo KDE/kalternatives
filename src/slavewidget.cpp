@@ -10,7 +10,7 @@
 #include "slavewidget.h"
 #include "altparser.h"
 
-#include <klocale.h>
+#include <klocalizedstring.h>
 
 SlaveWidget::SlaveWidget(Slave *slave, QWidget *parent)
     : QWidget(parent), m_slave(slave)

@@ -24,7 +24,7 @@
 #include <qfile.h>
 #include <qdir.h>
 
-#include <klocale.h>
+#include <klocalizedstring.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
