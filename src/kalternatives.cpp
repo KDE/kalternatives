@@ -38,7 +38,7 @@
 #include <kmessagebox.h>
 #include <kaboutdata.h>
 #include <klocalizedstring.h>
-#include <kgenericfactory.h>
+#include <kpluginfactory.h>
 #include <kstandardguiitem.h>
 
 #include <unistd.h>
