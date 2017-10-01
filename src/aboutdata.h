@@ -19,19 +19,18 @@ inline KAboutData aboutData(const char* name, const char* iname)
 {
     KAboutData about(
         name,
-        "kalternatives",
-        ki18n(iname),
+        i18n(iname),
         KALT_VERSION,
-        ki18n("KDE manager for the distribution alternatives system."),
-        KAboutData::License_GPL,
-        ki18n("© 2004 Juanjo Álvarez Martinez\n"
-              "© 2004 Mario Bensi\n"
-              "© 2008-2009 Pino Toscano")
+        i18n("KDE manager for the distribution alternatives system."),
+        KAboutLicense::GPL,
+        i18n("© 2004 Juanjo Álvarez Martinez\n"
+             "© 2004 Mario Bensi\n"
+             "© 2008-2009 Pino Toscano")
     );
 
-    about.addAuthor(ki18n("Pino Toscano"), ki18n("Current maintainer"), "pino@kde.org");
-    about.addAuthor(ki18n("Juanjo Alvarez Martinez"), ki18n("Original author"), "juanjo@juanjoalvarez.net", "http://juanjoalvarez.net");
-    about.addAuthor(ki18n("Mario Bensi"), ki18n("Original author"), "nef@ipsquad.net", "http://ipsquad.net");
+    about.addAuthor(i18n("Pino Toscano"), i18n("Current maintainer"), "pino@kde.org");
+    about.addAuthor(i18n("Juanjo Alvarez Martinez"), i18n("Original author"), "juanjo@juanjoalvarez.net", "http://juanjoalvarez.net");
+    about.addAuthor(i18n("Mario Bensi"), i18n("Original author"), "nef@ipsquad.net", "http://ipsquad.net");
 
     return about;
 }

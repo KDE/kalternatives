@@ -44,10 +44,9 @@
 #include <sys/types.h>
 
 K_PLUGIN_FACTORY(KalternativesFactory, registerPlugin<Kalternatives>();)
-K_EXPORT_PLUGIN(KalternativesFactory(aboutData("kalternatives", I18N_NOOP("Kalternatives"))))
 
 Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
-:KCModule(KalternativesFactory::componentData(), parent, args)
+    : KCModule(new KAboutData(::aboutData("kalternatives", I18N_NOOP("Kalternatives"))), parent, args)
 {
 	setUseRootOnlyMessage(false);
 
@@ -94,8 +93,6 @@ Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
 	{
 		m_ui.m_statusCombo->setEnabled(false);
 	}
-	
-	setAboutData(new KAboutData(*KalternativesFactory::componentData().aboutData()));
 }
 
 Kalternatives::~Kalternatives()
@@ -106,7 +103,7 @@ void Kalternatives::load()
 {
 	m_itemProxyModel = new AlternativeItemProxyModel(m_ui.m_altList);
 	slotHideAlternativesClicked();
-	AlternativeItemsModel *itemModel = new AlternativeItemsModel(componentData(), m_itemProxyModel);
+	AlternativeItemsModel *itemModel = new AlternativeItemsModel(aboutData()->componentName(), m_itemProxyModel);
 	m_itemProxyModel->setSourceModel(itemModel);
 	m_ui.m_altList->setModel(m_itemProxyModel);
 	connect(itemModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)),

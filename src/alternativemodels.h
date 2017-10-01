@@ -13,7 +13,6 @@
 #include <QSortFilterProxyModel>
 #include <QVariant>
 
-class KComponentData;
 class Alternative;
 class AltFilesManager;
 class Item;
@@ -52,7 +51,7 @@ class AlternativeItemsModel : public AlternativesBaseModel
 
     friend class AlternativeAltModelPrivate;
 public:
-    AlternativeItemsModel(const KComponentData &cd, QObject *parent = 0);
+    AlternativeItemsModel(const QString &appName, QObject *parent = 0);
     ~AlternativeItemsModel();
 
     // QAbstractItemModel interface

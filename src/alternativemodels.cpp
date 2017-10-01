@@ -15,7 +15,6 @@
 #include <QFont>
 #include <QList>
 
-#include <kcomponentdata.h>
 #include <kdebug.h>
 #include <kicon.h>
 #include <kiconloader.h>
@@ -224,7 +223,7 @@ int AlternativesBaseModel::rowCount(const QModelIndex &parent) const
 class AlternativeItemsModelPrivate : public AlternativesBaseModelPrivate
 {
 public:
-    AlternativeItemsModelPrivate(const KComponentData &cd);
+    AlternativeItemsModelPrivate(const QString &appName);
     ~AlternativeItemsModelPrivate();
 
     virtual void load();
@@ -240,14 +239,14 @@ public:
 
     AltFilesManager *altManager;
     AltRootNode m_root;
-    KComponentData componentData;
+    QString m_appName;
     KIconLoader *iconLoader;
     KIcon brokenAltIcon;
 };
 
-AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(const KComponentData &cd)
+AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(const QString &appName)
     : AlternativesBaseModelPrivate(), altManager(0)
-    , componentData(cd), iconLoader(new KIconLoader(componentData))
+    , m_appName(appName), iconLoader(new KIconLoader(m_appName))
     , brokenAltIcon("alternative-broken", iconLoader)
 {
 #if defined(DISTRO_DPKG)
@@ -340,8 +339,8 @@ AltAlternativeNode* AlternativeItemsModelPrivate::findSelectedAlternative(AltIte
 }
 
 
-AlternativeItemsModel::AlternativeItemsModel(const KComponentData &cd, QObject *parent)
-    : AlternativesBaseModel(*new AlternativeItemsModelPrivate(cd), parent)
+AlternativeItemsModel::AlternativeItemsModel(const QString &appName, QObject *parent)
+    : AlternativesBaseModel(*new AlternativeItemsModelPrivate(appName), parent)
 {
     Q_D(AlternativeItemsModel);
     d->iconLoader->setParent(this);
