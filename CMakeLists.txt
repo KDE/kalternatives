@@ -17,7 +17,7 @@ elseif (_distro STREQUAL "rpm_2")
 elseif (_distro STREQUAL "rpm")
    set(DISTRO_RPM TRUE)
 else(_distro STREQUAL "dpkg")
-   message(STATUS "A package manager was not set for KAlternatives. Please define KALTERNATIVES_DISTRO with its type (dpkg/rpm/rpm_2).")
+   message(FATAL_ERROR "A package manager was not set for KAlternatives. Please define KALTERNATIVES_DISTRO with its type (dpkg/rpm/rpm_2).")
 endif (_distro STREQUAL "dpkg")
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config-kalternatives.h.cmake
