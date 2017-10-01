@@ -16,7 +16,6 @@
 #include <QList>
 
 #include <kdebug.h>
-#include <kicon.h>
 #include <kiconloader.h>
 #include <klocalizedstring.h>
 #include <kprocess.h>
@@ -241,13 +240,13 @@ public:
     AltRootNode m_root;
     QString m_appName;
     KIconLoader *iconLoader;
-    KIcon brokenAltIcon;
+    QIcon brokenAltIcon;
 };
 
 AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(const QString &appName)
     : AlternativesBaseModelPrivate(), altManager(0)
     , m_appName(appName), iconLoader(new KIconLoader(m_appName))
-    , brokenAltIcon("alternative-broken", iconLoader)
+    , brokenAltIcon(KDE::icon("alternative-broken", iconLoader))
 {
 #if defined(DISTRO_DPKG)
     altManager = new AltFilesManager("/var/lib/dpkg/alternatives");
