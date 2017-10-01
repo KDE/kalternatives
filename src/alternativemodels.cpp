@@ -780,7 +780,7 @@ Qt::ItemFlags AlternativeAltModel::flags(const QModelIndex &index) const
     if (AltAlternativeNode *n_a = altnode_cast<AltAlternativeNode>(n))
     {
         Qt::ItemFlags f = Qt::ItemIsSelectable;
-        if (!d->m_readOnly && !n_a->alternative->isBroken())
+        if (!n_a->alternative->isBroken())
             f |= Qt::ItemIsEnabled;
         switch (index.column())
         {
