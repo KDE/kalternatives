@@ -22,18 +22,24 @@
 #include "altparser.h"
 #include "slavewidget.h"
 
+#include <qdialogbuttonbox.h>
+#include <qboxlayout.h>
+
 #include <klocalizedstring.h>
 #include <kseparator.h>
 
 AddAlternatives::AddAlternatives(Item* item, QWidget *parent)
-	: KDialog(parent), m_item(item), m_alternative(0)
+	: QDialog(parent), m_item(item), m_alternative(0)
 {
-	setupUi(mainWidget());
-	mainWidget()->layout()->setMargin(0);
+	QVBoxLayout* lay = new QVBoxLayout(this);
+	QWidget* main = new QWidget(this);
+	lay->addWidget(main);
+	setupUi(main);
+	main->layout()->setMargin(0);
+	m_buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
+	lay->addWidget(m_buttons);
 	
-	setButtons(Ok | Cancel);
-	setCaption(i18n("Add Alternative"));
-	showButtonSeparator(true);
+	setWindowTitle(i18n("Add Alternative"));
 	
 	m_Path->setWindowTitle( i18n( "Choose Alternative" ) );
 	m_Path->setFilter( i18n( "*|All Files" ) );
@@ -63,9 +69,10 @@ AddAlternatives::AddAlternatives(Item* item, QWidget *parent)
 		m_slavesGroup->hide();
 	}
 	
-	enableButtonOk(false);
+	m_buttons->button(QDialogButtonBox::Ok)->setEnabled(false);
 	connect(m_Path, SIGNAL(textChanged(QString)), this, SLOT(slotCheckSlaves()));
-	connect(this, SIGNAL(okClicked()), this, SLOT(slotOkClicked()));
+	connect(m_buttons, SIGNAL(accepted()), this, SLOT(slotOkClicked()));
+	connect(m_buttons, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 AddAlternatives::~AddAlternatives()
@@ -74,7 +81,7 @@ AddAlternatives::~AddAlternatives()
 
 QSize AddAlternatives::sizeHint() const
 {
-	return QSize(400, KDialog::sizeHint().height());
+	return QSize(400, QDialog::sizeHint().height());
 }
 
 void AddAlternatives::slotCheckSlaves()
@@ -87,7 +94,7 @@ void AddAlternatives::slotCheckSlaves()
 		++i;
 	}
 	
-	enableButtonOk(ok);
+	m_buttons->button(QDialogButtonBox::Ok)->setEnabled(ok);
 }
 
 void AddAlternatives::slotOkClicked()
@@ -101,6 +108,8 @@ void AddAlternatives::slotOkClicked()
 		Q_ASSERT(!sw->slavePath().isEmpty());
 		m_alternative->addSlave(sw->slavePath());
 	}
+
+	accept();
 }
 
 #include <addalternatives.moc>

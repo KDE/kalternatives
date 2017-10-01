@@ -29,6 +29,8 @@
 #include "aboutdata.h"
 #include "slavemodel.h"
 
+#include <qdialog.h>
+#include <qdialogbuttonbox.h>
 #include <qheaderview.h>
 #include <qitemselectionmodel.h>
 #include <qtimer.h>
@@ -183,14 +185,17 @@ void Kalternatives::slotPropertiesClicked()
 	if (a)
 	{
 		QString text;
-		KDialog *prop = new KDialog(this);
-		prop->setCaption(i18n("Alternative Properties"));
-		prop->setButtons(KDialog::Close);
-		prop->showButtonSeparator(true);
+		QDialog *prop = new QDialog(this);
+		prop->setWindowTitle(i18n("Alternative Properties"));
+		QVBoxLayout *lay = new QVBoxLayout(prop);
+		QWidget *main = new QWidget(prop);
 		Ui::PropertiesWindow propUi;
-		propUi.setupUi(prop->mainWidget());
-		prop->mainWidget()->layout()->setMargin(0);
-		connect(prop, SIGNAL(closeClicked()), prop, SLOT(deleteLater()));
+		propUi.setupUi(main);
+		main->layout()->setMargin(0);
+		lay->addWidget(main);
+		QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Close, prop);
+		lay->addWidget(buttons);
+		connect(buttons, SIGNAL(rejected()), prop, SLOT(deleteLater()));
 		
 		propUi.labelPath->setText(a->getPath());
 		propUi.labelDescription->setText(Alternative::prettyDescription(a));

@@ -23,18 +23,20 @@
 
 #include "ui_addalternativesui.h"
 
+#include <qdialog.h>
 #include <qlist.h>
 
-#include <kdialog.h>
+class QDialogButtonBox;
 
 class Alternative;
 class Item;
 class SlaveWidget;
 
-class AddAlternatives : public KDialog, private Ui::AddAlternatives
+class AddAlternatives : public QDialog, private Ui::AddAlternatives
 {
 	Q_OBJECT
 	
+	QDialogButtonBox* m_buttons;
 	Item* m_item;
 	Alternative* m_alternative;
 	QList<SlaveWidget *> m_slaveWidgets;
