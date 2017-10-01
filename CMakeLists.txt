@@ -1,12 +1,25 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 project(kalternatives)
 
-# Search KDE installation
-find_package(KDE4 REQUIRED)
-include(KDE4Defaults)
+find_package(ECM REQUIRED NO_MODULE)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
-add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-include_directories(${KDE4_INCLUDES})
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDECompilerSettings NO_POLICY_SCOPE)
+include(FeatureSummary)
+
+find_package(Qt5 CONFIG REQUIRED Core Gui Widgets)
+
+find_package(KF5 REQUIRED
+   ConfigWidgets
+   CoreAddons
+   I18n
+   IconThemes
+   KDELibs4Support
+   KIO
+   WidgetsAddons
+)
 
 string(TOLOWER "${KALTERNATIVES_DISTRO}" _distro)
 set(ABOUT_SUBDIR ${_distro})
@@ -19,6 +32,8 @@ elseif (_distro STREQUAL "rpm")
 else ()
    message(FATAL_ERROR "A package manager was not set for KAlternatives. Please define KALTERNATIVES_DISTRO with its type (dpkg/rpm/rpm_2).")
 endif ()
+
+feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config-kalternatives.h.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/src/config-kalternatives.h)

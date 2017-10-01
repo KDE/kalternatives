@@ -9,14 +9,14 @@ set(kcm_SRCS
   slavemodel.cpp
   slavewidget.cpp
 )
-kde4_add_ui_files(kcm_SRCS
+ki18n_wrap_ui(kcm_SRCS
   addalternativesui.ui
   mainwindow.ui
   propertieswindow.ui
   slavewidget.ui
 )
-kde4_add_plugin(kcm_kalternatives ${kcm_SRCS})
-target_link_libraries(kcm_kalternatives ${KDE4_KIO_LIBS})
-install(TARGETS kcm_kalternatives DESTINATION ${PLUGIN_INSTALL_DIR})
-install(FILES kalternatives.desktop DESTINATION ${SERVICES_INSTALL_DIR})
+add_library(kcm_kalternatives MODULE ${kcm_SRCS})
+target_link_libraries(kcm_kalternatives KF5::ConfigWidgets KF5::CoreAddons KF5::I18n KF5::IconThemes KF5::KIOWidgets KF5::KDELibs4Support KF5::WidgetsAddons)
+install(TARGETS kcm_kalternatives DESTINATION ${KDE_INSTALL_PLUGINDIR})
+install(FILES kalternatives.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 
