@@ -18,7 +18,6 @@ find_package(KF5 REQUIRED
    CoreAddons
    I18n
    IconThemes
-   KDELibs4Support
    KIO
    WidgetsAddons
 )
