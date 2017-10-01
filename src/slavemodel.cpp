@@ -112,4 +112,4 @@ void SlaveModel::setAlternative(Alternative *alt)
     emit dataChanged(createIndex(0, 1), createIndex(m_alt->slavesCount() - 1, 1));
 }
 
-#include "slavemodel.moc"
+#include <slavemodel.moc>

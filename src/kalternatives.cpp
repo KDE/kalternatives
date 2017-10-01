@@ -259,4 +259,4 @@ QString Kalternatives::quickHelp() const
 
 }
 
-#include "kalternatives.moc"
+#include <kalternatives.moc>

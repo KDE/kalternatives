@@ -973,4 +973,4 @@ bool AlternativeItemProxyModel::filterAcceptsRow(int source_row, const QModelInd
     return !item || m_showSingle || item->countAlternatives() > 1;
 }
 
-#include "alternativemodels.moc"
+#include <moc_alternativemodels.cpp>

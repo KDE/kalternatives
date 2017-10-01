@@ -41,4 +41,4 @@ void SlaveWidget::slotTextChanged(const QString &)
     emit slaveChanged(slavePath());
 }
 
-#include "slavewidget.moc"
+#include <slavewidget.moc>

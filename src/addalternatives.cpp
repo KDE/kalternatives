@@ -103,4 +103,4 @@ void AddAlternatives::slotOkClicked()
 	}
 }
 
-#include "addalternatives.moc"
+#include <addalternatives.moc>
