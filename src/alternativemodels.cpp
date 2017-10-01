@@ -15,7 +15,6 @@
 #include <QFont>
 #include <QList>
 
-#include <kdebug.h>
 #include <kiconloader.h>
 #include <klocalizedstring.h>
 #include <kprocess.h>
@@ -23,6 +22,7 @@
 #include <algorithm>
 
 #include <config-kalternatives.h>
+#include <kalternatives_debug.h>
 
 enum ItemChangeType
 {
@@ -255,11 +255,11 @@ AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(const QString &appNam
 #elif defined(DISTRO_RPM)
     altManager = new AltFilesManager("/var/lib/rpm/alternatives");
 #else
-    kError() << "Unsupported distribution for KAlternatives.";
+    qCritical(KALT_LOG) << "Unsupported distribution for KAlternatives.";
 #endif
     if (altManager && !altManager->parsingOk())
     {
-        kDebug() << altManager->getErrorMsg();
+        qCDebug(KALT_LOG) << altManager->getErrorMsg();
         delete altManager;
         altManager = 0;
     }
@@ -469,7 +469,7 @@ void AlternativeItemsModel::save()
             QString selectError;
             if (!altnode->alternative->select(&selectError))
             {
-                kDebug() << selectError << endl;
+                qCDebug(KALT_LOG) << selectError << endl;
                 return;
             }
             node->changed = false;

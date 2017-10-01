@@ -10,7 +10,6 @@
 #include "slavemodel.h"
 #include "altparser.h"
 
-#include <kdebug.h>
 #include <klocalizedstring.h>
 
 SlaveModel::SlaveModel(QObject *parent)

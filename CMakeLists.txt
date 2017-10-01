@@ -9,6 +9,7 @@ include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
 include(ECMInstallIcons)
+include(ECMQtDeclareLoggingCategory)
 
 find_package(Qt5 CONFIG REQUIRED Core Gui Widgets)
 
