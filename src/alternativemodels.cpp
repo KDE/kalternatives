@@ -395,7 +395,7 @@ QVariant AlternativeItemsModel::data(const QModelIndex &index, int role) const
                     return d->brokenAltIcon;
                 break;
             case AltItemRole:
-                return qVariantFromValue(n_i->item);
+                return QVariant::fromValue(n_i->item);
         }
     }
     return QVariant();
@@ -764,7 +764,7 @@ QVariant AlternativeAltModel::data(const QModelIndex &index, int role) const
                     return d->parentModel->brokenAltIcon;
                 break;
             case AltAlternativeRole:
-                return qVariantFromValue(n_a->alternative);
+                return QVariant::fromValue(n_a->alternative);
         }
     }
     return QVariant();
