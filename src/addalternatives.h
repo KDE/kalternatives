@@ -43,9 +43,9 @@ class AddAlternatives : public QDialog, private Ui::AddAlternatives
 	
 public:
 	AddAlternatives(Item* item, QWidget *parent = Q_NULLPTR);
-	virtual ~AddAlternatives();
+	~AddAlternatives() Q_DECL_OVERRIDE;
 	
-	virtual QSize sizeHint() const;
+	QSize sizeHint() const Q_DECL_OVERRIDE;
 	
 	Alternative* alternative() const { return m_alternative; }
 	

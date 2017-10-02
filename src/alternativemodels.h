@@ -30,13 +30,13 @@ class AlternativesBaseModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    ~AlternativesBaseModel();
+    ~AlternativesBaseModel() Q_DECL_OVERRIDE;
 
     // QAbstractItemModel interface
-    bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
-    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-    QModelIndex parent(const QModelIndex &index) const;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    bool hasChildren(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
 protected:
     AlternativesBaseModel(AlternativesBaseModelPrivate &dd, QObject *parent);
@@ -52,16 +52,16 @@ class AlternativeItemsModel : public AlternativesBaseModel
     friend class AlternativeAltModelPrivate;
 public:
     AlternativeItemsModel(const QString &appName, QObject *parent = Q_NULLPTR);
-    ~AlternativeItemsModel();
+    ~AlternativeItemsModel() Q_DECL_OVERRIDE;
 
     // QAbstractItemModel interface
-    int columnCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
+    bool hasChildren(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
     void save();
     bool isSupported() const;
@@ -76,15 +76,15 @@ class AlternativeAltModel : public AlternativesBaseModel
     Q_OBJECT
 public:
     AlternativeAltModel(AlternativeItemsModel *itemModel, bool readOnly, QObject *parent = Q_NULLPTR);
-    ~AlternativeAltModel();
+    ~AlternativeAltModel() Q_DECL_OVERRIDE;
 
     // QAbstractItemModel interface
-    int columnCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-    QModelIndex parent(const QModelIndex &index) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+    int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) Q_DECL_OVERRIDE;
 
     void setItem(Item *item);
     void addAlternative(Alternative *alt);
@@ -101,12 +101,12 @@ class AlternativeItemProxyModel : public QSortFilterProxyModel
     Q_OBJECT
 public:
     AlternativeItemProxyModel(QObject *parent = Q_NULLPTR);
-    ~AlternativeItemProxyModel();
+    ~AlternativeItemProxyModel() Q_DECL_OVERRIDE;
 
     void setShowSingleAlternative(bool show);
 
 protected:
-    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const Q_DECL_OVERRIDE;
 
 private:
     bool m_showSingle;

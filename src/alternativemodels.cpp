@@ -63,16 +63,16 @@ struct AltRootNode : public AltNode
 
     AltRootNode()
         : AltNode(Q_NULLPTR, Type) {}
-    virtual ~AltRootNode()
+    ~AltRootNode() Q_DECL_OVERRIDE
         { qDeleteAll(m_children); }
 
-    virtual QList<AltNode*> children() const
+    QList<AltNode*> children() const Q_DECL_OVERRIDE
         {
             QList<AltNode*> c;
             std::copy(m_children.begin(), m_children.end(), std::back_inserter(c));
             return c;
         }
-    virtual int childCount() const
+    int childCount() const Q_DECL_OVERRIDE
         { return m_children.count(); }
 
     QList<AltItemNode*> m_children;
@@ -86,16 +86,16 @@ struct AltItemNode : public AltNode
         : AltNode(p, Type), item(i)
         , changed(false), nbrAltChanged(false), modeChanged(false)
     {}
-    virtual ~AltItemNode()
+    ~AltItemNode() Q_DECL_OVERRIDE
         { qDeleteAll(m_children); }
 
-    virtual QList<AltNode*> children() const
+    QList<AltNode*> children() const Q_DECL_OVERRIDE
         {
             QList<AltNode*> c;
             std::copy(m_children.begin(), m_children.end(), std::back_inserter(c));
             return c;
         }
-    virtual int childCount() const
+    int childCount() const Q_DECL_OVERRIDE
         { return m_children.count(); }
 
     Item *item;
@@ -225,8 +225,8 @@ public:
     AlternativeItemsModelPrivate(const QString &appName);
     ~AlternativeItemsModelPrivate();
 
-    virtual void load();
-    virtual AltNode* root() const { return const_cast<AltRootNode *>(&m_root); }
+    void load() Q_DECL_OVERRIDE;
+    AltNode* root() const Q_DECL_OVERRIDE { return const_cast<AltRootNode *>(&m_root); }
 
     Q_DECLARE_PUBLIC(AlternativeItemsModel)
 
@@ -545,8 +545,8 @@ public:
     AlternativeAltModelPrivate(AlternativeItemsModel *itemModel, bool readOnly);
     ~AlternativeAltModelPrivate();
 
-    virtual void load();
-    virtual AltNode* root() const { return m_root; }
+    void load() Q_DECL_OVERRIDE;
+    AltNode* root() const Q_DECL_OVERRIDE { return m_root; }
 
     Q_DECLARE_PUBLIC(AlternativeAltModel)
 

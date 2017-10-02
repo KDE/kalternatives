@@ -40,12 +40,12 @@ class Kalternatives : public KCModule
 	
 public:
     Kalternatives(QWidget *parent=Q_NULLPTR, const QVariantList& = QVariantList() );
-    virtual ~Kalternatives();
+    ~Kalternatives() Q_DECL_OVERRIDE;
 	bool isBisRoot() const {return m_bisRoot;}
 	
-	virtual void load();
-	virtual void save();
-	virtual QString quickHelp() const;
+	void load() Q_DECL_OVERRIDE;
+	void save() Q_DECL_OVERRIDE;
+	QString quickHelp() const Q_DECL_OVERRIDE;
 
 public slots:
 	void configChanged();
