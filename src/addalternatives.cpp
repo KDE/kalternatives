@@ -29,7 +29,7 @@
 #include <kseparator.h>
 
 AddAlternatives::AddAlternatives(Item* item, QWidget *parent)
-	: QDialog(parent), m_item(item), m_alternative(0)
+	: QDialog(parent), m_item(item), m_alternative(Q_NULLPTR)
 {
 	QVBoxLayout* lay = new QVBoxLayout(this);
 	QWidget* main = new QWidget(this);

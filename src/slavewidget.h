@@ -19,7 +19,7 @@ class SlaveWidget : public QWidget, private Ui::SlaveWidgetUi
     Q_OBJECT
 
 public:
-    explicit SlaveWidget(Slave *slave, QWidget *parent = 0);
+    explicit SlaveWidget(Slave *slave, QWidget *parent = Q_NULLPTR);
     ~SlaveWidget();
 
     QString slavePath() const;

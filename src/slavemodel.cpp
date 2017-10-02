@@ -14,7 +14,7 @@
 
 SlaveModel::SlaveModel(QObject *parent)
     : QAbstractItemModel(parent)
-    , m_item(0), m_alt(0)
+    , m_item(Q_NULLPTR), m_alt(Q_NULLPTR)
 {
 }
 
@@ -98,7 +98,7 @@ void SlaveModel::setItem(Item *item)
 
     beginResetModel();
     m_item = item;
-    m_alt = 0;
+    m_alt = Q_NULLPTR;
     endResetModel();
 }
 

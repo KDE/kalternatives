@@ -62,7 +62,7 @@ struct AltRootNode : public AltNode
     enum { Type = 1 };
 
     AltRootNode()
-        : AltNode(0, Type) {}
+        : AltNode(Q_NULLPTR, Type) {}
     virtual ~AltRootNode()
         { qDeleteAll(m_children); }
 
@@ -120,7 +120,7 @@ struct AltAlternativeNode : public AltNode
 template <class T>
 T* altnode_cast(AltNode *n)
 {
-    return n->type > 0 && n->type == T::Type ? static_cast<T*>(n) : 0;
+    return n->type > 0 && n->type == T::Type ? static_cast<T*>(n) : Q_NULLPTR;
 }
 
 template <>
@@ -147,7 +147,7 @@ public:
 };
 
 AlternativesBaseModelPrivate::AlternativesBaseModelPrivate()
-    : q_ptr(0)
+    : q_ptr(Q_NULLPTR)
 {
 }
 
@@ -244,7 +244,7 @@ public:
 };
 
 AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(const QString &appName)
-    : AlternativesBaseModelPrivate(), altManager(0)
+    : AlternativesBaseModelPrivate(), altManager(Q_NULLPTR)
     , m_appName(appName), iconLoader(new KIconLoader(m_appName))
     , brokenAltIcon(KDE::icon("alternative-broken", iconLoader))
 {
@@ -261,7 +261,7 @@ AlternativeItemsModelPrivate::AlternativeItemsModelPrivate(const QString &appNam
     {
         qCDebug(KALT_LOG) << altManager->getErrorMsg();
         delete altManager;
-        altManager = 0;
+        altManager = Q_NULLPTR;
     }
 }
 
@@ -334,7 +334,7 @@ AltAlternativeNode* AlternativeItemsModelPrivate::findSelectedAlternative(AltIte
         }
     }
     *index = -1;
-    return 0;
+    return Q_NULLPTR;
 }
 
 
@@ -563,7 +563,7 @@ public:
 
 AlternativeAltModelPrivate::AlternativeAltModelPrivate(AlternativeItemsModel *itemModel, bool readOnly)
     : AlternativesBaseModelPrivate()
-    , parentModel(itemModel->d_func()), m_nullRoot(0, 0), m_root(&m_nullRoot), m_readOnly(readOnly)
+    , parentModel(itemModel->d_func()), m_nullRoot(Q_NULLPTR, 0), m_root(&m_nullRoot), m_readOnly(readOnly)
 {
 }
 
@@ -581,7 +581,7 @@ AltAlternativeNode* AlternativeAltModelPrivate::findHigherPriority(int *index) c
     if (!num)
     {
         *index = 0;
-        return 0;
+        return Q_NULLPTR;
     }
 
     int id = 0;
@@ -665,7 +665,7 @@ void AlternativeAltModelPrivate::statusChanged(int index)
         return;
 
     Q_Q(AlternativeAltModel);
-    QComboBox *combo = q->sender() ? qobject_cast<QComboBox *>(q->sender()) : 0;
+    QComboBox *combo = q->sender() ? qobject_cast<QComboBox *>(q->sender()) : Q_NULLPTR;
     if (!combo)
         return;
 

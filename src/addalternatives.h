@@ -42,7 +42,7 @@ class AddAlternatives : public QDialog, private Ui::AddAlternatives
 	QList<SlaveWidget *> m_slaveWidgets;
 	
 public:
-	AddAlternatives(Item* item, QWidget *parent = 0);
+	AddAlternatives(Item* item, QWidget *parent = Q_NULLPTR);
 	virtual ~AddAlternatives();
 	
 	virtual QSize sizeHint() const;

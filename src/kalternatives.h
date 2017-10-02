@@ -39,7 +39,7 @@ class Kalternatives : public KCModule
 	AlternativeAltModel* m_altModel;
 	
 public:
-    Kalternatives(QWidget *parent=0, const QVariantList& = QVariantList() );
+    Kalternatives(QWidget *parent=Q_NULLPTR, const QVariantList& = QVariantList() );
     virtual ~Kalternatives();
 	bool isBisRoot() const {return m_bisRoot;}
 	

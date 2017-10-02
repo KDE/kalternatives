@@ -51,7 +51,7 @@ class AlternativeItemsModel : public AlternativesBaseModel
 
     friend class AlternativeAltModelPrivate;
 public:
-    AlternativeItemsModel(const QString &appName, QObject *parent = 0);
+    AlternativeItemsModel(const QString &appName, QObject *parent = Q_NULLPTR);
     ~AlternativeItemsModel();
 
     // QAbstractItemModel interface
@@ -75,7 +75,7 @@ class AlternativeAltModel : public AlternativesBaseModel
 {
     Q_OBJECT
 public:
-    AlternativeAltModel(AlternativeItemsModel *itemModel, bool readOnly, QObject *parent = 0);
+    AlternativeAltModel(AlternativeItemsModel *itemModel, bool readOnly, QObject *parent = Q_NULLPTR);
     ~AlternativeAltModel();
 
     // QAbstractItemModel interface
@@ -100,7 +100,7 @@ class AlternativeItemProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 public:
-    AlternativeItemProxyModel(QObject *parent = 0);
+    AlternativeItemProxyModel(QObject *parent = Q_NULLPTR);
     ~AlternativeItemProxyModel();
 
     void setShowSingleAlternative(bool show);

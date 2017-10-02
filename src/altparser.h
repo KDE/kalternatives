@@ -59,7 +59,7 @@ public:
     QString getSlave(int pos) const { return m_altSlaves.at(pos); }
     bool isSelected() const;
     bool isBroken() const;
-    bool select(QString *selectError = 0);
+    bool select(QString *selectError = Q_NULLPTR);
 
     static QString prettyDescription(Alternative *);
 };

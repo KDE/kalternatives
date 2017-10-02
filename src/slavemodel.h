@@ -20,7 +20,7 @@ class SlaveModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    SlaveModel(QObject *parent = 0);
+    SlaveModel(QObject *parent = Q_NULLPTR);
     ~SlaveModel();
 
     // QAbstractItemModel interface
