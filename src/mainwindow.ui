@@ -57,12 +57,6 @@
          <layout class="QGridLayout" name="_2">
           <item row="0" column="0">
            <widget class="QCheckBox" name="m_hideAlt">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="whatsThis">
              <string>If this option is active, all the alternative groups with only one alternative available will be hidden from the list.</string>
             </property>

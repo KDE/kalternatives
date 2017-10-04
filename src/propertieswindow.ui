@@ -26,7 +26,7 @@
      <item row="0" column="1">
       <widget class="QLabel" name="labelPath">
        <property name="text">
-        <string comment="KDE::DoNotExtract">/usr/bin/kde</string>
+        <string notr="true">/usr/bin/kde</string>
        </property>
        <property name="textInteractionFlags">
         <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
@@ -43,7 +43,7 @@
      <item row="1" column="1">
       <widget class="KSqueezedTextLabel" name="labelDescription">
        <property name="text">
-        <string comment="KDE::DoNotExtract">KSqueezedTextLabel</string>
+        <string notr="true">KSqueezedTextLabel</string>
        </property>
        <property name="textInteractionFlags">
         <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
@@ -60,7 +60,7 @@
      <item row="2" column="1">
       <widget class="QLabel" name="labelPriority">
        <property name="text">
-        <string comment="KDE::DoNotExtract">100</string>
+        <string notr="true">100</string>
        </property>
        <property name="textInteractionFlags">
         <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
