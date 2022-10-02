@@ -1,0 +1,335 @@
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the kalternatives package.
+# Shinjo Park <kde@peremen.name>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kalternatives\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:20+0200\n"
+"PO-Revision-Date: 2019-05-19 22:22+0200\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
+"Language-Team: Korean <kde-kr@kde.org>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 18.12.3\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "박신조"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kde@peremen.name"
+
+#: src/aboutdata.h:24
+#, kde-format
+msgid "KDE manager for the distribution alternatives system."
+msgstr "배포판 대체 시스템을 KDE에서 설정합니다."
+
+#: src/aboutdata.h:26
+#, kde-format
+msgid ""
+"© 2004 Juanjo Álvarez Martinez\n"
+"© 2004 Mario Bensi\n"
+"© 2008-2009 Pino Toscano"
+msgstr ""
+"© 2004 Juanjo Álvarez Martinez\n"
+"© 2004 Mario Bensi\n"
+"© 2008-2009 Pino Toscano"
+
+#: src/aboutdata.h:31
+#, kde-format
+msgid "Pino Toscano"
+msgstr "Pino Toscano"
+
+#: src/aboutdata.h:31
+#, kde-format
+msgid "Current maintainer"
+msgstr "현재 관리자"
+
+#: src/aboutdata.h:32
+#, kde-format
+msgid "Juanjo Alvarez Martinez"
+msgstr "Juanjo Alvarez Martinez"
+
+#: src/aboutdata.h:32 src/aboutdata.h:33
+#, kde-format
+msgid "Original author"
+msgstr "원 작성자"
+
+#: src/aboutdata.h:33
+#, kde-format
+msgid "Mario Bensi"
+msgstr "Mario Bensi"
+
+#: src/addalternatives.cpp:42
+#, kde-format
+msgid "Add Alternative"
+msgstr "대체 프로그램 추가"
+
+#: src/addalternatives.cpp:44
+#, kde-format
+msgid "Choose Alternative"
+msgstr "대체 프로그램 선택"
+
+#: src/addalternatives.cpp:45 src/slavewidget.cpp:22
+#, kde-format
+msgid "*|All Files"
+msgstr "*|모든 파일"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/addalternativesui.ui:25 src/propertieswindow.ui:22
+#, kde-format
+msgid "Path:"
+msgstr "경로:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel2)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/addalternativesui.ui:35 src/propertieswindow.ui:56
+#, kde-format
+msgid "Priority:"
+msgstr "우선 순위:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, m_slavesGroup)
+#: src/addalternativesui.ui:57
+#, kde-format
+msgid "Slaves:"
+msgstr "대체:"
+
+#: src/alternativemodels.cpp:377
+#, kde-format
+msgid "Broken alternative group."
+msgstr "대체 그룹이 깨졌습니다."
+
+#: src/alternativemodels.cpp:434
+#, kde-format
+msgctxt "Groups of alternatives"
+msgid "Groups"
+msgstr "그룹"
+
+#: src/alternativemodels.cpp:747
+#, kde-format
+msgctxt "%1 is the alternative path, %2 its description"
+msgid ""
+"%1\n"
+"(broken)\n"
+"\n"
+"%2"
+msgstr ""
+"%1\n"
+"(깨짐)\n"
+"\n"
+"%2"
+
+#: src/alternativemodels.cpp:749
+#, kde-format
+msgctxt "%1 is the alternative path, %2 its description"
+msgid ""
+"%1\n"
+"\n"
+"%2"
+msgstr ""
+"%1\n"
+"\n"
+"%2"
+
+#: src/alternativemodels.cpp:807
+#, kde-format
+msgid "Option"
+msgstr "옵션"
+
+#: src/alternativemodels.cpp:809
+#, kde-format
+msgid "Priority"
+msgstr "우선 순위"
+
+#: src/alternativemodels.cpp:811
+#, kde-format
+msgid "Description"
+msgstr "설명"
+
+#: src/altparser.cpp:159
+#, kde-format
+msgid "no description"
+msgstr "설명 없음"
+
+#: src/kalternatives.cpp:50
+#, kde-format
+msgid "Kalternatives"
+msgstr "Kalternatives"
+
+#: src/kalternatives.cpp:81
+#, kde-format
+msgid "Removes the selected alternative from the current group."
+msgstr "선택한 대체 프로그램을 그룹에서 삭제합니다."
+
+#. i18n: ectx: property (text), widget (QPushButton, m_bAdd)
+#: src/kalternatives.cpp:82 src/mainwindow.ui:222
+#, kde-format
+msgid "&Add"
+msgstr "추가(&A)"
+
+#: src/kalternatives.cpp:83
+#, kde-format
+msgid "Adds a new alternative for the selected group."
+msgstr "선택한 그룹에 새 대체 프로그램을 추가합니다."
+
+#. i18n: ectx: property (text), widget (QPushButton, m_bProperties)
+#: src/kalternatives.cpp:84 src/mainwindow.ui:229
+#, kde-format
+msgid "&Properties"
+msgstr "속성(&P)"
+
+#: src/kalternatives.cpp:85
+#, kde-format
+msgid ""
+"Shows the properties (path, priority, and slaves) of the selected "
+"alternative."
+msgstr "선택한 대체 프로그램의 속성(경로, 우선 순위, 하위 항목)을 표시합니다."
+
+#: src/kalternatives.cpp:87
+#, kde-format
+msgctxt "Automatic alternative choice"
+msgid "Automatic"
+msgstr "자동"
+
+#: src/kalternatives.cpp:88
+#, kde-format
+msgctxt "Manual alternative choice"
+msgid "Manual"
+msgstr "수동"
+
+#: src/kalternatives.cpp:173
+#, kde-format
+msgid "Are you really sure you want to delete the alternative '%1'?"
+msgstr "대체 프로그램 '%1'을(를) 삭제하시겠습니까?"
+
+#: src/kalternatives.cpp:174
+#, kde-format
+msgid "Delete Alternative"
+msgstr "대체 삭제"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, PropertiesWindow)
+#: src/kalternatives.cpp:188 src/propertieswindow.ui:14
+#, kde-format
+msgid "Alternative Properties"
+msgstr "대체 속성"
+
+#: src/kalternatives.cpp:260
+#, kde-format
+msgid ""
+"<h1>Alternatives Configuration</h1>\n"
+"This module allows you to configure the system alternatives in Debian/Fedora/"
+"Mandriva/openSUSE/Ubuntu distributions."
+msgstr ""
+"<h1>대체 설정</h1>\n"
+"이 모듈은 데비안/페도라/맨드리바/오픈수세/우분투 배포판의 시스템 대체를 설정"
+"할 수 있습니다."
+
+#. i18n: ectx: property (whatsThis), widget (QTreeView, m_altList)
+#: src/mainwindow.ui:42
+#, kde-format
+msgid "This is a list of the available alternative groups."
+msgstr "사용 가능한 대체 그룹 목록입니다."
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
+#: src/mainwindow.ui:55
+#, kde-format
+msgid "Options"
+msgstr "옵션"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, m_hideAlt)
+#: src/mainwindow.ui:61
+#, kde-format
+msgid ""
+"If this option is active, all the alternative groups with only one "
+"alternative available will be hidden from the list."
+msgstr "이 옵션을 사용하면 대체 프로그램이 하나만 있는 대체 그룹을 숨깁니다."
+
+#. i18n: Hide useless alternatives
+#. i18n: ectx: property (text), widget (QCheckBox, m_hideAlt)
+#: src/mainwindow.ui:64
+#, kde-format
+msgid "&Hide useless"
+msgstr "단일 항목 숨기기(&H)"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: src/mainwindow.ui:94
+#, kde-format
+msgid "Status:"
+msgstr "상태:"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, m_statusCombo)
+#: src/mainwindow.ui:116
+#, kde-format
+msgid ""
+"<qt>The status of the current alternative:\n"
+"<ul>\n"
+"<li>Automatic: the alternative system will always choose the alternative "
+"with the highest priority, updating it (if necessary) when an alternative is "
+"installed or removed</li>\n"
+"<li>Manual: the choice is done manually, updated by the alternative system "
+"only when it is uninstalled</li>\n"
+"</ul>\n"
+"</qt>\n"
+msgstr ""
+"<qt>현재 대체 프로그램의 상태입니다:\n"
+"<ul>\n"
+"<li>자동: 대체 시스템에서 가장 높은 우선 순위를 가지는 항목을 선택하며, 대체 "
+"항목이 설치되거나 삭제될 때 업데이트합니다.</li>\n"
+"<li>수동: 사용자가 직접 선택하며 삭제될 때 업데이트합니다.</li>\n"
+"</ul>\n"
+"</qt>\n"
+
+#. i18n: ectx: property (whatsThis), widget (QTreeView, m_optionsList)
+#: src/mainwindow.ui:185
+#, kde-format
+msgid "This shows the alternatives available for the selected group."
+msgstr "선택한 그룹에서 사용할 수 있는 대체 프로그램을 표시합니다."
+
+#. i18n: ectx: property (text), widget (QPushButton, m_bDelete)
+#: src/mainwindow.ui:236
+#, kde-format
+msgid "&Delete"
+msgstr "삭제(&D)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/propertieswindow.ui:39
+#, kde-format
+msgid "Description:"
+msgstr "설명:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, slavesGroup)
+#: src/propertieswindow.ui:75
+#, kde-format
+msgid "Slaves"
+msgstr "대체"
+
+#: src/slavemodel.cpp:61
+#, kde-format
+msgctxt "Slave name"
+msgid "Name"
+msgstr "이름"
+
+#: src/slavemodel.cpp:63
+#, kde-format
+msgctxt "Slave path"
+msgid "Path"
+msgstr "경로"
+
+#: src/slavewidget.cpp:21
+#, kde-format
+msgid "Choose Slave"
+msgstr "대체 항목 선택"
+
+#: src/slavewidget.cpp:25
+#, kde-format
+msgid "Slave link for %1:"
+msgstr "%1의 대체 항목 링크:"

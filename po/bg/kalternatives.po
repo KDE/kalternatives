@@ -1,0 +1,315 @@
+# Bulgarian translations for kalternatives package.
+# Copyright (C) 2022 This file is copyright:
+# This file is distributed under the same license as the kalternatives package.
+# Automatically generated, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kalternatives\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:20+0200\n"
+"PO-Revision-Date: 2019-05-20 03:20+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: bg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+
+#: src/aboutdata.h:24
+#, kde-format
+msgid "KDE manager for the distribution alternatives system."
+msgstr ""
+
+#: src/aboutdata.h:26
+#, kde-format
+msgid ""
+"© 2004 Juanjo Álvarez Martinez\n"
+"© 2004 Mario Bensi\n"
+"© 2008-2009 Pino Toscano"
+msgstr ""
+
+#: src/aboutdata.h:31
+#, kde-format
+msgid "Pino Toscano"
+msgstr ""
+
+#: src/aboutdata.h:31
+#, kde-format
+msgid "Current maintainer"
+msgstr ""
+
+#: src/aboutdata.h:32
+#, kde-format
+msgid "Juanjo Alvarez Martinez"
+msgstr ""
+
+#: src/aboutdata.h:32 src/aboutdata.h:33
+#, kde-format
+msgid "Original author"
+msgstr ""
+
+#: src/aboutdata.h:33
+#, kde-format
+msgid "Mario Bensi"
+msgstr ""
+
+#: src/addalternatives.cpp:42
+#, kde-format
+msgid "Add Alternative"
+msgstr ""
+
+#: src/addalternatives.cpp:44
+#, kde-format
+msgid "Choose Alternative"
+msgstr ""
+
+#: src/addalternatives.cpp:45 src/slavewidget.cpp:22
+#, kde-format
+msgid "*|All Files"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/addalternativesui.ui:25 src/propertieswindow.ui:22
+#, kde-format
+msgid "Path:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel2)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/addalternativesui.ui:35 src/propertieswindow.ui:56
+#, kde-format
+msgid "Priority:"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, m_slavesGroup)
+#: src/addalternativesui.ui:57
+#, kde-format
+msgid "Slaves:"
+msgstr ""
+
+#: src/alternativemodels.cpp:377
+#, kde-format
+msgid "Broken alternative group."
+msgstr ""
+
+#: src/alternativemodels.cpp:434
+#, kde-format
+msgctxt "Groups of alternatives"
+msgid "Groups"
+msgstr ""
+
+#: src/alternativemodels.cpp:747
+#, kde-format
+msgctxt "%1 is the alternative path, %2 its description"
+msgid ""
+"%1\n"
+"(broken)\n"
+"\n"
+"%2"
+msgstr ""
+
+#: src/alternativemodels.cpp:749
+#, kde-format
+msgctxt "%1 is the alternative path, %2 its description"
+msgid ""
+"%1\n"
+"\n"
+"%2"
+msgstr ""
+
+#: src/alternativemodels.cpp:807
+#, kde-format
+msgid "Option"
+msgstr ""
+
+#: src/alternativemodels.cpp:809
+#, kde-format
+msgid "Priority"
+msgstr ""
+
+#: src/alternativemodels.cpp:811
+#, kde-format
+msgid "Description"
+msgstr ""
+
+#: src/altparser.cpp:159
+#, kde-format
+msgid "no description"
+msgstr ""
+
+#: src/kalternatives.cpp:50
+#, kde-format
+msgid "Kalternatives"
+msgstr ""
+
+#: src/kalternatives.cpp:81
+#, kde-format
+msgid "Removes the selected alternative from the current group."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, m_bAdd)
+#: src/kalternatives.cpp:82 src/mainwindow.ui:222
+#, kde-format
+msgid "&Add"
+msgstr ""
+
+#: src/kalternatives.cpp:83
+#, kde-format
+msgid "Adds a new alternative for the selected group."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, m_bProperties)
+#: src/kalternatives.cpp:84 src/mainwindow.ui:229
+#, kde-format
+msgid "&Properties"
+msgstr ""
+
+#: src/kalternatives.cpp:85
+#, kde-format
+msgid ""
+"Shows the properties (path, priority, and slaves) of the selected "
+"alternative."
+msgstr ""
+
+#: src/kalternatives.cpp:87
+#, kde-format
+msgctxt "Automatic alternative choice"
+msgid "Automatic"
+msgstr ""
+
+#: src/kalternatives.cpp:88
+#, kde-format
+msgctxt "Manual alternative choice"
+msgid "Manual"
+msgstr ""
+
+#: src/kalternatives.cpp:173
+#, kde-format
+msgid "Are you really sure you want to delete the alternative '%1'?"
+msgstr ""
+
+#: src/kalternatives.cpp:174
+#, kde-format
+msgid "Delete Alternative"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, PropertiesWindow)
+#: src/kalternatives.cpp:188 src/propertieswindow.ui:14
+#, kde-format
+msgid "Alternative Properties"
+msgstr ""
+
+#: src/kalternatives.cpp:260
+#, kde-format
+msgid ""
+"<h1>Alternatives Configuration</h1>\n"
+"This module allows you to configure the system alternatives in Debian/Fedora/"
+"Mandriva/openSUSE/Ubuntu distributions."
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QTreeView, m_altList)
+#: src/mainwindow.ui:42
+#, kde-format
+msgid "This is a list of the available alternative groups."
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
+#: src/mainwindow.ui:55
+#, kde-format
+msgid "Options"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, m_hideAlt)
+#: src/mainwindow.ui:61
+#, kde-format
+msgid ""
+"If this option is active, all the alternative groups with only one "
+"alternative available will be hidden from the list."
+msgstr ""
+
+#. i18n: Hide useless alternatives
+#. i18n: ectx: property (text), widget (QCheckBox, m_hideAlt)
+#: src/mainwindow.ui:64
+#, kde-format
+msgid "&Hide useless"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: src/mainwindow.ui:94
+#, kde-format
+msgid "Status:"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, m_statusCombo)
+#: src/mainwindow.ui:116
+#, kde-format
+msgid ""
+"<qt>The status of the current alternative:\n"
+"<ul>\n"
+"<li>Automatic: the alternative system will always choose the alternative "
+"with the highest priority, updating it (if necessary) when an alternative is "
+"installed or removed</li>\n"
+"<li>Manual: the choice is done manually, updated by the alternative system "
+"only when it is uninstalled</li>\n"
+"</ul>\n"
+"</qt>\n"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QTreeView, m_optionsList)
+#: src/mainwindow.ui:185
+#, kde-format
+msgid "This shows the alternatives available for the selected group."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, m_bDelete)
+#: src/mainwindow.ui:236
+#, kde-format
+msgid "&Delete"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/propertieswindow.ui:39
+#, kde-format
+msgid "Description:"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, slavesGroup)
+#: src/propertieswindow.ui:75
+#, kde-format
+msgid "Slaves"
+msgstr ""
+
+#: src/slavemodel.cpp:61
+#, kde-format
+msgctxt "Slave name"
+msgid "Name"
+msgstr ""
+
+#: src/slavemodel.cpp:63
+#, kde-format
+msgctxt "Slave path"
+msgid "Path"
+msgstr ""
+
+#: src/slavewidget.cpp:21
+#, kde-format
+msgid "Choose Slave"
+msgstr ""
+
+#: src/slavewidget.cpp:25
+#, kde-format
+msgid "Slave link for %1:"
+msgstr ""

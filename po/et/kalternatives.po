@@ -1,0 +1,346 @@
+# translation of kalternatives.po to Estonian
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Marek Laane <bald@smail.ee>, 2009, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: kalternatives\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2019-05-20 03:20+0200\n"
+"PO-Revision-Date: 2011-06-24 05:01+0300\n"
+"Last-Translator: Marek Laane <bald@smail.ee>\n"
+"Language-Team: Estonian <kde-et@linux.ee>\n"
+"Language: et\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Marek Laane"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "bald@smail.ee"
+
+#: src/aboutdata.h:24
+#, kde-format
+msgid "KDE manager for the distribution alternatives system."
+msgstr "KDE distributsioonide alternatiivide süsteemi haldur."
+
+#: src/aboutdata.h:26
+#, kde-format
+msgid ""
+"© 2004 Juanjo Álvarez Martinez\n"
+"© 2004 Mario Bensi\n"
+"© 2008-2009 Pino Toscano"
+msgstr ""
+"© 2004: Juanjo Álvarez Martinez\n"
+"© 2004: Mario Bensi\n"
+"© 2008-2009: Pino Toscano"
+
+#: src/aboutdata.h:31
+#, kde-format
+msgid "Pino Toscano"
+msgstr "Pino Toscano"
+
+#: src/aboutdata.h:31
+#, kde-format
+msgid "Current maintainer"
+msgstr "Praegune hooldaja"
+
+#: src/aboutdata.h:32
+#, kde-format
+msgid "Juanjo Alvarez Martinez"
+msgstr "Juanjo Alvarez Martinez"
+
+#: src/aboutdata.h:32 src/aboutdata.h:33
+#, kde-format
+msgid "Original author"
+msgstr "Algne autor"
+
+#: src/aboutdata.h:33
+#, kde-format
+msgid "Mario Bensi"
+msgstr "Mario Bensi"
+
+#: src/addalternatives.cpp:42
+#, kde-format
+msgid "Add Alternative"
+msgstr "Lisa alternatiiv"
+
+#: src/addalternatives.cpp:44
+#, kde-format
+msgid "Choose Alternative"
+msgstr "Vali alternatiiv"
+
+#: src/addalternatives.cpp:45 src/slavewidget.cpp:22
+#, kde-format
+msgid "*|All Files"
+msgstr "*|Kõik failid"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/addalternativesui.ui:25 src/propertieswindow.ui:22
+#, kde-format
+msgid "Path:"
+msgstr "Asukoht:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel2)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/addalternativesui.ui:35 src/propertieswindow.ui:56
+#, kde-format
+msgid "Priority:"
+msgstr "Prioriteet:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, m_slavesGroup)
+#: src/addalternativesui.ui:57
+#, kde-format
+msgid "Slaves:"
+msgstr "Alamad:"
+
+#: src/alternativemodels.cpp:377
+#, kde-format
+msgid "Broken alternative group."
+msgstr "Katkine altenatiivirühm"
+
+#: src/alternativemodels.cpp:434
+#, kde-format
+msgctxt "Groups of alternatives"
+msgid "Groups"
+msgstr "Rühmad"
+
+#: src/alternativemodels.cpp:747
+#, kde-format
+msgctxt "%1 is the alternative path, %2 its description"
+msgid ""
+"%1\n"
+"(broken)\n"
+"\n"
+"%2"
+msgstr ""
+"%1\n"
+"(katki)\n"
+"\n"
+"%2"
+
+#: src/alternativemodels.cpp:749
+#, kde-format
+msgctxt "%1 is the alternative path, %2 its description"
+msgid ""
+"%1\n"
+"\n"
+"%2"
+msgstr ""
+"%1\n"
+"\n"
+"%2"
+
+#: src/alternativemodels.cpp:807
+#, kde-format
+msgid "Option"
+msgstr "Valik"
+
+#: src/alternativemodels.cpp:809
+#, kde-format
+msgid "Priority"
+msgstr "Prioriteet"
+
+#: src/alternativemodels.cpp:811
+#, kde-format
+msgid "Description"
+msgstr "Kirjeldus"
+
+#: src/altparser.cpp:159
+#, kde-format
+msgid "no description"
+msgstr "kirjeldus puudub"
+
+#: src/kalternatives.cpp:50
+#, kde-format
+msgid "Kalternatives"
+msgstr "Kalternatives"
+
+#: src/kalternatives.cpp:81
+#, kde-format
+msgid "Removes the selected alternative from the current group."
+msgstr "Eemaldab valitud alternatiivi aktiivsest rühmast."
+
+#. i18n: ectx: property (text), widget (QPushButton, m_bAdd)
+#: src/kalternatives.cpp:82 src/mainwindow.ui:222
+#, kde-format
+msgid "&Add"
+msgstr "Lis&a"
+
+#: src/kalternatives.cpp:83
+#, kde-format
+msgid "Adds a new alternative for the selected group."
+msgstr "Lisab uue alternatiivi valitud rühma."
+
+#. i18n: ectx: property (text), widget (QPushButton, m_bProperties)
+#: src/kalternatives.cpp:84 src/mainwindow.ui:229
+#, kde-format
+msgid "&Properties"
+msgstr "&Omadused"
+
+#: src/kalternatives.cpp:85
+#, kde-format
+msgid ""
+"Shows the properties (path, priority, and slaves) of the selected "
+"alternative."
+msgstr "Näitab valitud alternatiivi omadusi (asukoht, prioriteet ja alamad)."
+
+#: src/kalternatives.cpp:87
+#, kde-format
+msgctxt "Automatic alternative choice"
+msgid "Automatic"
+msgstr "Automaatne"
+
+#: src/kalternatives.cpp:88
+#, kde-format
+msgctxt "Manual alternative choice"
+msgid "Manual"
+msgstr "Käsitsi"
+
+#: src/kalternatives.cpp:173
+#, kde-format
+msgid "Are you really sure you want to delete the alternative '%1'?"
+msgstr "Kas tõesti kustutada alternatiiv '%1'?"
+
+#: src/kalternatives.cpp:174
+#, kde-format
+msgid "Delete Alternative"
+msgstr "Kustuta alternatiiv"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, PropertiesWindow)
+#: src/kalternatives.cpp:188 src/propertieswindow.ui:14
+#, kde-format
+msgid "Alternative Properties"
+msgstr "Alternatiivi omadused"
+
+#: src/kalternatives.cpp:260
+#, kde-format
+msgid ""
+"<h1>Alternatives Configuration</h1>\n"
+"This module allows you to configure the system alternatives in Debian/Fedora/"
+"Mandriva/openSUSE/Ubuntu distributions."
+msgstr ""
+"<h1>Alternatiivide seadistamine</h1>\n"
+"See moodul pakub võimalust seadistada süsteemi alternatiivid Debiani/Fedora/"
+"Mandriva/openSUSE/Ubuntu distributsioonides."
+
+#. i18n: ectx: property (whatsThis), widget (QTreeView, m_altList)
+#: src/mainwindow.ui:42
+#, kde-format
+msgid "This is a list of the available alternative groups."
+msgstr "Saadaolevate alternatiivirühmade loend."
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
+#: src/mainwindow.ui:55
+#, kde-format
+msgid "Options"
+msgstr "Valikud"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, m_hideAlt)
+#: src/mainwindow.ui:61
+#, kde-format
+msgid ""
+"If this option is active, all the alternative groups with only one "
+"alternative available will be hidden from the list."
+msgstr ""
+"Sisselülitamisel peidetakse loendis kõik alternatiivirühmad, kus on ainult "
+"üks alternatiiv."
+
+#. i18n: Hide useless alternatives
+#. i18n: ectx: property (text), widget (QCheckBox, m_hideAlt)
+#: src/mainwindow.ui:64
+#, kde-format
+msgid "&Hide useless"
+msgstr "&Kasutute peitmine"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: src/mainwindow.ui:94
+#, kde-format
+msgid "Status:"
+msgstr "Olek:"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, m_statusCombo)
+#: src/mainwindow.ui:116
+#, kde-format
+msgid ""
+"<qt>The status of the current alternative:\n"
+"<ul>\n"
+"<li>Automatic: the alternative system will always choose the alternative "
+"with the highest priority, updating it (if necessary) when an alternative is "
+"installed or removed</li>\n"
+"<li>Manual: the choice is done manually, updated by the alternative system "
+"only when it is uninstalled</li>\n"
+"</ul>\n"
+"</qt>\n"
+msgstr ""
+"<qt>Aktiivne alternatiivi oleks:\n"
+"<ul>\n"
+"<li>Automaatne: alternatiivide süsteem valib alati kõrgeima prioriteediga "
+"alternatiivi, vajaduse korral seda uuendades, kui alternatiivi paigaldatakse "
+"või uuendatakse</li>\n"
+"<li>Käsitsi: valik tehakse käsitsi, uuendatakse alternatiivide süsteemi "
+"vahendusel ainult eemaldamise korra</li>\n"
+"</ul>\n"
+"</qt>\n"
+
+#. i18n: ectx: property (whatsThis), widget (QTreeView, m_optionsList)
+#: src/mainwindow.ui:185
+#, kde-format
+msgid "This shows the alternatives available for the selected group."
+msgstr "Näitab valitud rühmas saadaolevaid alternatiive."
+
+#. i18n: ectx: property (text), widget (QPushButton, m_bDelete)
+#: src/mainwindow.ui:236
+#, kde-format
+msgid "&Delete"
+msgstr "&Kustuta"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/propertieswindow.ui:39
+#, kde-format
+msgid "Description:"
+msgstr "Kirjeldus:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, slavesGroup)
+#: src/propertieswindow.ui:75
+#, kde-format
+msgid "Slaves"
+msgstr "Alamad"
+
+#: src/slavemodel.cpp:61
+#, kde-format
+msgctxt "Slave name"
+msgid "Name"
+msgstr "Nimi"
+
+#: src/slavemodel.cpp:63
+#, kde-format
+msgctxt "Slave path"
+msgid "Path"
+msgstr "Asukoht"
+
+#: src/slavewidget.cpp:21
+#, kde-format
+msgid "Choose Slave"
+msgstr "Vali alam"
+
+#: src/slavewidget.cpp:25
+#, kde-format
+msgid "Slave link for %1:"
+msgstr "%1 alama link:"
+
+#~ msgid "Alternatives"
+#~ msgstr "Alternatiivid"
+
+#~ msgid "Alternatives Manager"
+#~ msgstr "Alternatiivide haldur"
