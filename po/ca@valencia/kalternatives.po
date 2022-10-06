@@ -179,7 +179,7 @@ msgstr "Elimina l'alternativa seleccionada del grup actual."
 #: src/kalternatives.cpp:82 src/mainwindow.ui:222
 #, kde-format
 msgid "&Add"
-msgstr "&Afig"
+msgstr "Afi&g"
 
 #: src/kalternatives.cpp:83
 #, kde-format
