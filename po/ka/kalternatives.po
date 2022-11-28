@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kalternatives\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2019-05-20 03:20+0200\n"
-"PO-Revision-Date: 2022-09-30 21:10+0200\n"
+"PO-Revision-Date: 2022-11-27 11:28+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -31,7 +31,7 @@ msgstr "Temuri.doghonadze@gmail.com"
 #: src/aboutdata.h:24
 #, kde-format
 msgid "KDE manager for the distribution alternatives system."
-msgstr ""
+msgstr "დისტრიბუტივის ალტერნატივების სისტემის მმართველი KDE-სთვის."
 
 #: src/aboutdata.h:26
 #, kde-format
@@ -40,6 +40,9 @@ msgid ""
 "© 2004 Mario Bensi\n"
 "© 2008-2009 Pino Toscano"
 msgstr ""
+"© 2004 Juanjo Álvarez Martinez\n"
+"© 2004 Mario Bensi\n"
+"© 2008-2009 Pino Toscano"
 
 #: src/aboutdata.h:31
 #, kde-format
@@ -229,12 +232,15 @@ msgid ""
 "This module allows you to configure the system alternatives in Debian/Fedora/"
 "Mandriva/openSUSE/Ubuntu distributions."
 msgstr ""
+"<h1>ალტერნატივების მორგება</h1>\n"
+"ეს მოდული საშუალებას გაძლევთ, მოირგოთ სისტემის ალტერნატივები Debian/Fedora/"
+"Mandrive/openSUSE/Ubuntu დისტრიბუტივებზე."
 
 #. i18n: ectx: property (whatsThis), widget (QTreeView, m_altList)
 #: src/mainwindow.ui:42
 #, kde-format
 msgid "This is a list of the available alternative groups."
-msgstr ""
+msgstr "ხელმისაწვდომი ალტერნატივების ჯგუფის სია."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: src/mainwindow.ui:55
@@ -249,6 +255,8 @@ msgid ""
 "If this option is active, all the alternative groups with only one "
 "alternative available will be hidden from the list."
 msgstr ""
+"თუ პარამეტრი ჩართულია, ყველა ალტერნატული ჯგუფი, რომელსაც მხოლოდ ერთი "
+"ალტერნატივა აქვს, სიაში არ გამოჩნდება."
 
 #. i18n: Hide useless alternatives
 #. i18n: ectx: property (text), widget (QCheckBox, m_hideAlt)
@@ -277,12 +285,21 @@ msgid ""
 "</ul>\n"
 "</qt>\n"
 msgstr ""
+"<qt>მიმდინარე ალტერნატივების მდგომარეობა:\n"
+"<ul>\n"
+"<li>ავტომატური: ალტერნატივებს სისტემა ყოველთვის აირჩევს ალტერნატივას, "
+"რომელსაც უმაღლესი პრიორიტეტი გააჩნია და ანახლებს მას, თუ ალტერნატივა "
+"წაიშლება ან დაემატება</li>\n"
+"<li>ხელით: არჩევა ხდება ხელით, ალტერნატივის სისტემის მიერ იცვლება მხოლოდ "
+"მაშინ, თუ მას წაშლით</li>\n"
+"</ul>\n"
+"</qt>\n"
 
 #. i18n: ectx: property (whatsThis), widget (QTreeView, m_optionsList)
 #: src/mainwindow.ui:185
 #, kde-format
 msgid "This shows the alternatives available for the selected group."
-msgstr ""
+msgstr "აჩვენებს მონიშნული ჯგუფისთვის ხელმისაწვდომ ალტერნატივებს."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_bDelete)
 #: src/mainwindow.ui:236
