@@ -1,36 +1,38 @@
 # Bulgarian translations for kalternatives package.
 # Copyright (C) 2022 This file is copyright:
 # This file is distributed under the same license as the kalternatives package.
-# Automatically generated, 2022.
 #
+# Automatically generated, 2022.
+# Mincho Kondarev <mkondarev@yahoo.de>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kalternatives\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2019-05-20 03:20+0200\n"
-"PO-Revision-Date: 2019-05-20 03:20+0200\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-12-20 22:41+0100\n"
+"Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
+"Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 22.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "Минчо Кондарев"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "mkondarev@yahoo.de"
 
 #: src/aboutdata.h:24
 #, kde-format
 msgid "KDE manager for the distribution alternatives system."
-msgstr ""
+msgstr "Мениджър на KDE за системата за алтернативи на дистрибуцията."
 
 #: src/aboutdata.h:26
 #, kde-format
@@ -39,77 +41,80 @@ msgid ""
 "© 2004 Mario Bensi\n"
 "© 2008-2009 Pino Toscano"
 msgstr ""
+"© 2004 Juanjo Álvarez Martinez\n"
+"© 2004 Mario Bensi\n"
+"© 2008-2009 Pino Toscano"
 
 #: src/aboutdata.h:31
 #, kde-format
 msgid "Pino Toscano"
-msgstr ""
+msgstr "Pino Toscano"
 
 #: src/aboutdata.h:31
 #, kde-format
 msgid "Current maintainer"
-msgstr ""
+msgstr "Текуща поддръжка"
 
 #: src/aboutdata.h:32
 #, kde-format
 msgid "Juanjo Alvarez Martinez"
-msgstr ""
+msgstr "Juanjo Alvarez Martinez"
 
 #: src/aboutdata.h:32 src/aboutdata.h:33
 #, kde-format
 msgid "Original author"
-msgstr ""
+msgstr "Първоначален автор"
 
 #: src/aboutdata.h:33
 #, kde-format
 msgid "Mario Bensi"
-msgstr ""
+msgstr "Mario Bensi"
 
 #: src/addalternatives.cpp:42
 #, kde-format
 msgid "Add Alternative"
-msgstr ""
+msgstr "Добавяне на алтернатива"
 
 #: src/addalternatives.cpp:44
 #, kde-format
 msgid "Choose Alternative"
-msgstr ""
+msgstr "Избиране на алтернатива"
 
 #: src/addalternatives.cpp:45 src/slavewidget.cpp:22
 #, kde-format
 msgid "*|All Files"
-msgstr ""
+msgstr "*|Всички файлове"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/addalternativesui.ui:25 src/propertieswindow.ui:22
 #, kde-format
 msgid "Path:"
-msgstr ""
+msgstr "Път:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/addalternativesui.ui:35 src/propertieswindow.ui:56
 #, kde-format
 msgid "Priority:"
-msgstr ""
+msgstr "Приоритет:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_slavesGroup)
 #: src/addalternativesui.ui:57
 #, kde-format
 msgid "Slaves:"
-msgstr ""
+msgstr "Подчинени:"
 
 #: src/alternativemodels.cpp:377
 #, kde-format
 msgid "Broken alternative group."
-msgstr ""
+msgstr "Нарушена алтернативна група."
 
 #: src/alternativemodels.cpp:434
 #, kde-format
 msgctxt "Groups of alternatives"
 msgid "Groups"
-msgstr ""
+msgstr "Групи"
 
 #: src/alternativemodels.cpp:747
 #, kde-format
@@ -120,6 +125,10 @@ msgid ""
 "\n"
 "%2"
 msgstr ""
+"%1\n"
+"(нарушен)\n"
+"\n"
+"%2"
 
 #: src/alternativemodels.cpp:749
 #, kde-format
@@ -129,53 +138,56 @@ msgid ""
 "\n"
 "%2"
 msgstr ""
+"%1\n"
+"\n"
+"%2"
 
 #: src/alternativemodels.cpp:807
 #, kde-format
 msgid "Option"
-msgstr ""
+msgstr "Опция"
 
 #: src/alternativemodels.cpp:809
 #, kde-format
 msgid "Priority"
-msgstr ""
+msgstr "Приоритет"
 
 #: src/alternativemodels.cpp:811
 #, kde-format
 msgid "Description"
-msgstr ""
+msgstr "Описание"
 
 #: src/altparser.cpp:159
 #, kde-format
 msgid "no description"
-msgstr ""
+msgstr "без описание"
 
 #: src/kalternatives.cpp:50
 #, kde-format
 msgid "Kalternatives"
-msgstr ""
+msgstr "Kalternatives"
 
 #: src/kalternatives.cpp:81
 #, kde-format
 msgid "Removes the selected alternative from the current group."
-msgstr ""
+msgstr "Премахва избраната алтернатива от текущата група."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_bAdd)
 #: src/kalternatives.cpp:82 src/mainwindow.ui:222
 #, kde-format
 msgid "&Add"
-msgstr ""
+msgstr "&Добавяне"
 
 #: src/kalternatives.cpp:83
 #, kde-format
 msgid "Adds a new alternative for the selected group."
-msgstr ""
+msgstr "Добавя нова алтернатива за избраната група."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_bProperties)
 #: src/kalternatives.cpp:84 src/mainwindow.ui:229
 #, kde-format
 msgid "&Properties"
-msgstr ""
+msgstr "&Настройки"
 
 #: src/kalternatives.cpp:85
 #, kde-format
@@ -183,34 +195,35 @@ msgid ""
 "Shows the properties (path, priority, and slaves) of the selected "
 "alternative."
 msgstr ""
+"Показва свойствата (път, приоритет и подчинени) на избранатаалтернатива."
 
 #: src/kalternatives.cpp:87
 #, kde-format
 msgctxt "Automatic alternative choice"
 msgid "Automatic"
-msgstr ""
+msgstr "Автоматично"
 
 #: src/kalternatives.cpp:88
 #, kde-format
 msgctxt "Manual alternative choice"
 msgid "Manual"
-msgstr ""
+msgstr "Ръчно"
 
 #: src/kalternatives.cpp:173
 #, kde-format
 msgid "Are you really sure you want to delete the alternative '%1'?"
-msgstr ""
+msgstr "Наистина ли искате да изтриете алтернатива '%1'? "
 
 #: src/kalternatives.cpp:174
 #, kde-format
 msgid "Delete Alternative"
-msgstr ""
+msgstr "Изтриване на алтернатива"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PropertiesWindow)
 #: src/kalternatives.cpp:188 src/propertieswindow.ui:14
 #, kde-format
 msgid "Alternative Properties"
-msgstr ""
+msgstr "Свойства на алтернатива"
 
 #: src/kalternatives.cpp:260
 #, kde-format
@@ -219,18 +232,21 @@ msgid ""
 "This module allows you to configure the system alternatives in Debian/Fedora/"
 "Mandriva/openSUSE/Ubuntu distributions."
 msgstr ""
+"<h1>Конфигурация на алтернативи</h1>\n"
+"Този модул ви позволява да конфигурирате системните алтернативи в Debian/"
+"Fedora/Mandriva/openSUSE/Ubuntu."
 
 #. i18n: ectx: property (whatsThis), widget (QTreeView, m_altList)
 #: src/mainwindow.ui:42
 #, kde-format
 msgid "This is a list of the available alternative groups."
-msgstr ""
+msgstr "Това е списък на наличните алтернативни групи."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: src/mainwindow.ui:55
 #, kde-format
 msgid "Options"
-msgstr ""
+msgstr "Настройки"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_hideAlt)
 #: src/mainwindow.ui:61
@@ -239,19 +255,21 @@ msgid ""
 "If this option is active, all the alternative groups with only one "
 "alternative available will be hidden from the list."
 msgstr ""
+"Ако тази опция е активна, всички алтернативни групи само с една алтернатива, "
+"ще бъдат скрити от списъка."
 
 #. i18n: Hide useless alternatives
 #. i18n: ectx: property (text), widget (QCheckBox, m_hideAlt)
 #: src/mainwindow.ui:64
 #, kde-format
 msgid "&Hide useless"
-msgstr ""
+msgstr "&Скриване на неизползваемите"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: src/mainwindow.ui:94
 #, kde-format
 msgid "Status:"
-msgstr ""
+msgstr "Състояние:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, m_statusCombo)
 #: src/mainwindow.ui:116
@@ -267,49 +285,58 @@ msgid ""
 "</ul>\n"
 "</qt>\n"
 msgstr ""
+"<qt>Състояние на текущата алтернатива:\n"
+"<ul>\n"
+"<li>Автоматично: алтернативната система винаги ще избере алтернативата с най-"
+"висок приоритет, като я актуализира (ако е необходимо), когато алтернатива "
+"се инсталира или премахва</li>\n"
+"<li>Ръчно: изборът се прави ръчно, актуализира се от алтернативната система. "
+"само когато е деинсталирана</li>\n"
+"</ul>\n"
+"</qt>\n"
 
 #. i18n: ectx: property (whatsThis), widget (QTreeView, m_optionsList)
 #: src/mainwindow.ui:185
 #, kde-format
 msgid "This shows the alternatives available for the selected group."
-msgstr ""
+msgstr "Това показва наличните алтернативи за избраната група."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_bDelete)
 #: src/mainwindow.ui:236
 #, kde-format
 msgid "&Delete"
-msgstr ""
+msgstr "&Изтриване"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/propertieswindow.ui:39
 #, kde-format
 msgid "Description:"
-msgstr ""
+msgstr "Определения:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, slavesGroup)
 #: src/propertieswindow.ui:75
 #, kde-format
 msgid "Slaves"
-msgstr ""
+msgstr "Подчинени"
 
 #: src/slavemodel.cpp:61
 #, kde-format
 msgctxt "Slave name"
 msgid "Name"
-msgstr ""
+msgstr "Име"
 
 #: src/slavemodel.cpp:63
 #, kde-format
 msgctxt "Slave path"
 msgid "Path"
-msgstr ""
+msgstr "Път"
 
 #: src/slavewidget.cpp:21
 #, kde-format
 msgid "Choose Slave"
-msgstr ""
+msgstr "Избиране на подчинен"
 
 #: src/slavewidget.cpp:25
 #, kde-format
 msgid "Slave link for %1:"
-msgstr ""
+msgstr "Подчинена връзка за %1:"
