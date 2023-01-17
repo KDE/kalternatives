@@ -236,7 +236,7 @@ msgid ""
 "This module allows you to configure the system alternatives in Debian/Fedora/"
 "Mandriva/openSUSE/Ubuntu distributions."
 msgstr ""
-"<h1>Configuració de les alternatives</h1>\n"
+"<h1>Configureu les alternatives</h1>\n"
 "Este mòdul permet configurar les alternatives del sistema a les "
 "distribucions Debian/Fedora/Mandriva/openSUSE/Ubuntu."
 
