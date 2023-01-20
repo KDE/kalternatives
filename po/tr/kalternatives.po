@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: playground-sysadmin-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2019-05-20 03:20+0200\n"
-"PO-Revision-Date: 2023-01-18 22:31+0300\n"
+"PO-Revision-Date: 2023-01-19 22:40+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -198,7 +198,7 @@ msgid ""
 "Shows the properties (path, priority, and slaves) of the selected "
 "alternative."
 msgstr ""
-"Seçili alternatifin özelliklerini gösterir (dizin, öncelik, ve bağılılar)."
+"Seçili alternatifin özelliklerini gösterir (dizin, öncelik ve bağılılar)."
 
 #: src/kalternatives.cpp:87
 #, kde-format
