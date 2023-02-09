@@ -11,7 +11,7 @@ include(FeatureSummary)
 include(ECMInstallIcons)
 include(ECMQtDeclareLoggingCategory)
 
-find_package(Qt5 CONFIG REQUIRED Core Gui Widgets)
+find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED Core Gui Widgets)
 
 find_package(KF5 REQUIRED
    ConfigWidgets
