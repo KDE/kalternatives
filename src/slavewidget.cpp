@@ -16,7 +16,7 @@ SlaveWidget::SlaveWidget(Slave *slave, QWidget *parent)
     : QWidget(parent), m_slave(slave)
 {
     setupUi(this);
-    layout()->setMargin(0);
+    layout()->setContentsMargins(0, 0, 0, 0);
 
     m_slavePath->setWindowTitle(i18n("Choose Slave"));
     m_slavePath->setFilter(i18n("*|All Files"));

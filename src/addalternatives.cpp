@@ -35,7 +35,7 @@ AddAlternatives::AddAlternatives(Item* item, QWidget *parent)
 	QWidget* main = new QWidget(this);
 	lay->addWidget(main);
 	setupUi(main);
-	main->layout()->setMargin(0);
+	main->layout()->setContentsMargins(0, 0, 0, 0);
 	m_buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
 	lay->addWidget(m_buttons);
 	

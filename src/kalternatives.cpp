@@ -190,7 +190,7 @@ void Kalternatives::slotPropertiesClicked()
 		QWidget *main = new QWidget(prop);
 		Ui::PropertiesWindow propUi;
 		propUi.setupUi(main);
-		main->layout()->setMargin(0);
+		main->layout()->setContentsMargins(0, 0, 0, 0);
 		lay->addWidget(main);
 		QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Close, prop);
 		lay->addWidget(buttons);

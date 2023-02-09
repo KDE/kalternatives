@@ -74,7 +74,7 @@ bool Alternative::isSelected() const
     if(m_parent->isBroken()) return false;
     QFileInfo file("/etc/alternatives/"+m_parent->getName());
     if(!file.isSymLink()) return false;
-    if(file.readLink() == m_altPath) return 1;
+    if(file.symLinkTarget() == m_altPath) return 1;
     return 0;
 }
 
@@ -428,7 +428,7 @@ bool AltFilesManager::parseAltFiles(QString &errorstr)
         }
 
         // read the file and split it in lines, keeping empty ones
-        lines = QString::fromLocal8Bit(altFile.readAll()).split('\n', QString::KeepEmptyParts);
+        lines = QString::fromLocal8Bit(altFile.readAll()).split('\n', Qt::KeepEmptyParts);
 
         line = lines[0];
         tmp = line;

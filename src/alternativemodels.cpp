@@ -469,7 +469,7 @@ void AlternativeItemsModel::save()
             QString selectError;
             if (!altnode->alternative->select(&selectError))
             {
-                qCDebug(KALT_LOG) << selectError << endl;
+                qCDebug(KALT_LOG) << selectError << Qt::endl;
                 return;
             }
             node->changed = false;
@@ -489,31 +489,31 @@ void AlternativeItemsModel::save()
             {
                 QTextStream stream(&origFile);
 
-                stream << Item::modeString(item->getMode()) << endl;
-                stream << item->getPath() << endl;
+                stream << Item::modeString(item->getMode()) << Qt::endl;
+                stream << item->getPath() << Qt::endl;
 
                 SlaveList *slaveList = item->getSlaves();
                 Q_FOREACH (Slave *slave, *slaveList)
                 {
-                    stream << slave->slname << endl;
-                    stream << slave->slpath << endl;
+                    stream << slave->slname << Qt::endl;
+                    stream << slave->slpath << Qt::endl;
                 }
 
-                stream << endl;
+                stream << Qt::endl;
 
                 AltsPtrList *altItemList = item->getAlternatives();
                 Q_FOREACH (Alternative *a, *altItemList)
                 {
-                    stream << a->getPath() << endl;
-                    stream << a->getPriority() << endl;
+                    stream << a->getPath() << Qt::endl;
+                    stream << a->getPriority() << Qt::endl;
 
                     Q_FOREACH (const QString &slave, a->getSlaves())
                     {
-                        stream << slave << endl;
+                        stream << slave << Qt::endl;
                     }
                 }
 
-                stream << endl;
+                stream << Qt::endl;
 
                 origFile.close();
             }
@@ -646,7 +646,7 @@ void AlternativeAltModelPrivate::searchDescription(Alternative *alternative) con
     if (proc.exitCode() == 0)
     {
         const QByteArray procOutput = proc.readAllStandardOutput();
-        const QStringList outputLines = QString::fromLocal8Bit(procOutput.constData()).split('\n', QString::SkipEmptyParts);
+        const QStringList outputLines = QString::fromLocal8Bit(procOutput.constData()).split('\n', Qt::SkipEmptyParts);
         Q_FOREACH (const QString &outLine, outputLines)
         {
             QString description;
