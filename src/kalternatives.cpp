@@ -37,7 +37,7 @@
 
 #include <kmessagebox.h>
 #include <kaboutdata.h>
-#include <klocalizedstring.h>
+#include <klazylocalizedstring.h>
 #include <kpluginfactory.h>
 #include <kstandardguiitem.h>
 
@@ -54,7 +54,7 @@ static inline QString componentName()
 Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
     : KCModule(parent, args)
 {
-	auto *aboutData = new KAboutData(::aboutData(componentName(), I18N_NOOP("Kalternatives")));
+	auto *aboutData = new KAboutData(::aboutData(componentName(), kli18n("Kalternatives").untranslatedText()));
 	setAboutData(aboutData);
 
 	setUseRootOnlyMessage(false);
