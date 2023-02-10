@@ -15,7 +15,7 @@
 
 #define KALT_VERSION "0.13"
 
-inline KAboutData aboutData(const char* name, const char* iname)
+inline KAboutData aboutData(const QString &name, const char* iname)
 {
     KAboutData about(
         name,

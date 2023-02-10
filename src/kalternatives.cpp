@@ -46,9 +46,17 @@
 
 K_PLUGIN_FACTORY(KalternativesFactory, registerPlugin<Kalternatives>();)
 
-Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
-    : KCModule(new KAboutData(::aboutData("kalternatives", I18N_NOOP("Kalternatives"))), parent, args)
+static inline QString componentName()
 {
+    return QStringLiteral("kalternatives");
+}
+
+Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
+    : KCModule(parent, args)
+{
+	auto *aboutData = new KAboutData(::aboutData(componentName(), I18N_NOOP("Kalternatives")));
+	setAboutData(aboutData);
+
 	setUseRootOnlyMessage(false);
 
 	int user = getuid();
@@ -104,7 +112,7 @@ void Kalternatives::load()
 {
 	m_itemProxyModel = new AlternativeItemProxyModel(m_ui.m_altList);
 	slotHideAlternativesClicked();
-	AlternativeItemsModel *itemModel = new AlternativeItemsModel(aboutData()->componentName(), m_itemProxyModel);
+	AlternativeItemsModel *itemModel = new AlternativeItemsModel(componentName(), m_itemProxyModel);
 	m_itemProxyModel->setSourceModel(itemModel);
 	m_ui.m_altList->setModel(m_itemProxyModel);
 	connect(itemModel, SIGNAL(dataChanged(QModelIndex, QModelIndex)),
