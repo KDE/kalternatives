@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kalternatives\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-05-20 03:20+0200\n"
+"POT-Creation-Date: 2023-03-08 00:49+0000\n"
 "PO-Revision-Date: 2019-05-19 22:22+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -160,69 +160,68 @@ msgstr "설명"
 msgid "no description"
 msgstr "설명 없음"
 
-#: src/kalternatives.cpp:50
-#, kde-format
+#: src/kalternatives.cpp:57
 msgid "Kalternatives"
 msgstr "Kalternatives"
 
-#: src/kalternatives.cpp:81
+#: src/kalternatives.cpp:89
 #, kde-format
 msgid "Removes the selected alternative from the current group."
 msgstr "선택한 대체 프로그램을 그룹에서 삭제합니다."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_bAdd)
-#: src/kalternatives.cpp:82 src/mainwindow.ui:222
+#: src/kalternatives.cpp:90 src/mainwindow.ui:222
 #, kde-format
 msgid "&Add"
 msgstr "추가(&A)"
 
-#: src/kalternatives.cpp:83
+#: src/kalternatives.cpp:91
 #, kde-format
 msgid "Adds a new alternative for the selected group."
 msgstr "선택한 그룹에 새 대체 프로그램을 추가합니다."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_bProperties)
-#: src/kalternatives.cpp:84 src/mainwindow.ui:229
+#: src/kalternatives.cpp:92 src/mainwindow.ui:229
 #, kde-format
 msgid "&Properties"
 msgstr "속성(&P)"
 
-#: src/kalternatives.cpp:85
+#: src/kalternatives.cpp:93
 #, kde-format
 msgid ""
 "Shows the properties (path, priority, and slaves) of the selected "
 "alternative."
 msgstr "선택한 대체 프로그램의 속성(경로, 우선 순위, 하위 항목)을 표시합니다."
 
-#: src/kalternatives.cpp:87
+#: src/kalternatives.cpp:95
 #, kde-format
 msgctxt "Automatic alternative choice"
 msgid "Automatic"
 msgstr "자동"
 
-#: src/kalternatives.cpp:88
+#: src/kalternatives.cpp:96
 #, kde-format
 msgctxt "Manual alternative choice"
 msgid "Manual"
 msgstr "수동"
 
-#: src/kalternatives.cpp:173
+#: src/kalternatives.cpp:181
 #, kde-format
 msgid "Are you really sure you want to delete the alternative '%1'?"
 msgstr "대체 프로그램 '%1'을(를) 삭제하시겠습니까?"
 
-#: src/kalternatives.cpp:174
+#: src/kalternatives.cpp:182
 #, kde-format
 msgid "Delete Alternative"
 msgstr "대체 삭제"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PropertiesWindow)
-#: src/kalternatives.cpp:188 src/propertieswindow.ui:14
+#: src/kalternatives.cpp:196 src/propertieswindow.ui:14
 #, kde-format
 msgid "Alternative Properties"
 msgstr "대체 속성"
 
-#: src/kalternatives.cpp:260
+#: src/kalternatives.cpp:268
 #, kde-format
 msgid ""
 "<h1>Alternatives Configuration</h1>\n"

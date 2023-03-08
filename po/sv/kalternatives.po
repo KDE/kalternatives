@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kalternatives\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-05-20 03:20+0200\n"
+"POT-Creation-Date: 2023-03-08 00:49+0000\n"
 "PO-Revision-Date: 2011-05-12 19:10+0200\n"
 "Last-Translator: Stefan Asserhall <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -162,34 +162,33 @@ msgstr "Beskrivning"
 msgid "no description"
 msgstr "ingen beskrivning"
 
-#: src/kalternatives.cpp:50
-#, kde-format
+#: src/kalternatives.cpp:57
 msgid "Kalternatives"
 msgstr "Kalternatives"
 
-#: src/kalternatives.cpp:81
+#: src/kalternatives.cpp:89
 #, kde-format
 msgid "Removes the selected alternative from the current group."
 msgstr "Tar bort markerat alternativ från aktuell grupp."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_bAdd)
-#: src/kalternatives.cpp:82 src/mainwindow.ui:222
+#: src/kalternatives.cpp:90 src/mainwindow.ui:222
 #, kde-format
 msgid "&Add"
 msgstr "&Lägg till"
 
-#: src/kalternatives.cpp:83
+#: src/kalternatives.cpp:91
 #, kde-format
 msgid "Adds a new alternative for the selected group."
 msgstr "Lägger till ett nytt alternativ för markerad grupp."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_bProperties)
-#: src/kalternatives.cpp:84 src/mainwindow.ui:229
+#: src/kalternatives.cpp:92 src/mainwindow.ui:229
 #, kde-format
 msgid "&Properties"
 msgstr "Egenska&per"
 
-#: src/kalternatives.cpp:85
+#: src/kalternatives.cpp:93
 #, kde-format
 msgid ""
 "Shows the properties (path, priority, and slaves) of the selected "
@@ -198,35 +197,35 @@ msgstr ""
 "Visar egenskaper (sökväg, prioritet och I/O-slavar) för det markerade "
 "alternativet."
 
-#: src/kalternatives.cpp:87
+#: src/kalternatives.cpp:95
 #, kde-format
 msgctxt "Automatic alternative choice"
 msgid "Automatic"
 msgstr "Automatiskt"
 
-#: src/kalternatives.cpp:88
+#: src/kalternatives.cpp:96
 #, kde-format
 msgctxt "Manual alternative choice"
 msgid "Manual"
 msgstr "Manuellt"
 
-#: src/kalternatives.cpp:173
+#: src/kalternatives.cpp:181
 #, kde-format
 msgid "Are you really sure you want to delete the alternative '%1'?"
 msgstr "Är du verkligen säker på att du vill ta bort alternativet '%1'?"
 
-#: src/kalternatives.cpp:174
+#: src/kalternatives.cpp:182
 #, kde-format
 msgid "Delete Alternative"
 msgstr "Ta bort alternativ"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PropertiesWindow)
-#: src/kalternatives.cpp:188 src/propertieswindow.ui:14
+#: src/kalternatives.cpp:196 src/propertieswindow.ui:14
 #, kde-format
 msgid "Alternative Properties"
 msgstr "Alternativegenskaper"
 
-#: src/kalternatives.cpp:260
+#: src/kalternatives.cpp:268
 #, kde-format
 msgid ""
 "<h1>Alternatives Configuration</h1>\n"
