@@ -198,7 +198,7 @@ msgid ""
 "Shows the properties (path, priority, and slaves) of the selected "
 "alternative."
 msgstr ""
-"Mostra as propiedades (prioridade, ruta e escravos) da alternativa "
+"Amosa as propiedades (prioridade, ruta e escravos) da alternativa "
 "seleccionada."
 
 #: src/kalternatives.cpp:95
@@ -303,7 +303,7 @@ msgstr ""
 #: src/mainwindow.ui:185
 #, kde-format
 msgid "This shows the alternatives available for the selected group."
-msgstr "Isto mostra as alternativas dispoñíbeis para o grupo escollido."
+msgstr "Isto amosa as alternativas dispoñíbeis para o grupo escollido."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_bDelete)
 #: src/mainwindow.ui:236
