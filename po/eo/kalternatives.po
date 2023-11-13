@@ -1,35 +1,38 @@
 # Translation of kalternatives into esperanto.
+# Copyright (C) 2009 Free Software Foundation, Inc.
+# This file is distributed under the same license as the kalternatives package.
 # Axel Rousseau <axel@esperanto-jeunes.org>, 2009.
+# Oliver Kellogg <okellogg@users.sourceforge.net>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kalternatives\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:39+0000\n"
-"PO-Revision-Date: 2009-11-15 12:06+0100\n"
-"Last-Translator: Axel Rousseau <axel@esperanto-jeunes.org>\n"
+"PO-Revision-Date: 2023-11-12 22:59+0100\n"
+"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: pology\n"
+"X-Generator: translate-po (https://github.com/zcribe/translate-po)\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Axel Rousseau"
+msgstr "Axel Rousseau,Oliver Kellogg"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "axel@esperanto-jeunes.org"
+msgstr "axel@esperanto-jeunes.org,okellogg@users.sourceforge.net"
 
 #: src/aboutdata.h:24
 #, kde-format
 msgid "KDE manager for the distribution alternatives system."
-msgstr ""
+msgstr "KDE-mastrumilo por la sistemo de distribuaj alternativoj."
 
 #: src/aboutdata.h:26
 #, kde-format
@@ -70,12 +73,12 @@ msgstr "Mario Bensi"
 #: src/addalternatives.cpp:42
 #, kde-format
 msgid "Add Alternative"
-msgstr ""
+msgstr "Aldoni Alternativon"
 
 #: src/addalternatives.cpp:44
 #, kde-format
 msgid "Choose Alternative"
-msgstr ""
+msgstr "Elekti Alternativon"
 
 #: src/addalternatives.cpp:45 src/slavewidget.cpp:22
 #, kde-format
@@ -100,12 +103,12 @@ msgstr "Prioritato:"
 #: src/addalternativesui.ui:57
 #, kde-format
 msgid "Slaves:"
-msgstr ""
+msgstr "Sklavoj:"
 
 #: src/alternativemodels.cpp:377
 #, kde-format
 msgid "Broken alternative group."
-msgstr ""
+msgstr "Rompita alternativa grupo."
 
 #: src/alternativemodels.cpp:434
 #, kde-format
@@ -122,6 +125,10 @@ msgid ""
 "\n"
 "%2"
 msgstr ""
+"%1\n"
+"(rompita)\n"
+"\n"
+"%2"
 
 #: src/alternativemodels.cpp:749
 #, kde-format
@@ -153,7 +160,7 @@ msgstr "Priskribo"
 #: src/altparser.cpp:159
 #, kde-format
 msgid "no description"
-msgstr ""
+msgstr "neniu priskribo"
 
 #: src/kalternatives.cpp:57
 msgid "Kalternatives"
@@ -162,7 +169,7 @@ msgstr "Kalternatives"
 #: src/kalternatives.cpp:89
 #, kde-format
 msgid "Removes the selected alternative from the current group."
-msgstr ""
+msgstr "Forigas la elektitan alternativon el la nuna grupo."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_bAdd)
 #: src/kalternatives.cpp:90 src/mainwindow.ui:222
@@ -173,7 +180,7 @@ msgstr "&Aldoni"
 #: src/kalternatives.cpp:91
 #, kde-format
 msgid "Adds a new alternative for the selected group."
-msgstr ""
+msgstr "Aldonas novan alternativon por la elektita grupo."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_bProperties)
 #: src/kalternatives.cpp:92 src/mainwindow.ui:229
@@ -187,6 +194,7 @@ msgid ""
 "Shows the properties (path, priority, and slaves) of the selected "
 "alternative."
 msgstr ""
+"Montras la ecojn (vojo, prioritato kaj sklavoj) de la elektita alternativo."
 
 #: src/kalternatives.cpp:95
 #, kde-format
@@ -203,18 +211,18 @@ msgstr "Manlibro"
 #: src/kalternatives.cpp:181
 #, kde-format
 msgid "Are you really sure you want to delete the alternative '%1'?"
-msgstr ""
+msgstr "Ĉu vi vere certas, ke vi volas forigi la alternativon '%1'?"
 
 #: src/kalternatives.cpp:182
 #, kde-format
 msgid "Delete Alternative"
-msgstr ""
+msgstr "Forigi Alternativon"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PropertiesWindow)
 #: src/kalternatives.cpp:196 src/propertieswindow.ui:14
 #, kde-format
 msgid "Alternative Properties"
-msgstr ""
+msgstr "Alternativaj Proprecoj"
 
 #: src/kalternatives.cpp:268
 #, kde-format
@@ -223,12 +231,15 @@ msgid ""
 "This module allows you to configure the system alternatives in Debian/Fedora/"
 "Mandriva/openSUSE/Ubuntu distributions."
 msgstr ""
+"<h1>Agordo de Alternativoj</h1>\n"
+"Ĉi tiu modulo permesas al vi agordi la sistemajn alternativojn en distribuoj "
+"Debian/Fedora/Mandriva/openSUSE/Ubuntu."
 
 #. i18n: ectx: property (whatsThis), widget (QTreeView, m_altList)
 #: src/mainwindow.ui:42
 #, kde-format
 msgid "This is a list of the available alternative groups."
-msgstr ""
+msgstr "Ĉi tio estas listo de la disponeblaj alternativaj grupoj."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: src/mainwindow.ui:55
@@ -243,13 +254,15 @@ msgid ""
 "If this option is active, all the alternative groups with only one "
 "alternative available will be hidden from the list."
 msgstr ""
+"Se ĉi tiu opcio estas aktiva, ĉiuj alternativaj grupoj kun nur unu "
+"alternativo disponebla estos kaŝitaj el la listo."
 
 #. i18n: Hide useless alternatives
 #. i18n: ectx: property (text), widget (QCheckBox, m_hideAlt)
 #: src/mainwindow.ui:64
 #, kde-format
 msgid "&Hide useless"
-msgstr ""
+msgstr "&Kaŝi senutilajn"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: src/mainwindow.ui:94
@@ -271,12 +284,21 @@ msgid ""
 "</ul>\n"
 "</qt>\n"
 msgstr ""
+"<qt>La stato de la aktuala alternativo:\n"
+"<ul>\n"
+"<li>Aŭtomata: la alternativa sistemo ĉiam elektos la alternativon kun la "
+"plej alta prioritato, ĝisdatigante ĝin (se necese) kiam alternativo estas "
+"instalita aŭ forigita</li>\n"
+"<li>Manlibro: la elekto estas farita permane, ĝisdatigita de la alternativa "
+"sistemo nur kiam ĝi estas malinstalita</li>\n"
+"</ul>\n"
+"</qt>\n"
 
 #. i18n: ectx: property (whatsThis), widget (QTreeView, m_optionsList)
 #: src/mainwindow.ui:185
 #, kde-format
 msgid "This shows the alternatives available for the selected group."
-msgstr ""
+msgstr "Ĉi tio montras la disponeblajn alternativojn por la elektita grupo."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_bDelete)
 #: src/mainwindow.ui:236
@@ -294,7 +316,7 @@ msgstr "Priskribo:"
 #: src/propertieswindow.ui:75
 #, kde-format
 msgid "Slaves"
-msgstr ""
+msgstr "Sklavoj"
 
 #: src/slavemodel.cpp:61
 #, kde-format
@@ -311,9 +333,9 @@ msgstr "Vojo"
 #: src/slavewidget.cpp:21
 #, kde-format
 msgid "Choose Slave"
-msgstr ""
+msgstr "Elekti Sklavon"
 
 #: src/slavewidget.cpp:25
 #, kde-format
 msgid "Slave link for %1:"
-msgstr ""
+msgstr "Sklava ligilo por %1:"
