@@ -258,8 +258,8 @@ msgid ""
 "If this option is active, all the alternative groups with only one "
 "alternative available will be hidden from the list."
 msgstr ""
-"Si se selecciona esta opció, s'ocultaran en la llista tots els grups "
-"alternatius amb només una alternativa disponible."
+"Si està marcada, s'ocultaran en la llista tots els grups alternatius amb "
+"només una alternativa disponible."
 
 #. i18n: Hide useless alternatives
 #. i18n: ectx: property (text), widget (QCheckBox, m_hideAlt)
