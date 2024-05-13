@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.20.0 FATAL_ERROR)
 project(kalternatives)
 
 find_package(ECM REQUIRED NO_MODULE)
@@ -11,15 +11,16 @@ include(FeatureSummary)
 include(ECMInstallIcons)
 include(ECMQtDeclareLoggingCategory)
 
-find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED Core Gui Widgets)
+find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED Core Gui Widgets)
 
-find_package(KF5 REQUIRED
+find_package(KF6 REQUIRED
    ConfigWidgets
    CoreAddons
    I18n
    IconThemes
    KIO
    WidgetsAddons
+   KCMUtils
 )
 
 string(TOLOWER "${KALTERNATIVES_DISTRO}" _distro)

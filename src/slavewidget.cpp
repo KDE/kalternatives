@@ -19,7 +19,7 @@ SlaveWidget::SlaveWidget(Slave *slave, QWidget *parent)
     layout()->setContentsMargins(0, 0, 0, 0);
 
     m_slavePath->setWindowTitle(i18n("Choose Slave"));
-    m_slavePath->setFilter(i18n("*|All Files"));
+    m_slavePath->setNameFilter(i18n("*|All Files"));
     m_slavePath->setMode(KFile::File | KFile::LocalOnly);
 
     m_slaveText->setText(i18n("Slave link for %1:", m_slave->slname));

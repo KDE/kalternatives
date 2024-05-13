@@ -112,7 +112,4 @@ private:
     bool m_showSingle;
 };
 
-Q_DECLARE_METATYPE(Alternative*)
-Q_DECLARE_METATYPE(Item*)
-
 #endif

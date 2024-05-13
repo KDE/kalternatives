@@ -22,7 +22,8 @@ ecm_qt_declare_logging_category(kcm_SRCS
   DEFAULT_SEVERITY Warning
 )
 add_library(kcm_kalternatives MODULE ${kcm_SRCS})
-target_link_libraries(kcm_kalternatives KF5::ConfigWidgets KF5::CoreAddons KF5::I18n KF5::IconThemes KF5::KIOWidgets KF5::WidgetsAddons)
-install(TARGETS kcm_kalternatives DESTINATION ${KDE_INSTALL_PLUGINDIR})
-install(FILES kalternatives.desktop DESTINATION ${KDE_INSTALL_KSERVICESDIR})
+target_link_libraries(kcm_kalternatives KF6::ConfigWidgets KF6::CoreAddons KF6::I18n KF6::IconThemes KF6::KIOWidgets KF6::WidgetsAddons KF6::KCMUtils)
+kcmutils_generate_desktop_file(kcm_kalternatives)
+
+install(TARGETS kcm_kalternatives DESTINATION ${KDE_INSTALL_PLUGINDIR}/plasma/kcms/systemsettings)
 

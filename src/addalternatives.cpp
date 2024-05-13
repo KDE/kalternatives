@@ -29,7 +29,7 @@
 #include <kseparator.h>
 
 AddAlternatives::AddAlternatives(Item* item, QWidget *parent)
-	: QDialog(parent), m_item(item), m_alternative(Q_NULLPTR)
+	: QDialog(parent), m_item(item), m_alternative(nullptr)
 {
 	QVBoxLayout* lay = new QVBoxLayout(this);
 	QWidget* main = new QWidget(this);
@@ -42,7 +42,7 @@ AddAlternatives::AddAlternatives(Item* item, QWidget *parent)
 	setWindowTitle(i18n("Add Alternative"));
 	
 	m_Path->setWindowTitle( i18n( "Choose Alternative" ) );
-	m_Path->setFilter( i18n( "*|All Files" ) );
+	m_Path->setNameFilter( i18n( "*|All Files" ) );
 	m_Path->setMode( KFile::File | KFile::LocalOnly );
 	
 	const int slaveCount = item->getSlaves()->count();

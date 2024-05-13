@@ -22,8 +22,8 @@
 #ifndef _KALTERNATIVES_H_
 #define _KALTERNATIVES_H_
 
-#include <kcmodule.h>
-
+#include <KCModule>
+#include <KPluginMetaData>
 #include "ui_mainwindow.h"
 
 class AlternativeItemProxyModel;
@@ -39,18 +39,17 @@ class Kalternatives : public KCModule
 	AlternativeAltModel* m_altModel;
 	
 public:
-    Kalternatives(QWidget *parent=Q_NULLPTR, const QVariantList& = QVariantList() );
-    ~Kalternatives() Q_DECL_OVERRIDE;
+    Kalternatives(QObject *parent = nullptr, const KPluginMetaData &data = {});
+    ~Kalternatives() override;
 	bool isBisRoot() const {return m_bisRoot;}
 	
-	void load() Q_DECL_OVERRIDE;
-	void save() Q_DECL_OVERRIDE;
-	QString quickHelp() const Q_DECL_OVERRIDE;
+	void load() override;
+	void save() override;
 
-public slots:
+public Q_SLOTS:
 	void configChanged();
 
-private slots:
+private Q_SLOTS:
 	void slotSelectAlternativesActivated(const QModelIndex &);
 	void slotHideAlternativesClicked();
 	void slotAddClicked();

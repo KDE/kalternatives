@@ -44,21 +44,16 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-K_PLUGIN_FACTORY(KalternativesFactory, registerPlugin<Kalternatives>();)
+K_PLUGIN_CLASS_WITH_JSON(Kalternatives, "kcm_kalternatives.json")
 
 static inline QString componentName()
 {
     return QStringLiteral("kalternatives");
 }
 
-Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
-    : KCModule(parent, args)
+Kalternatives::Kalternatives(QObject *parent, const KPluginMetaData &data)
+    : KCModule(parent, data)
 {
-	auto *aboutData = new KAboutData(::aboutData(componentName(), kli18n("Kalternatives").untranslatedText()));
-	setAboutData(aboutData);
-
-	setUseRootOnlyMessage(false);
-
 	int user = getuid();
 	
 	if (user == 0)
@@ -72,7 +67,7 @@ Kalternatives::Kalternatives(QWidget *parent, const QVariantList& args)
 		setButtons(Help);
 	}
 	
-	m_ui.setupUi(this);
+	m_ui.setupUi(widget());
 	m_ui.m_mainSplitter->setStretchFactor(1, 5);
 	
 	connect(m_ui.m_altList, SIGNAL(clicked(QModelIndex)),
@@ -164,7 +159,7 @@ void Kalternatives::slotAddClicked()
 	Item *item = m_ui.m_altList->currentIndex().data(AltItemRole).value<Item *>();
 	if (item)
 	{
-		AddAlternatives addAlternatives(item, this);
+		AddAlternatives addAlternatives(item, widget());
 		addAlternatives.exec();
 		if (Alternative *a = addAlternatives.alternative())
 		{
@@ -179,7 +174,7 @@ void Kalternatives::slotDeleteClicked()
 	if (alt)
 	{
 		const QString messageText = i18n("Are you really sure you want to delete the alternative '%1'?", alt->getPath());
-		if (KMessageBox::warningYesNo(this, messageText, i18n("Delete Alternative")) == KMessageBox::Yes)
+		if (KMessageBox::warningTwoActions(widget(), messageText, i18n("Delete Alternative"), KStandardGuiItem::del(), KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction)
 		{
 			m_altModel->removeAlternative(alt);
 		}
@@ -192,7 +187,7 @@ void Kalternatives::slotPropertiesClicked()
 	if (a)
 	{
 		QString text;
-		QDialog *prop = new QDialog(this);
+		QDialog *prop = new QDialog(widget());
 		prop->setWindowTitle(i18n("Alternative Properties"));
 		QVBoxLayout *lay = new QVBoxLayout(prop);
 		QWidget *main = new QWidget(prop);
@@ -232,7 +227,7 @@ void Kalternatives::slotUpdateStatusCombo()
 		const int statusIndex = m_ui.m_statusCombo->findData(item->getMode());
 		Q_ASSERT(statusIndex != -1);
 		m_ui.m_statusCombo->setCurrentIndex(statusIndex);
-		emit changed(true);
+		setNeedsSave(true);
 	}
 }
 
@@ -255,20 +250,12 @@ void Kalternatives::save()
 {
 	AlternativeItemsModel *model = qobject_cast<AlternativeItemsModel *>(m_itemProxyModel->sourceModel());
 	model->save();
-	emit changed( false );
+    setNeedsSave(false);
 }
 
 void Kalternatives::configChanged()
 {
-	emit changed(true);
-}
-
-QString Kalternatives::quickHelp() const
-{
-	return i18n("<h1>Alternatives Configuration</h1>\n"
-	            "This module allows you to configure the system alternatives in "
-	            "Debian/Fedora/Mandriva/openSUSE/Ubuntu distributions.");
-
+    setNeedsSave(true);
 }
 
 #include <kalternatives.moc>
