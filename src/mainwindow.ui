@@ -151,7 +151,7 @@
             </font>
            </property>
            <property name="text">
-            <string comment="KDE::DoNotExtract">Automake</string>
+            <string notr="true">Automake</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>

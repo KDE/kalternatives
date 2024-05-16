@@ -14,7 +14,7 @@
    <item>
     <widget class="QLabel" name="m_slaveText">
      <property name="text">
-      <string comment="KDE::DoNotExtract">Slave link for qtconfig.1.gz:</string>
+      <string notr="true">Slave link for qtconfig.1.gz:</string>
      </property>
     </widget>
    </item>
