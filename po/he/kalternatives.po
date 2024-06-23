@@ -1,0 +1,337 @@
+# Copyright (C) 2024 This file is copyright:
+# This file is distributed under the same license as the kalternatives package.
+#
+# SPDX-FileCopyrightText: 2024 Yaron Shahrabani <sh.yaron@gmail.com>
+msgid ""
+msgstr ""
+"Project-Id-Version: kalternatives\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"PO-Revision-Date: 2024-06-21 15:06+0300\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"Language-Team: צוות התרגום של KDE ישראל\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 24.02.2\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "צוות התרגום של KDE ישראל"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kde-l10n-he@kde.org"
+
+#: src/aboutdata.h:24
+#, kde-format
+msgid "KDE manager for the distribution alternatives system."
+msgstr "מנהל מצד KDE למערכת החלופות של ההפצה."
+
+#: src/aboutdata.h:26
+#, kde-format
+msgid ""
+"© 2004 Juanjo Álvarez Martinez\n"
+"© 2004 Mario Bensi\n"
+"© 2008-2009 Pino Toscano"
+msgstr ""
+"© 2004 חואנחו אלווארס מרטינס\n"
+"© 2004 מריו בנסי\n"
+"© 2008‏-2009 פינו טוסקנו"
+
+#: src/aboutdata.h:31
+#, kde-format
+msgid "Pino Toscano"
+msgstr "פינו טוסקנו"
+
+#: src/aboutdata.h:31
+#, kde-format
+msgid "Current maintainer"
+msgstr "מתחזק נוכחי"
+
+#: src/aboutdata.h:32
+#, kde-format
+msgid "Juanjo Alvarez Martinez"
+msgstr "חואנחו אלווארס מרטינס"
+
+#: src/aboutdata.h:32 src/aboutdata.h:33
+#, kde-format
+msgid "Original author"
+msgstr "יוצר מקורי"
+
+#: src/aboutdata.h:33
+#, kde-format
+msgid "Mario Bensi"
+msgstr "מריו בנסי"
+
+#: src/addalternatives.cpp:42
+#, kde-format
+msgid "Add Alternative"
+msgstr "הוספת חלופה"
+
+#: src/addalternatives.cpp:44
+#, kde-format
+msgid "Choose Alternative"
+msgstr "בחירת חלופה"
+
+#: src/addalternatives.cpp:45 src/slavewidget.cpp:22
+#, kde-format
+msgid "*|All Files"
+msgstr "*|כל הקבצים"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/addalternativesui.ui:25 src/propertieswindow.ui:22
+#, kde-format
+msgid "Path:"
+msgstr "נתיב:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel2)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/addalternativesui.ui:35 src/propertieswindow.ui:56
+#, kde-format
+msgid "Priority:"
+msgstr "עדיפות:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, m_slavesGroup)
+#: src/addalternativesui.ui:57
+#, kde-format
+msgid "Slaves:"
+msgstr "משניים:"
+
+#: src/alternativemodels.cpp:377
+#, kde-format
+msgid "Broken alternative group."
+msgstr "קבוצת חלופות פגומה."
+
+#: src/alternativemodels.cpp:434
+#, kde-format
+msgctxt "Groups of alternatives"
+msgid "Groups"
+msgstr "קבוצות"
+
+#: src/alternativemodels.cpp:747
+#, kde-format
+msgctxt "%1 is the alternative path, %2 its description"
+msgid ""
+"%1\n"
+"(broken)\n"
+"\n"
+"%2"
+msgstr ""
+"%1\n"
+"(פגום)\n"
+"\n"
+"%2"
+
+#: src/alternativemodels.cpp:749
+#, kde-format
+msgctxt "%1 is the alternative path, %2 its description"
+msgid ""
+"%1\n"
+"\n"
+"%2"
+msgstr ""
+"%1\n"
+"\n"
+"%2"
+
+#: src/alternativemodels.cpp:807
+#, kde-format
+msgid "Option"
+msgstr "אפשרות"
+
+#: src/alternativemodels.cpp:809
+#, kde-format
+msgid "Priority"
+msgstr "עדיפות"
+
+#: src/alternativemodels.cpp:811
+#, kde-format
+msgid "Description"
+msgstr "תיאור"
+
+#: src/altparser.cpp:159
+#, kde-format
+msgid "no description"
+msgstr "אין תיאור"
+
+#: src/kalternatives.cpp:57
+msgid "Kalternatives"
+msgstr "Kalternatives"
+
+#: src/kalternatives.cpp:89
+#, kde-format
+msgid "Removes the selected alternative from the current group."
+msgstr "הסרת החלופה הנבחרת מהקבוצה הנוכחית."
+
+#. i18n: ectx: property (text), widget (QPushButton, m_bAdd)
+#: src/kalternatives.cpp:90 src/mainwindow.ui:222
+#, kde-format
+msgid "&Add"
+msgstr "הו&ספה"
+
+#: src/kalternatives.cpp:91
+#, kde-format
+msgid "Adds a new alternative for the selected group."
+msgstr "הוספת חלופה חדשה לקבוצה הנבחרת."
+
+#. i18n: ectx: property (text), widget (QPushButton, m_bProperties)
+#: src/kalternatives.cpp:92 src/mainwindow.ui:229
+#, kde-format
+msgid "&Properties"
+msgstr "מ&אפיינים"
+
+#: src/kalternatives.cpp:93
+#, kde-format
+msgid ""
+"Shows the properties (path, priority, and slaves) of the selected "
+"alternative."
+msgstr "הצגת המאפיינים (נתיב, עדיפות ומשניים) של החלופה הנבחרת."
+
+#: src/kalternatives.cpp:95
+#, kde-format
+msgctxt "Automatic alternative choice"
+msgid "Automatic"
+msgstr "אוטומטי"
+
+#: src/kalternatives.cpp:96
+#, kde-format
+msgctxt "Manual alternative choice"
+msgid "Manual"
+msgstr "ידני"
+
+#: src/kalternatives.cpp:181
+#, kde-format
+msgid "Are you really sure you want to delete the alternative '%1'?"
+msgstr "למחוק את החלופה ‚%1’?"
+
+#: src/kalternatives.cpp:182
+#, kde-format
+msgid "Delete Alternative"
+msgstr "מחיקת חלופה"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, PropertiesWindow)
+#: src/kalternatives.cpp:196 src/propertieswindow.ui:14
+#, kde-format
+msgid "Alternative Properties"
+msgstr "מאפיינים חלופיים"
+
+#: src/kalternatives.cpp:268
+#, kde-format
+msgid ""
+"<h1>Alternatives Configuration</h1>\n"
+"This module allows you to configure the system alternatives in Debian/Fedora/"
+"Mandriva/openSUSE/Ubuntu distributions."
+msgstr ""
+"<h1>הגדרות חלופות</h1>\n"
+"המודול הזה מאפשר להגדיר את חלופות המערכת בהפצות מסוג "
+"דביאן/פדורה/מנדריבה/אופן־סוזה/אובונטו."
+
+#. i18n: ectx: property (whatsThis), widget (QTreeView, m_altList)
+#: src/mainwindow.ui:42
+#, kde-format
+msgid "This is a list of the available alternative groups."
+msgstr "זאת רשימה של קבוצות החלופות הזמינות."
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
+#: src/mainwindow.ui:55
+#, kde-format
+msgid "Options"
+msgstr "אפשרויות"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, m_hideAlt)
+#: src/mainwindow.ui:61
+#, kde-format
+msgid ""
+"If this option is active, all the alternative groups with only one "
+"alternative available will be hidden from the list."
+msgstr ""
+"אם האפשרות הזאת פעילה, כל הקבוצות החלופיות שיש להן רק חלופה אחת זמינה יוסתרו "
+"מהרשימה."
+
+#. i18n: Hide useless alternatives
+#. i18n: ectx: property (text), widget (QCheckBox, m_hideAlt)
+#: src/mainwindow.ui:64
+#, kde-format
+msgid "&Hide useless"
+msgstr "הסתרת &חסרי התועלת"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: src/mainwindow.ui:94
+#, kde-format
+msgid "Status:"
+msgstr "מצב:"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, m_statusCombo)
+#: src/mainwindow.ui:116
+#, kde-format
+msgid ""
+"<qt>The status of the current alternative:\n"
+"<ul>\n"
+"<li>Automatic: the alternative system will always choose the alternative "
+"with the highest priority, updating it (if necessary) when an alternative is "
+"installed or removed</li>\n"
+"<li>Manual: the choice is done manually, updated by the alternative system "
+"only when it is uninstalled</li>\n"
+"</ul>\n"
+"</qt>\n"
+msgstr ""
+"<qt>מצב החלופה הנוכחית:\n"
+"<ul>\n"
+"<li>אוטומטי: מערכת החלופות תמיד תבחר את החלופה בעדיפות הגבוהה ביותר, היא "
+"תתעדכן (במקרה הצורך) כאשר חלופה מותקנת או נמחקת</li>\n"
+"<li>ידני: הבחירה מתבצעת ידנית, מתעדכן על ידי מערכת החלופות רק עם הסרת "
+"החלופה</li>\n"
+"</ul>\n"
+"</qt>\n"
+
+#. i18n: ectx: property (whatsThis), widget (QTreeView, m_optionsList)
+#: src/mainwindow.ui:185
+#, kde-format
+msgid "This shows the alternatives available for the selected group."
+msgstr "הצגת החלופות הזמינות לקבוצה הנבחרת."
+
+#. i18n: ectx: property (text), widget (QPushButton, m_bDelete)
+#: src/mainwindow.ui:236
+#, kde-format
+msgid "&Delete"
+msgstr "מ&חיקה"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/propertieswindow.ui:39
+#, kde-format
+msgid "Description:"
+msgstr "תיאור:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, slavesGroup)
+#: src/propertieswindow.ui:75
+#, kde-format
+msgid "Slaves"
+msgstr "משניים"
+
+#: src/slavemodel.cpp:61
+#, kde-format
+msgctxt "Slave name"
+msgid "Name"
+msgstr "שם"
+
+#: src/slavemodel.cpp:63
+#, kde-format
+msgctxt "Slave path"
+msgid "Path"
+msgstr "נתיב"
+
+#: src/slavewidget.cpp:21
+#, kde-format
+msgid "Choose Slave"
+msgstr "בחירת אפשרות משנה"
+
+#: src/slavewidget.cpp:25
+#, kde-format
+msgid "Slave link for %1:"
+msgstr "קישור משנה של %1:"
