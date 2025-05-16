@@ -13,6 +13,7 @@ X-KDE-System-Settings-Parent-Category=system
 X-KDE-System-Settings-Parent-Category-V2=system-administration
 
 Name=Alternatives Configuration
+Name[ar]=ضبط البدائل
 Name[bg]=Настройки на Alternatives
 Name[bs]=Konfiguracija alternativa
 Name[ca]=Configuració de les alternatives
@@ -56,6 +57,7 @@ Name[x-test]=xxAlternatives Configurationxx
 Name[zh_CN]=可选项配置
 Name[zh_TW]=替代程式設定
 Comment=Distribution alternatives system manager
+Comment[ar]=مدير نظام بدائل التوزيعة
 Comment[bg]=Управление на алтернативи на системната дистрибуция
 Comment[bs]=Upravljač alternativa u distribucijama
 Comment[ca]=Gestor del sistema d'alternatives de la distribució
