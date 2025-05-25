@@ -337,7 +337,7 @@ msgstr "Camí"
 #: src/slavewidget.cpp:21
 #, kde-format
 msgid "Choose Slave"
-msgstr "Trieu l'esclau"
+msgstr "Tria l'esclau"
 
 #: src/slavewidget.cpp:25
 #, kde-format
