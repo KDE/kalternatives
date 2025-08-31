@@ -81,7 +81,7 @@ msgstr "Afig una alternativa"
 #: src/addalternatives.cpp:44
 #, kde-format
 msgid "Choose Alternative"
-msgstr "Selecciona una alternativa"
+msgstr "Tria una alternativa"
 
 #: src/addalternatives.cpp:45 src/slavewidget.cpp:22
 #, kde-format
